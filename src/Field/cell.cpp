@@ -19,11 +19,11 @@ Cell& Cell::operator=(const Cell& obj) {
 }
 
 Cell::~Cell() {
-	if (current_event) delete current_event;
+	// if (current_event) delete current_event;
 }
 
 void Cell::setEvent(Event *event) {
-	if (current_event) delete current_event;
+	// if (current_event) delete current_event;
 	current_event = event;
 }
 
@@ -40,7 +40,7 @@ void Cell::playerStepped() {
 	Event *tmp = current_event;
 	if (current_event && current_event->action()) {
 		if (tmp == current_event) {
-			delete current_event;
+			// delete current_event;
 			current_event = nullptr;
 		}
 	}

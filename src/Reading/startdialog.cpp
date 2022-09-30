@@ -50,7 +50,6 @@ bool StartDialog::isPositionSet() {
 
 Position StartDialog::getPlayerPosition() {
 	if (position_set) return player_position;
-	throw 1;
 }
 
 bool StartDialog::isFieldSizeSet() {
@@ -59,11 +58,8 @@ bool StartDialog::isFieldSizeSet() {
 
 int StartDialog::getWidth() {
 	if (size_set) return start_width;
-	throw 1;
 }
 
 int StartDialog::getHeight() {
 	if (size_set) return start_height;
-	throw 1;
-
 }

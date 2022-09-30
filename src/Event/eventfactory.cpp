@@ -50,13 +50,13 @@ void EventFactory::setField(Field *field) {
 Event *EventFactory::createEvent(Event *event) {
 	if (dynamic_cast<AddEnergy*>(event)) {
 		delete event;
-		return new AddEnergy(*add_energy_event);
+		return add_energy_event;
 	} else if (dynamic_cast<AddProgress*>(event)) {
 		delete event;
-		return new AddProgress(*add_progress_event);
+		return add_progress_event;
 	} else if (dynamic_cast<SpawnEnemy*>(event)) {
 		delete event;
-		return new SpawnEnemy(*spawn_enemy_event);
+		return spawn_enemy_event;
 	}
 	return nullptr;
 }

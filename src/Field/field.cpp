@@ -224,6 +224,7 @@ void Field::processDamage(int direction) {
     for (int i = 0; i < enemys_container.size(); i++) {
         if (damaged_position == enemys_container[i].position) {
             cell_arr[damaged_position.y][damaged_position.x]->entityGone();
+            delete enemys_container[i].entity;
             enemys_container.erase(enemys_container.begin()+i);
             
             setEvent(factory->createEvent(new AddProgress), damaged_position);
