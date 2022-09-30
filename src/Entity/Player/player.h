@@ -4,7 +4,8 @@
 #include "playercontroller.h"
 #include "./../entity.h"
 
-class Player : public Entity {
+class Player : public Entity
+{
 	PlayerController *controller;
 	int energy;
 	int max_energy;

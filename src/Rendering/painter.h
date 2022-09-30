@@ -12,7 +12,8 @@
 #include "./../Event/addprogress.h"
 #include "./../Event/spawnenemy.h"
 
-class Painter {
+class Painter
+{
 	std::chrono::time_point<std::chrono::steady_clock> start;
 	int frame_no;
 
@@ -24,15 +25,14 @@ class Painter {
 	void drawPixel(Position cell_pos, Position pixel_pos, int color_scheme, int h_movement_delay, int v_movement_delay, int rotation = 0);
 	void drawPlayer(Position pos, int direction, int movement_delay);
 	void drawEnemy(Position pos, int direction, int movement_delay);
-	
+
 	void drawInterface(int energy, int progress);
 
 public:
 	Painter();
 	~Painter();
-	
-	void drawField(const Field* field);
 
+	void drawField(const Field *field);
 };
 
 #endif

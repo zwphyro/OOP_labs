@@ -16,10 +16,11 @@
 
 typedef std::vector<EntityContainer> EnemyVector;
 
-class Field {
+class Field
+{
 	PlayerController *controller;
 	EventFactory *factory;
-	
+
 	Cell ***cell_arr;
 	int width;
 	int height;
@@ -29,10 +30,10 @@ class Field {
 
 public:
 	Field(int width = 5, int height = 5);
-	Field(const Field& obj);
-	Field& operator=(const Field& obj);
-	Field(Field&& obj);
-	Field& operator=(Field&& obj);
+	Field(const Field &obj);
+	Field &operator=(const Field &obj);
+	Field(Field &&obj);
+	Field &operator=(Field &&obj);
 	~Field();
 
 	void setController(PlayerController *controller);
@@ -49,7 +50,7 @@ public:
 	const Event *getEvent(Position position) const;
 
 	Position calculatePlayerSidePosition(int direction);
-	
+
 	bool movePlayer(int direction);
 	void processDamage(int direction);
 
@@ -57,7 +58,6 @@ public:
 	int getHeight() const;
 	EntityContainer getPlayerContainer() const;
 	EnemyVector getEnemysContainer() const;
-
 };
 
 #endif

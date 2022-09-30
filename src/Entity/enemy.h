@@ -3,7 +3,8 @@
 
 #include "entity.h"
 
-class Enemy : public Entity {
+class Enemy : public Entity
+{
 public:
 	Enemy();
 	~Enemy();

@@ -3,15 +3,15 @@
 
 #include "playerevent.h"
 
-class AddEnergy: public PlayerEvent {
+class AddEnergy : public PlayerEvent
+{
 
 public:
 	AddEnergy(Player *player = nullptr);
-	AddEnergy(const AddEnergy& obj);
-	AddEnergy& operator=(const AddEnergy& obj);
+	AddEnergy(const AddEnergy &obj);
+	AddEnergy &operator=(const AddEnergy &obj);
 
 	bool action();
-
 };
 
 #endif

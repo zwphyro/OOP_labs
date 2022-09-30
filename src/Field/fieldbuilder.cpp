@@ -1,10 +1,11 @@
 #include "fieldbuilder.h"
 
-FieldBuilder::FieldBuilder(PlayerController *controller): controller(controller) {
-
+FieldBuilder::FieldBuilder(PlayerController *controller) : controller(controller)
+{
 }
 
-Field *FieldBuilder::getField() {
+Field *FieldBuilder::getField()
+{
 	// get field size
 	Field *field = new Field;
 	Player *player = new Player;

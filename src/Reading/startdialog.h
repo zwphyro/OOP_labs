@@ -1,9 +1,10 @@
 #ifndef STARTDIALOG_H
 #define STARTDIALOG_H
 
-#include "./../Field/position.h" 
+#include "./../Field/position.h"
 
-class StartDialog {
+class StartDialog
+{
 	int start_height;
 	int start_width;
 	bool size_set;
@@ -22,7 +23,6 @@ public:
 	bool isFieldSizeSet();
 	int getWidth();
 	int getHeight();
-
 };
 
 #endif

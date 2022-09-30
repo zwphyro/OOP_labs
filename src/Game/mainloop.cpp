@@ -3,25 +3,36 @@
 #include "./../Entity/Player/player.h"
 #include "./../Entity/enemy.h"
 
-MainLoop::MainLoop() {
+MainLoop::MainLoop()
+{
 
 	reader = new Reader;
 	painter = new Painter;
 	controller = new PlayerController;
 	FieldBuilder builder(controller);
 	field = builder.getField();
-
 }
 
-MainLoop::~MainLoop() {
+MainLoop::~MainLoop()
+{
 	delete reader;
 	delete painter;
 	delete field;
 	delete controller;
 }
 
-int MainLoop::exec() {
-	enum {UNKNOWN = -1, MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, SHOOT, QUIT};
+int MainLoop::exec()
+{
+	enum
+	{
+		UNKNOWN = -1,
+		MOVE_UP,
+		MOVE_DOWN,
+		MOVE_LEFT,
+		MOVE_RIGHT,
+		SHOOT,
+		QUIT
+	};
 
 	int command;
 
@@ -30,16 +41,16 @@ int MainLoop::exec() {
 	// field->addEntity(enemy, {2, 2});
 	// field->addEntity(enemy_2, {4, 2});
 
-	while (true) {
+	while (true)
+	{
 		painter->drawField(field);
 
 		command = reader->getCommand();
 
-		if (command == QUIT) 
+		if (command == QUIT)
 			break;
 
 		controller->updatePlayer(command);
-
 	}
 
 	// delete enemy;
@@ -47,4 +58,3 @@ int MainLoop::exec() {
 
 	return 0;
 }
-

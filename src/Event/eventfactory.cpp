@@ -1,21 +1,23 @@
 #include "eventfactory.h"
 
-EventFactory::EventFactory(Player *player, Field *field) {
+EventFactory::EventFactory(Player *player, Field *field)
+{
 	add_energy_event = new AddEnergy(player);
 	add_progress_event = new AddProgress(player);
 	spawn_enemy_event = new SpawnEnemy(field);
-
 }
 
-EventFactory::EventFactory(const EventFactory& obj) {
+EventFactory::EventFactory(const EventFactory &obj)
+{
 	add_energy_event = new AddEnergy(*obj.add_energy_event);
 	add_progress_event = new AddProgress(*obj.add_progress_event);
 	spawn_enemy_event = new SpawnEnemy(*obj.spawn_enemy_event);
-
 }
 
-EventFactory& EventFactory::operator=(const EventFactory& obj) {
-	if (this != &obj) {
+EventFactory &EventFactory::operator=(const EventFactory &obj)
+{
+	if (this != &obj)
+	{
 		delete add_energy_event;
 		delete add_progress_event;
 		delete spawn_enemy_event;
@@ -23,38 +25,43 @@ EventFactory& EventFactory::operator=(const EventFactory& obj) {
 		add_energy_event = new AddEnergy(*obj.add_energy_event);
 		add_progress_event = new AddProgress(*obj.add_progress_event);
 		spawn_enemy_event = new SpawnEnemy(*obj.spawn_enemy_event);
-	
 	}
 
 	return *this;
 }
 
-EventFactory::~EventFactory() {
+EventFactory::~EventFactory()
+{
 	delete add_energy_event;
 	delete add_progress_event;
 	delete spawn_enemy_event;
-
 }
 
-void EventFactory::setPlayer(Player *player) {
+void EventFactory::setPlayer(Player *player)
+{
 	add_energy_event->setPlayer(player);
 	add_progress_event->setPlayer(player);
-
 }
 
-void EventFactory::setField(Field *field) {
+void EventFactory::setField(Field *field)
+{
 	spawn_enemy_event->setField(field);
-
 }
 
-Event *EventFactory::createEvent(Event *event) {
-	if (dynamic_cast<AddEnergy*>(event)) {
+Event *EventFactory::createEvent(Event *event)
+{
+	if (dynamic_cast<AddEnergy *>(event))
+	{
 		delete event;
 		return add_energy_event;
-	} else if (dynamic_cast<AddProgress*>(event)) {
+	}
+	else if (dynamic_cast<AddProgress *>(event))
+	{
 		delete event;
 		return add_progress_event;
-	} else if (dynamic_cast<SpawnEnemy*>(event)) {
+	}
+	else if (dynamic_cast<SpawnEnemy *>(event))
+	{
 		delete event;
 		return spawn_enemy_event;
 	}
