@@ -116,6 +116,9 @@ Field::~Field()
 		delete[] cell_arr;
 	}
 
+	for (auto elem : enemys_container)
+		delete elem.entity;
+
 	if (factory)
 		delete factory;
 }

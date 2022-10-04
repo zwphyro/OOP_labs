@@ -1,18 +1,19 @@
 #ifndef MAINLOOP_H
 #define MAINLOOP_H
 
+#include "./../Reading/startdialog.h"
 #include "./../Field/position.h"
-#include "./../Reading/reader.h"
+#include "./../Reading/mediator.h"
 #include "./../Rendering/painter.h"
 #include "./../Field/field.h"
-#include "./../Field/fieldbuilder.h"
 #include "./../Entity/Player/interactor.h"
+#include "./../Entity/Player/player.h"
+#include "./../Entity/enemy.h"
 
 class MainLoop
 {
-	Reader *reader;
+	Mediator *mediator;
 	Painter *painter;
-	// const Field *field;
 	Field *field;
 
 	Interactor *interactor;

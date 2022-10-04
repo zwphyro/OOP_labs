@@ -6,7 +6,6 @@
 
 class Player : public Entity
 {
-	Interactor *interactor;
 	int energy;
 	int max_energy;
 	int progress;
@@ -15,8 +14,6 @@ class Player : public Entity
 public:
 	Player();
 	~Player();
-
-	void setInteractor(Interactor *interactor);
 
 	bool shootStart();
 

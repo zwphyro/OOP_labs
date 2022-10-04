@@ -1,6 +1,6 @@
 #include "eventfactory.h"
 
-EventFactory::EventFactory(Player *player, Field *field)
+EventFactory::EventFactory(Field *field, Player *player)
 {
 	add_energy_event = new AddEnergy(player);
 	add_progress_event = new AddProgress(player);
@@ -48,22 +48,20 @@ void EventFactory::setField(Field *field)
 	spawn_enemy_event->setField(field);
 }
 
-Event *EventFactory::createEvent(Event *event)
+Event *EventFactory::getEvent(AddEnergy *event)
 {
-	if (dynamic_cast<AddEnergy *>(event))
-	{
-		delete event;
-		return add_energy_event;
-	}
-	else if (dynamic_cast<AddProgress *>(event))
-	{
-		delete event;
-		return add_progress_event;
-	}
-	else if (dynamic_cast<SpawnEnemy *>(event))
-	{
-		delete event;
-		return spawn_enemy_event;
-	}
-	return nullptr;
+	delete event;
+	return add_energy_event;
+}
+
+Event *EventFactory::getEvent(AddProgress *event)
+{
+	delete event;
+	return add_progress_event;
+}
+
+Event *EventFactory::getEvent(SpawnEnemy *event)
+{
+	delete event;
+	return spawn_enemy_event;
 }

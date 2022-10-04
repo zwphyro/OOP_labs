@@ -1,21 +1,28 @@
 #include "mainloop.h"
 
-#include "./../Entity/Player/player.h"
-#include "./../Entity/enemy.h"
-
 MainLoop::MainLoop()
 {
+	mediator = new Mediator;
+	Player *player = new Player;
 
-	reader = new Reader;
+	// get field size
+
+	StartDialog dialog;
+	std::pair<int, int> field_sizes = dialog.getFieldSize();
+
+	field = new Field(field_sizes.first, field_sizes.second);
+	interactor = new Interactor(field, player);
+	EventFactory *factory = new EventFactory(field, player);
+	field->addEntity(player, {0, 0});
+	field->setFactory(factory);
+	field->getCell(field->getRandomFreePosition())->setEvent(factory->getEvent(new SpawnEnemy));
+
 	painter = new Painter;
-	interactor = new Interactor;
-	FieldBuilder builder(interactor);
-	field = builder.getField();
 }
 
 MainLoop::~MainLoop()
 {
-	delete reader;
+	delete mediator;
 	delete painter;
 	delete field;
 	delete interactor;
@@ -23,38 +30,19 @@ MainLoop::~MainLoop()
 
 int MainLoop::exec()
 {
-	enum
-	{
-		UNKNOWN = -1,
-		MOVE_UP,
-		MOVE_DOWN,
-		MOVE_LEFT,
-		MOVE_RIGHT,
-		SHOOT,
-		QUIT
-	};
-
 	int command;
-
-	// Enemy *enemy = new Enemy();
-	// Enemy *enemy_2 = new Enemy();
-	// field->addEntity(enemy, {2, 2});
-	// field->addEntity(enemy_2, {4, 2});
 
 	while (true)
 	{
 		painter->drawField(field);
 
-		command = reader->getCommand();
+		command = mediator->getCommand();
 
-		if (command == QUIT)
+		if (command == Commands::QUIT)
 			break;
 
 		interactor->updatePlayer(command);
 	}
-
-	// delete enemy;
-	// delete enemy_2;
 
 	return 0;
 }

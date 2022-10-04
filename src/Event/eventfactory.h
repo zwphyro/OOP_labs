@@ -13,7 +13,7 @@ class EventFactory
 	SpawnEnemy *spawn_enemy_event;
 
 public:
-	EventFactory(Player *player = nullptr, Field *field = nullptr);
+	EventFactory(Field *field = nullptr, Player *player = nullptr);
 	EventFactory(const EventFactory &obj);
 	EventFactory &operator=(const EventFactory &obj);
 	~EventFactory();
@@ -21,7 +21,9 @@ public:
 	void setPlayer(Player *player);
 	void setField(Field *field);
 
-	Event *createEvent(Event *event);
+	Event *getEvent(AddEnergy *event);
+	Event *getEvent(AddProgress *event);
+	Event *getEvent(SpawnEnemy *event);
 };
 
 #endif

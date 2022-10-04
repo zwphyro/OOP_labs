@@ -3,10 +3,8 @@
 
 class Reader
 {
-	int getPressedKey();
-
 public:
-	int getCommand();
+	int getPressedKey();
 };
 
 #endif

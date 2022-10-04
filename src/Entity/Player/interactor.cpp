@@ -27,28 +27,19 @@ void Interactor::updatePlayer(int command)
 	if (player->getProgressRelation() == 100 || player->getProgressRelation() == 0)
 		return;
 
-	enum
-	{
-		UP,
-		DOWN,
-		RIGHT,
-		LEFT,
-		SHOOT
-	};
-
 	player->changeEnergy();
 	player->changeProgress();
 	player->changeSpeed();
 
 	switch (command)
 	{
-	case UP:
-	case DOWN:
-	case LEFT:
-	case RIGHT:
+	case Commands::MOVE_UP:
+	case Commands::MOVE_DOWN:
+	case Commands::MOVE_LEFT:
+	case Commands::MOVE_RIGHT:
 		movePlayer(command);
 		break;
-	case SHOOT:
+	case Commands::SHOOT:
 		shoot();
 		break;
 	default:
@@ -58,32 +49,25 @@ void Interactor::updatePlayer(int command)
 
 Position Interactor::calculateSidePosition(Position position, int direction)
 {
-	enum
-	{
-		UP,
-		DOWN,
-		RIGHT,
-		LEFT
-	};
 	int old_x = position.x;
 	int old_y = position.y;
 	int new_x, new_y;
 
 	switch (direction)
 	{
-	case UP:
+	case Direction::UP:
 		new_x = old_x;
 		new_y = (old_y - 1 + field->getHeight()) % field->getHeight();
 		break;
-	case DOWN:
+	case Direction::DOWN:
 		new_x = old_x;
 		new_y = (old_y + 1) % field->getHeight();
 		break;
-	case RIGHT:
+	case Direction::RIGHT:
 		new_x = (old_x + 1) % field->getWidth();
 		new_y = old_y;
 		break;
-	case LEFT:
+	case Direction::LEFT:
 		new_x = (old_x - 1 + field->getWidth()) % field->getWidth();
 		new_y = old_y;
 		break;
@@ -136,9 +120,9 @@ void Interactor::shoot()
 			delete enemys_container->at(i).entity;
 			enemys_container->erase(enemys_container->begin() + i);
 
-			damaged_cell->setEvent(field->getFactory().createEvent(new AddProgress));
+			damaged_cell->setEvent(field->getFactory().getEvent(new AddProgress));
 			Cell *random_cell = field->getCell(field->getRandomFreePosition());
-			random_cell->setEvent(field->getFactory().createEvent(new SpawnEnemy));
+			random_cell->setEvent(field->getFactory().getEvent(new SpawnEnemy));
 
 			break;
 		}
