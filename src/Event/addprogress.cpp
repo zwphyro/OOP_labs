@@ -18,6 +18,6 @@ AddProgress &AddProgress::operator=(const AddProgress &obj)
 
 bool AddProgress::action()
 {
-	player->changeProgress(500);
+	player->changeProgress(100);
 	return true;
 }

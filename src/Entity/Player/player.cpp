@@ -18,12 +18,16 @@ Player::Player()
 	max_energy = 1000;
 	progress = 500;
 	max_progress = 1000;
-	controller = nullptr;
+	interactor = nullptr;
 }
 
-void Player::setController(PlayerController *controller)
+Player::~Player()
 {
-	this->controller = controller;
+}
+
+void Player::setInteractor(Interactor *controller)
+{
+	this->interactor = controller;
 }
 
 bool Player::moveStart(int move_direction)

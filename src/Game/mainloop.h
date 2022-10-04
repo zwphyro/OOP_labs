@@ -6,7 +6,7 @@
 #include "./../Rendering/painter.h"
 #include "./../Field/field.h"
 #include "./../Field/fieldbuilder.h"
-#include "./../Entity/Player/playercontroller.h"
+#include "./../Entity/Player/interactor.h"
 
 class MainLoop
 {
@@ -15,7 +15,7 @@ class MainLoop
 	// const Field *field;
 	Field *field;
 
-	PlayerController *controller;
+	Interactor *interactor;
 
 public:
 	MainLoop();

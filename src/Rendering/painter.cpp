@@ -358,8 +358,131 @@ void Painter::drawEnemy(Position pos, int direction, int movement_delay)
 	move(row - 1, col - 1);
 }
 
+void Painter::drawYouLose()
+{
+	int row, col;
+	getmaxyx(stdscr, row, col);
+	start_color();
+	init_pair(10, COLOR_RED, COLOR_WHITE);
+
+	for (int i = 0; i < col / 30 + 1; i++)
+	{
+		mvwaddch(stdscr, row - 3, 1 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 2, 1 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 2, 2 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 2 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 3 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 2, 3 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 5 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 2, 5 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 5 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 6 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 6 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 7 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 2, 7 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 7 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 9 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 2, 9 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 9 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 10 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 11 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 2, 11 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 11 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 15 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 2, 15 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 15 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 16 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 18 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 2, 18 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 18 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 19 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 19 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 20 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 2, 20 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 20 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 22 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 23 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 2, 23 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 23 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 24 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 26 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 2, 26 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 26 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 3, 27 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 2, 27 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+		mvwaddch(stdscr, row - 1, 27 + i * 30, '#' | A_BLINK | COLOR_PAIR(10));
+	}
+}
+
+void Painter::drawYouWin()
+{
+	int row, col;
+	getmaxyx(stdscr, row, col);
+	start_color();
+	init_pair(9, COLOR_GREEN, COLOR_WHITE);
+	for (int i = 0; i < col / 30 + 1; i++)
+	{
+		mvwaddch(stdscr, row - 3, 1 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 1 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 2 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 2 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 3 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 3 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 5 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 5 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 5 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 6 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 6 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 7 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 7 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 7 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 9 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 9 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 9 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 10 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 11 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 11 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 11 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 15 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 15 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 16 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 16 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 17 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 17 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 18 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 18 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 19 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 19 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 21 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 21 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 22 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 22 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 22 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 23 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 23 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 25 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 25 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 25 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 26 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 3, 27 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 2, 27 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+		mvwaddch(stdscr, row - 1, 27 + i * 30, '#' | A_BLINK | COLOR_PAIR(9));
+	}
+}
+
 void Painter::drawInterface(int energy, int progress)
 {
+	if (progress == 100)
+	{
+		drawYouWin();
+		return;
+	}
+	else if (progress == 0)
+	{
+		drawYouLose();
+		return;
+	}
+
 	int row, col;
 	getmaxyx(stdscr, row, col);
 
@@ -388,7 +511,7 @@ void Painter::drawInterface(int energy, int progress)
 	}
 }
 
-void Painter::drawField(const Field *field)
+void Painter::drawField(Field *field)
 {
 	clear();
 
@@ -402,7 +525,7 @@ void Painter::drawField(const Field *field)
 		for (int j = 0; j < field->getHeight(); j++)
 		{
 			drawEmptyCell({i, j});
-			event = field->getEvent({i, j});
+			event = field->getCell({i, j})->getEvent();
 			if (dynamic_cast<const AddProgress *>(event))
 			{
 				drawAddProgress({i, j});
@@ -418,17 +541,17 @@ void Painter::drawField(const Field *field)
 		}
 	}
 
-	for (auto elem : field->getEnemysContainer())
+	for (auto elem : *(field->getEnemysContainer()))
 	{
 		drawEnemy(elem.position, elem.entity->getDirection(), elem.entity->movementDelay());
 	}
 
-	EntityContainer player_container = field->getPlayerContainer();
+	EntityContainer player_container = *(field->getPlayerContainer());
 	if (player_container.entity != nullptr)
 	{
 		drawPlayer(player_container.position, player_container.entity->getDirection(), player_container.entity->movementDelay());
 		drawInterface(dynamic_cast<const Player *>(player_container.entity)->getEnergyRelation(), dynamic_cast<const Player *>(player_container.entity)->getProgressRelation());
 	}
 
-	mvwprintw(stdscr, row - 1, 0, "Average FPS: %d", ((std::chrono::seconds(1) * frame_no++) / (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - start) + std::chrono::seconds(1))));
+	// mvwprintw(stdscr, row - 1, 0, "Average FPS: %d", ((std::chrono::seconds(1) * frame_no++) / (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - start) + std::chrono::seconds(1))));
 }

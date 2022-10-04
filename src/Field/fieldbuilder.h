@@ -1,17 +1,17 @@
 #ifndef FIELDBUILDER_H
 #define FIELDBUILDER_H
 
-#include "./../Entity/Player/playercontroller.h"
+#include "./../Entity/Player/interactor.h"
 #include "field.h"
 #include "./../Entity/Player/player.h"
 #include "./../Event/eventfactory.h"
 
 class FieldBuilder
 {
-	PlayerController *controller;
+	Interactor *interactor;
 
 public:
-	FieldBuilder(PlayerController *controller);
+	FieldBuilder(Interactor *interactor);
 	Field *getField();
 };
 

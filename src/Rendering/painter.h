@@ -26,13 +26,16 @@ class Painter
 	void drawPlayer(Position pos, int direction, int movement_delay);
 	void drawEnemy(Position pos, int direction, int movement_delay);
 
+	void drawYouWin();
+	void drawYouLose();
+
 	void drawInterface(int energy, int progress);
 
 public:
 	Painter();
 	~Painter();
 
-	void drawField(const Field *field);
+	void drawField(Field *field);
 };
 
 #endif

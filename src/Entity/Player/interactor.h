@@ -1,5 +1,5 @@
-#ifndef MEDIATOR_H
-#define MEDIATOR_H
+#ifndef INTERACTOR_H
+#define INTERACTOR_H
 
 class Field;
 class Player;
@@ -7,19 +7,20 @@ class Player;
 #include "./../entity.h"
 #include "./../../Field/position.h"
 
-class PlayerController
+class Interactor
 {
 	Field *field;
 	Player *player;
 
 public:
-	PlayerController(Field *field = nullptr, Player *player = nullptr);
-	~PlayerController();
+	Interactor(Field *field = nullptr, Player *player = nullptr);
+	~Interactor();
 
 	void setPlayer(Player *player);
 	void setField(Field *field);
 
 	void updatePlayer(int command);
+	Position calculateSidePosition(Position position, int direction);
 
 	void movePlayer(int direction);
 	void shoot();

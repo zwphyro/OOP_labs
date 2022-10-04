@@ -20,6 +20,6 @@ bool AddEnergy::action()
 {
 	if (player->getEnergyRelation() == 100)
 		return false;
-	player->changeEnergy(100);
+	player->changeEnergy(70);
 	return true;
 }

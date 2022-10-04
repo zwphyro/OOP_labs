@@ -8,8 +8,8 @@ MainLoop::MainLoop()
 
 	reader = new Reader;
 	painter = new Painter;
-	controller = new PlayerController;
-	FieldBuilder builder(controller);
+	interactor = new Interactor;
+	FieldBuilder builder(interactor);
 	field = builder.getField();
 }
 
@@ -18,7 +18,7 @@ MainLoop::~MainLoop()
 	delete reader;
 	delete painter;
 	delete field;
-	delete controller;
+	delete interactor;
 }
 
 int MainLoop::exec()
@@ -50,7 +50,7 @@ int MainLoop::exec()
 		if (command == QUIT)
 			break;
 
-		controller->updatePlayer(command);
+		interactor->updatePlayer(command);
 	}
 
 	// delete enemy;
