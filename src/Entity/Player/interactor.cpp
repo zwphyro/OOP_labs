@@ -93,8 +93,8 @@ void Interactor::movePlayer(int direction)
 		return;
 
 	player_container->position = new_position;
-	new_player_cell->playerStepped();
 	old_player_cell->entityGone();
+	new_player_cell->playerStepped();
 	player->moveCommited();
 }
 

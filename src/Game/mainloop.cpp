@@ -15,6 +15,7 @@ MainLoop::MainLoop()
 	EventFactory *factory = new EventFactory(field, player);
 	field->addEntity(player, {0, 0});
 	field->setFactory(factory);
+	field->getCell({1, 0})->setEvent(factory->getEvent(new TeleportPlayer));
 	field->getCell(field->getRandomFreePosition())->setEvent(factory->getEvent(new SpawnEnemy));
 
 	painter = new Painter;

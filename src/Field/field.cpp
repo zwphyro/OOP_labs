@@ -132,14 +132,22 @@ Position Field::getRandomFreePosition()
 {
 	std::srand(std::time(nullptr));
 
-	Position random_position;
-	do
-	{
-		random_position.x = std::rand() % width;
-		random_position.y = std::rand() % height;
-	} while (cell_arr[random_position.y][random_position.x]->isOccupied());
+	std::vector<Position> free_positions;
 
-	return random_position;
+	for (int i = 0; i < width; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			if (!(cell_arr[j][i]->isOccupied() || cell_arr[j][i]->getEvent()))
+			{
+				free_positions.push_back(Position(i, j));
+			}
+		}
+	}
+	if (free_positions.size() == 0)
+		return {0, 0};
+
+	return free_positions.at(std::rand() % free_positions.size());
 }
 
 int Field::getWidth() const

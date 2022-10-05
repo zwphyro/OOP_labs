@@ -6,6 +6,10 @@ struct Position
 	int x;
 	int y;
 
+	Position(int x = 0, int y = 0) : x(x), y(y)
+	{
+	}
+
 	friend bool operator==(const Position &pos_1, const Position &pos_2)
 	{
 		return (pos_1.x == pos_2.x) && (pos_1.y == pos_2.y);
