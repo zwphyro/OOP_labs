@@ -1,12 +1,11 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "playercontroller.h"
+#include "interactor.h"
 #include "./../entity.h"
 
 class Player : public Entity
 {
-	PlayerController *controller;
 	int energy;
 	int max_energy;
 	int progress;
@@ -14,9 +13,7 @@ class Player : public Entity
 
 public:
 	Player();
-	~Player() {}
-
-	void setController(PlayerController *controller);
+	~Player();
 
 	bool shootStart();
 
