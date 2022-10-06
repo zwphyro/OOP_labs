@@ -49,8 +49,8 @@ void Interactor::updatePlayer(int command)
 
 Position Interactor::calculateSidePosition(Position position, int direction)
 {
-	int old_y = position.y;
-	int old_x = position.x;
+	int old_y = position.x;
+	int old_x = position.y;
 	int new_x, new_y;
 
 	switch (direction)
