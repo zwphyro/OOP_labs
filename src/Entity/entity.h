@@ -7,7 +7,8 @@
 typedef std::chrono::time_point<std::chrono::steady_clock> TimePoint;
 typedef std::chrono::milliseconds Milliseconds;
 
-class Entity {
+class Entity
+{
 protected:
 	int direction;
 
@@ -15,11 +16,10 @@ protected:
 	Milliseconds time_delay;
 
 public:
-	int getDirection() const; 
+	int getDirection() const;
 	int movementDelay() const;
-	
-	virtual ~Entity() {}
 
+	virtual ~Entity() {}
 };
 
 #endif

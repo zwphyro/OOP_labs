@@ -4,10 +4,10 @@
 #include "entity.h"
 #include "./../Field/position.h"
 
-struct EntityContainer {
+struct EntityContainer
+{
 	const Entity *entity;
 	Position position;
-
 };
 
 #endif

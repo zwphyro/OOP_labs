@@ -7,7 +7,8 @@ class Player;
 #include "./../entity.h"
 #include "./../../Field/position.h"
 
-class PlayerController {
+class PlayerController
+{
 	Field *field;
 	Player *player;
 
@@ -22,7 +23,6 @@ public:
 
 	void movePlayer(int direction);
 	void shoot();
-
 };
 
 #endif

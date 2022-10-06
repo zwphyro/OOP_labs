@@ -8,7 +8,8 @@
 #include "./../Field/fieldbuilder.h"
 #include "./../Entity/Player/playercontroller.h"
 
-class MainLoop {
+class MainLoop
+{
 	Reader *reader;
 	Painter *painter;
 	// const Field *field;
@@ -21,7 +22,6 @@ public:
 	~MainLoop();
 
 	int exec();
-
 };
 
 #endif

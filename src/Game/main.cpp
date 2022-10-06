@@ -3,7 +3,8 @@
 #include <cstdlib>
 #define USE_VALGRIND
 
-int main(int argc, char **argv) {	
+int main(int argc, char **argv)
+{
 	MainLoop game;
 	return game.exec();
 }
