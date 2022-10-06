@@ -45,13 +45,8 @@ void Cell::playerStepped()
 	occupied = true;
 	Event *tmp = current_event;
 	if (current_event && current_event->action())
-	{
 		if (tmp == current_event)
-		{
-			// delete current_event;
 			current_event = nullptr;
-		}
-	}
 }
 
 void Cell::enemyStepped()

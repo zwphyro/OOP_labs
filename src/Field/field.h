@@ -10,7 +10,7 @@
 #include "./../Entity/enemy.h"
 #include "cell.h"
 #include "./../Event/event.h"
-#include "./../Event/eventfactory.h"
+#include "./../Event/eventfacade.h"
 #include "position.h"
 #include "./../Entity/entitycontainer.h"
 
@@ -18,7 +18,7 @@ typedef std::vector<EntityContainer> EnemyVector;
 
 class Field
 {
-	EventFactory *factory;
+	EventFacade *event_facade;
 
 	Cell ***cell_arr;
 	int width;
@@ -35,7 +35,7 @@ public:
 	Field &operator=(Field &&obj);
 	~Field();
 
-	void setFactory(EventFactory *factory);
+	void setEventFacade(EventFacade *event_facade);
 
 	Position getRandomFreePosition();
 
@@ -43,7 +43,7 @@ public:
 	void addEntity(const Enemy *entity, Position position);
 
 	Cell *getCell(Position position);
-	EventFactory &getFactory();
+	EventFacade &getEventFacade();
 
 	EntityContainer *getPlayerContainer();
 	EnemyVector *getEnemysContainer();

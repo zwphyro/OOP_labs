@@ -20,7 +20,7 @@ SpawnEnemy &SpawnEnemy::operator=(const SpawnEnemy &obj)
 bool SpawnEnemy::action()
 {
 	field->addEntity(new Enemy, field->getRandomFreePosition());
-	field->getCell(field->getPlayerContainer()->position)->setEvent(field->getFactory().getEvent(new AddEnergy));
+	field->getCell(field->getPlayerContainer()->position)->setEvent(field->getEventFacade().getEvent(new AddEnergy));
 	field->getCell(field->getPlayerContainer()->position)->playerStepped();
 	return true;
 }

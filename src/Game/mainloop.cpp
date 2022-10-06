@@ -12,11 +12,11 @@ MainLoop::MainLoop()
 
 	field = new Field(field_sizes.first, field_sizes.second);
 	interactor = new Interactor(field, player);
-	EventFactory *factory = new EventFactory(field, player);
+	EventFacade *event_facade = new EventFacade(field, player);
 	field->addEntity(player, {0, 0});
-	field->setFactory(factory);
-	field->getCell({1, 0})->setEvent(factory->getEvent(new TeleportPlayer));
-	field->getCell(field->getRandomFreePosition())->setEvent(factory->getEvent(new SpawnEnemy));
+	field->setEventFacade(event_facade);
+	field->getCell({1, 0})->setEvent(event_facade->getEvent(new TeleportPlayer));
+	field->getCell(field->getRandomFreePosition())->setEvent(event_facade->getEvent(new SpawnEnemy));
 
 	painter = new Painter;
 }

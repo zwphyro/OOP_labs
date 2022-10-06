@@ -1,6 +1,6 @@
 #include "field.h"
 
-Field::Field(int width, int height) : width(width), height(height), factory(nullptr)
+Field::Field(int width, int height) : width(width), height(height), event_facade(nullptr)
 {
 	cell_arr = new Cell **[height];
 
@@ -28,7 +28,7 @@ Field::Field(const Field &obj) : width(obj.width), height(obj.height), player_co
 		}
 	}
 
-	factory = new EventFactory(*obj.factory);
+	event_facade = new EventFacade(*obj.event_facade);
 
 	for (auto elem : obj.enemys_container)
 		enemys_container.push_back(elem);
@@ -53,7 +53,7 @@ Field &Field::operator=(const Field &obj)
 		width = obj.width;
 		height = obj.height;
 		player_container = obj.player_container;
-		factory = new EventFactory(*obj.factory);
+		event_facade = new EventFacade(*obj.event_facade);
 
 		cell_arr = new Cell **[height];
 		for (int i = 0; i < height; i++)
@@ -76,8 +76,8 @@ Field::Field(Field &&obj)
 {
 	std::swap(width, obj.width);
 	std::swap(height, obj.height);
-	factory = nullptr;
-	std::swap(factory, obj.factory);
+	event_facade = nullptr;
+	std::swap(event_facade, obj.event_facade);
 	cell_arr = nullptr;
 	std::swap(cell_arr, obj.cell_arr);
 	std::swap(player_container, obj.player_container);
@@ -90,8 +90,8 @@ Field &Field::operator=(Field &&obj)
 	{
 		std::swap(width, obj.width);
 		std::swap(height, obj.height);
-		factory = nullptr;
-		std::swap(factory, obj.factory);
+		event_facade = nullptr;
+		std::swap(event_facade, obj.event_facade);
 		cell_arr = nullptr;
 		std::swap(cell_arr, obj.cell_arr);
 		std::swap(player_container, obj.player_container);
@@ -119,13 +119,13 @@ Field::~Field()
 	for (auto elem : enemys_container)
 		delete elem.entity;
 
-	if (factory)
-		delete factory;
+	if (event_facade)
+		delete event_facade;
 }
 
-void Field::setFactory(EventFactory *factory)
+void Field::setEventFacade(EventFacade *event_facade)
 {
-	this->factory = factory;
+	this->event_facade = event_facade;
 }
 
 Position Field::getRandomFreePosition()
@@ -194,7 +194,7 @@ Cell *Field::getCell(Position position)
 	return cell_arr[position.y][position.x];
 }
 
-EventFactory &Field::getFactory()
+EventFacade &Field::getEventFacade()
 {
-	return *factory;
+	return *event_facade;
 }

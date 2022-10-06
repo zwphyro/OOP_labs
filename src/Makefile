@@ -1,5 +1,5 @@
-all: main.o startdialog.o mainloop.o reader.o mediator.o painter.o eventfactory.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o
-	g++ -g -std=c++17 main.o mainloop.o reader.o mediator.o painter.o field.o cell.o player.o enemy.o interactor.o startdialog.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfactory.o -lncurses
+all: main.o startdialog.o mainloop.o reader.o mediator.o painter.o eventfacade.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o
+	g++ -g -std=c++17 main.o mainloop.o reader.o mediator.o painter.o field.o cell.o player.o enemy.o interactor.o startdialog.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfacade.o -lncurses
 
 main.o: ./Game/main.cpp
 	g++ -c -g -std=c++17 ./Game/main.cpp
@@ -10,8 +10,8 @@ startdialog.o: ./Reading/startdialog.cpp ./Reading/startdialog.h
 mainloop.o: ./Game/mainloop.cpp ./Game/mainloop.h 
 	g++ -c -g -std=c++17 ./Game/mainloop.cpp
 
-eventfactory.o: ./Event/eventfactory.cpp ./Event/eventfactory.h addenergy.o addprogress.o spawnenemy.o 
-	g++ -c -g -std=c++17 ./Event/eventfactory.cpp
+eventfacade.o: ./Event/eventfacade.cpp ./Event/eventfacade.h addenergy.o addprogress.o spawnenemy.o 
+	g++ -c -g -std=c++17 ./Event/eventfacade.cpp
 
 reader.o: ./Reading/reader.cpp ./Reading/reader.h 
 	g++ -c -g -std=c++17 ./Reading/reader.cpp -lncurses

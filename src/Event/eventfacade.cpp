@@ -1,6 +1,6 @@
-#include "eventfactory.h"
+#include "eventfacade.h"
 
-EventFactory::EventFactory(Field *field, Player *player)
+EventFacade::EventFacade(Field *field, Player *player)
 {
 	add_energy_event = new AddEnergy(player);
 	add_progress_event = new AddProgress(player);
@@ -8,7 +8,7 @@ EventFactory::EventFactory(Field *field, Player *player)
 	teleport_player_event = new TeleportPlayer(field);
 }
 
-EventFactory::EventFactory(const EventFactory &obj)
+EventFacade::EventFacade(const EventFacade &obj)
 {
 	add_energy_event = new AddEnergy(*obj.add_energy_event);
 	add_progress_event = new AddProgress(*obj.add_progress_event);
@@ -16,7 +16,7 @@ EventFactory::EventFactory(const EventFactory &obj)
 	teleport_player_event = new TeleportPlayer(*obj.teleport_player_event);
 }
 
-EventFactory &EventFactory::operator=(const EventFactory &obj)
+EventFacade &EventFacade::operator=(const EventFacade &obj)
 {
 	if (this != &obj)
 	{
@@ -34,7 +34,7 @@ EventFactory &EventFactory::operator=(const EventFactory &obj)
 	return *this;
 }
 
-EventFactory::~EventFactory()
+EventFacade::~EventFacade()
 {
 	delete add_energy_event;
 	delete add_progress_event;
@@ -42,37 +42,37 @@ EventFactory::~EventFactory()
 	delete teleport_player_event;
 }
 
-void EventFactory::setPlayer(Player *player)
+void EventFacade::setPlayer(Player *player)
 {
 	add_energy_event->setPlayer(player);
 	add_progress_event->setPlayer(player);
 }
 
-void EventFactory::setField(Field *field)
+void EventFacade::setField(Field *field)
 {
 	spawn_enemy_event->setField(field);
 	teleport_player_event->setField(field);
 }
 
-Event *EventFactory::getEvent(AddEnergy *event)
+Event *EventFacade::getEvent(AddEnergy *event)
 {
 	delete event;
 	return add_energy_event;
 }
 
-Event *EventFactory::getEvent(AddProgress *event)
+Event *EventFacade::getEvent(AddProgress *event)
 {
 	delete event;
 	return add_progress_event;
 }
 
-Event *EventFactory::getEvent(SpawnEnemy *event)
+Event *EventFacade::getEvent(SpawnEnemy *event)
 {
 	delete event;
 	return spawn_enemy_event;
 }
 
-Event *EventFactory::getEvent(TeleportPlayer *event)
+Event *EventFacade::getEvent(TeleportPlayer *event)
 {
 	delete event;
 	return teleport_player_event;
