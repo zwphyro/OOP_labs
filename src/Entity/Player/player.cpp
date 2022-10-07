@@ -24,23 +24,9 @@ Player::~Player()
 {
 }
 
-bool Player::moveStart(int move_direction)
-{
-	if (std::chrono::steady_clock::now() - previous_movement_time < time_delay)
-		return false;
-
-	direction = move_direction;
-	return true;
-}
-
 bool Player::shootStart()
 {
 	return energy >= 100;
-}
-
-void Player::moveCommited()
-{
-	previous_movement_time = std::chrono::steady_clock::now();
 }
 
 int Player::getEnergyRelation() const

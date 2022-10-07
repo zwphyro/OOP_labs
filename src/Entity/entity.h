@@ -19,6 +19,9 @@ public:
 	int getDirection() const;
 	int movementDelay() const;
 
+	bool moveStart(int direction);
+	void moveCommited();
+
 	virtual ~Entity() {}
 };
 

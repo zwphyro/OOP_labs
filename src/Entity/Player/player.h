@@ -17,9 +17,6 @@ public:
 
 	bool shootStart();
 
-	bool moveStart(int direction);
-	void moveCommited();
-
 	int getEnergyRelation() const;
 	int getProgressRelation() const;
 
