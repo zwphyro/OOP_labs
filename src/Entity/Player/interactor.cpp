@@ -100,6 +100,9 @@ void Interactor::movePlayer(int direction)
 
 void Interactor::shoot()
 {
+	if (player == nullptr || field == nullptr)
+		return;
+
 	if (!player->shootStart())
 		return;
 	player->changeEnergy(-100);
