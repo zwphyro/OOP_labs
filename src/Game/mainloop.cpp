@@ -5,8 +5,6 @@ MainLoop::MainLoop()
 	mediator = new Mediator;
 	Player *player = new Player;
 
-	// get field size
-
 	StartDialog dialog;
 	std::pair<int, int> field_sizes = dialog.getFieldSize();
 
@@ -18,6 +16,8 @@ MainLoop::MainLoop()
 	field->getCell({1, 0})->setEvent(event_facade->getEvent(new TeleportPlayer));
 	field->getCell(field->getRandomFreePosition())->setEvent(event_facade->getEvent(new SpawnEnemy));
 
+	controller = new EnemyController(field);
+
 	painter = new Painter;
 }
 
@@ -27,6 +27,7 @@ MainLoop::~MainLoop()
 	delete painter;
 	delete field;
 	delete interactor;
+	delete controller;
 }
 
 int MainLoop::exec()
@@ -43,6 +44,7 @@ int MainLoop::exec()
 			break;
 
 		interactor->updatePlayer(command);
+		controller->updateEnemys();
 	}
 
 	return 0;

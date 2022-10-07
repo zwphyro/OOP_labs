@@ -1,5 +1,5 @@
-all: main.o startdialog.o mainloop.o reader.o mediator.o painter.o eventfacade.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o
-	g++ -g -std=c++17 main.o mainloop.o reader.o mediator.o painter.o field.o cell.o player.o enemy.o interactor.o startdialog.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfacade.o -lncurses
+all: main.o startdialog.o mainloop.o reader.o mediator.o painter.o eventfacade.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o enemycontroller.o
+	g++ -g -std=c++17 main.o mainloop.o reader.o mediator.o painter.o field.o cell.o player.o enemy.o interactor.o startdialog.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfacade.o enemycontroller.o -lncurses
 
 main.o: ./Game/main.cpp
 	g++ -c -g -std=c++17 ./Game/main.cpp
@@ -57,6 +57,9 @@ addprogress.o: ./Event/addprogress.cpp ./Event/addprogress.h playerevent.o
 
 addenergy.o: ./Event/addenergy.cpp ./Event/addenergy.h playerevent.o
 	g++ -c -g -std=c++17 ./Event/addenergy.cpp
+
+enemycontroller.o: ./Entity/Enemy/enemycontroller.cpp ./Entity/Enemy/enemycontroller.h
+	g++ -c -g -std=c++17 ./Entity/Enemy/enemycontroller.cpp
 
 clean:
 	rm *.o; rm a.out

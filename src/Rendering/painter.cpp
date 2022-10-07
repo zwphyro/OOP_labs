@@ -298,10 +298,71 @@ void Painter::drawEnemy(Position pos, int direction, int movement_delay)
 		LEFT
 	};
 
+	if (direction == DOWN)
+		movement_delay = -movement_delay;
+
 	start_color();
 	init_pair(1, COLOR_BLACK, COLOR_WHITE);
-	init_pair(4, COLOR_BLACK, COLOR_RED);
-	init_pair(5, COLOR_BLACK, COLOR_BLACK);
+	init_pair(2, COLOR_BLACK, COLOR_GREEN);
+	init_pair(3, COLOR_BLACK, COLOR_BLUE);
+
+	if (direction == DOWN || direction == UP)
+	{
+		drawPixel(pos, {0, 3}, 1, movement_delay, 0);
+		drawPixel(pos, {0, 4}, 1, movement_delay, 0);
+		drawPixel(pos, {0, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {0, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {0, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {0, 8}, 1, movement_delay, 0);
+		drawPixel(pos, {1, 2}, 1, movement_delay, 0);
+		drawPixel(pos, {1, 3}, 1, movement_delay, 0);
+		drawPixel(pos, {1, 4}, 1, movement_delay, 0);
+		drawPixel(pos, {1, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {1, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {2, 2}, 1, movement_delay, 0);
+		drawPixel(pos, {2, 3}, 1, movement_delay, 0);
+		drawPixel(pos, {2, 4}, 1, movement_delay, 0);
+		drawPixel(pos, {2, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {2, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {2, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {3, 2}, 1, movement_delay, 0);
+		drawPixel(pos, {3, 3}, 4, movement_delay, 0);
+		drawPixel(pos, {3, 4}, 5, movement_delay, 0);
+		drawPixel(pos, {3, 5}, 4, movement_delay, 0);
+		drawPixel(pos, {3, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {3, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {4, 2}, 1, movement_delay, 0);
+		drawPixel(pos, {4, 3}, 5, movement_delay, 0);
+		drawPixel(pos, {4, 4}, 5, movement_delay, 0);
+		drawPixel(pos, {4, 5}, 5, movement_delay, 0);
+		drawPixel(pos, {4, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {4, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {5, 1}, 4, movement_delay, 0);
+		drawPixel(pos, {5, 3}, 1, movement_delay, 0);
+		drawPixel(pos, {5, 4}, 1, movement_delay, 0);
+		drawPixel(pos, {5, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {5, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {6, 0}, 4, movement_delay, 0);
+		drawPixel(pos, {6, 4}, 1, movement_delay, 0);
+		drawPixel(pos, {6, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {6, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {6, 8}, 1, movement_delay, 0);
+		drawPixel(pos, {6, 9}, 1, movement_delay, 0);
+		drawPixel(pos, {7, 0}, 4, movement_delay, 0);
+		drawPixel(pos, {7, 1}, 1, movement_delay, 0);
+		drawPixel(pos, {7, 4}, 1, movement_delay, 0);
+		drawPixel(pos, {7, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {7, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {7, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {7, 8}, 1, movement_delay, 0);
+		drawPixel(pos, {8, 2}, 1, movement_delay, 0);
+		drawPixel(pos, {8, 3}, 1, movement_delay, 0);
+		drawPixel(pos, {8, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {8, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {8, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {9, 4}, 1, movement_delay, 0);
+		return;
+	}
 
 	int rotation = 0;
 	if (direction == RIGHT)

@@ -170,7 +170,7 @@ EnemyVector *Field::getEnemysContainer()
 	return &enemys_container;
 }
 
-void Field::addEntity(const Player *entity, Position position)
+void Field::addEntity(Player *entity, Position position)
 {
 	if (position.x >= width || position.x < 0 || position.y >= height || position.y < 0 || cell_arr[position.y][position.x]->isOccupied())
 		return;
@@ -180,7 +180,7 @@ void Field::addEntity(const Player *entity, Position position)
 	cell_arr[position.y][position.x]->playerStepped();
 }
 
-void Field::addEntity(const Enemy *entity, Position position)
+void Field::addEntity(Enemy *entity, Position position)
 {
 	if (position.x >= width || position.x < 0 || position.y >= height || position.y < 0 || cell_arr[position.y][position.x]->isOccupied())
 		return;

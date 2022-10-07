@@ -9,6 +9,7 @@
 #include "./../Entity/Player/interactor.h"
 #include "./../Entity/Player/player.h"
 #include "./../Entity/enemy.h"
+#include "./../Entity/Enemy/enemycontroller.h"
 
 class MainLoop
 {
@@ -17,6 +18,7 @@ class MainLoop
 	Field *field;
 
 	Interactor *interactor;
+	EnemyController *controller;
 
 public:
 	MainLoop();

@@ -39,8 +39,8 @@ public:
 
 	Position getRandomFreePosition();
 
-	void addEntity(const Player *entity, Position position);
-	void addEntity(const Enemy *entity, Position position);
+	void addEntity(Player *entity, Position position);
+	void addEntity(Enemy *entity, Position position);
 
 	Cell *getCell(Position position);
 	EventFacade &getEventFacade();
