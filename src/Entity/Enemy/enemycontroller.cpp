@@ -14,6 +14,18 @@ void EnemyController::setField(Field *field)
         enemys = field->getEnemysContainer();
 }
 
+int EnemyController::calculateDirection(Position player_position, Position enemy_position)
+{
+    int delta_x = (player_position.x - enemy_position.x) / std::abs(player_position.x - enemy_position.x);
+    int delta_y = (player_position.y - enemy_position.y) / std::abs(player_position.y - enemy_position.y);
+    std::pair<int, int> directions;
+    directions.first = delta_x > 0 ? Direction::RIGHT : Direction::LEFT;
+    directions.second = delta_y > 0 ? Direction::DOWN : Direction::UP;
+    int horizontal_movement = std::pow(player_position.x - (enemy_position.x + delta_x), 2) + std::pow(player_position.y - enemy_position.y, 2);
+    int vertical_movement = std::pow(player_position.y - (enemy_position.y + delta_y), 2) + std::pow(player_position.x - enemy_position.x, 2);
+    return horizontal_movement < vertical_movement ? directions.first : directions.second;
+}
+
 Position EnemyController::calculateSidePosition(Position position, int direction)
 {
     int old_x = position.x;
@@ -47,8 +59,7 @@ void EnemyController::updateEnemys()
 {
     for (int i = 0; i < enemys->size(); i++)
     {
-        // find good direction
-        int direction = Direction::UP;
+        int direction = calculateDirection(field->getPlayerContainer()->position, enemys->at(i).position);
         moveEnemy(&enemys->at(i), direction);
     }
 }
