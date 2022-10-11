@@ -1,6 +1,7 @@
 #include "mainloop.h"
 #include "./../Reading/startdialog.h"
 #include "./../Reading/mediator.h"
+#include "./../Reading/commands.h"
 #include "./../Entity/enemy.h"
 #include "./../Entity/Enemy/enemycontroller.h"
 #include "./../Entity/Player/interactor.h"

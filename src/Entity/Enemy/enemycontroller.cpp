@@ -5,7 +5,7 @@
 #include "enemycontroller.h"
 #include "./../enemy.h"
 #include "./../../Field/field.h"
-#include "./../Player/interactor.h"
+#include "./../direction.h"
 #include "./../../Field/cell.h"
 
 EnemyController::EnemyController(Field *field) : _field(field)

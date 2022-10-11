@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "./direction.h"
 #include "./Player/interactor.h"
 
 Enemy::Enemy()

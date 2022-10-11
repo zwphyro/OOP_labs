@@ -1,12 +1,13 @@
 #include "interactor.h"
 #include "player.h"
+#include "./../direction.h"
 #include "./../../Field/cell.h"
 #include "./../../Field/field.h"
 #include "./../../Field/position.h"
 #include "./../../Event/addprogress.h"
 #include "./../../Event/spawnenemy.h"
 #include "./../../Event/eventfacade.h"
-#include "./../../Reading/mediator.h"
+#include "./../../Reading/commands.h"
 
 Interactor::Interactor(Field *field, Player *player) : _field(field), _player(player)
 {

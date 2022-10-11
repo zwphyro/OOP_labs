@@ -5,14 +5,6 @@ class Field;
 class Player;
 class Position;
 
-enum Direction
-{
-	UP,
-	DOWN,
-	RIGHT,
-	LEFT
-};
-
 class Interactor
 {
 public:

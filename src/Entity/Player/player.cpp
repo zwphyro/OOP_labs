@@ -1,5 +1,6 @@
 #include "player.h"
 #include "interactor.h"
+#include "./../direction.h"
 
 Player::Player()
 {

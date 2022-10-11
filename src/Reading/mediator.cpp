@@ -1,5 +1,6 @@
 #include "mediator.h"
 #include "reader.h"
+#include "commands.h"
 
 Mediator::Mediator()
 {
