@@ -1,13 +1,10 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include "./../Event/event.h"
+class Event;
 
 class Cell
 {
-	Event *current_event;
-	bool occupied;
-
 public:
 	Cell(Event *event = nullptr);
 	Cell(const Cell &obj);
@@ -21,7 +18,12 @@ public:
 
 	void playerStepped();
 	void enemyStepped();
+
 	void entityGone();
+
+private:
+	Event *_current_event;
+	bool _occupied;
 };
 
 #endif

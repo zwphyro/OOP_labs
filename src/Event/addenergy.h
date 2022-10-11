@@ -5,7 +5,6 @@
 
 class AddEnergy : public PlayerEvent
 {
-
 public:
 	AddEnergy(Player *player = nullptr);
 	AddEnergy(const AddEnergy &obj);

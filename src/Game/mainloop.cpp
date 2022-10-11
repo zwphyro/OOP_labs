@@ -1,38 +1,51 @@
 #include "mainloop.h"
+#include "./../Reading/startdialog.h"
+#include "./../Reading/mediator.h"
+#include "./../Entity/enemy.h"
+#include "./../Entity/Enemy/enemycontroller.h"
+#include "./../Entity/Player/interactor.h"
+#include "./../Entity/Player/player.h"
+#include "./../Event/teleportplayer.h"
+#include "./../Event/spawnenemy.h"
+#include "./../Event/eventfacade.h"
+#include "./../Field/cell.h"
+#include "./../Field/field.h"
+#include "./../Field/position.h"
+#include "./../Rendering/painter.h"
 
 MainLoop::MainLoop()
 {
-	mediator = new Mediator;
+	_mediator = new Mediator;
 	Player *player = new Player;
 
 	StartDialog dialog;
 	std::pair<int, int> field_sizes = dialog.getFieldSize();
 
-	field = new Field(field_sizes.first, field_sizes.second);
-	interactor = new Interactor(field, player);
-	EventFacade *event_facade = new EventFacade(field, player);
-	field->addEntity(player, {3, 3});
-	// field->addEntity(new Enemy, {3, 2});
-	// field->addEntity(new Enemy, {2, 3});
-	// field->addEntity(new Enemy, {3, 4});
-	// field->addEntity(new Enemy, {4, 3});
+	_field = new Field(field_sizes.first, field_sizes.second);
+	_interactor = new Interactor(_field, player);
+	EventFacade *event_facade = new EventFacade(_field, player);
+	_field->addEntity(player, {0, 0});
+	_field->addEntity(new Enemy, {3, 2});
+	_field->addEntity(new Enemy, {2, 3});
+	_field->addEntity(new Enemy, {3, 4});
+	_field->addEntity(new Enemy, {4, 3});
 
-	field->setEventFacade(event_facade);
-	field->getCell({1, 0})->setEvent(event_facade->getEvent(new TeleportPlayer));
-	field->getCell(field->getRandomFreePosition())->setEvent(event_facade->getEvent(new SpawnEnemy));
+	_field->setEventFacade(event_facade);
+	_field->getCell({1, 0})->setEvent(event_facade->getEvent(new TeleportPlayer));
+	_field->getCell(_field->getRandomFreePosition())->setEvent(event_facade->getEvent(new SpawnEnemy));
 
-	controller = new EnemyController(field);
+	_controller = new EnemyController(_field);
 
-	painter = new Painter;
+	_painter = new Painter;
 }
 
 MainLoop::~MainLoop()
 {
-	delete mediator;
-	delete painter;
-	delete field;
-	delete interactor;
-	delete controller;
+	delete _mediator;
+	delete _painter;
+	delete _field;
+	delete _interactor;
+	delete _controller;
 }
 
 int MainLoop::exec()
@@ -41,15 +54,15 @@ int MainLoop::exec()
 
 	while (true)
 	{
-		painter->drawField(field);
+		_painter->drawField(_field);
 
-		command = mediator->getCommand();
+		command = _mediator->getCommand();
 
 		if (command == Commands::QUIT)
 			break;
 
-		interactor->updatePlayer(command);
-		controller->updateEnemys();
+		_interactor->updatePlayer(command);
+		_controller->updateEnemys();
 	}
 
 	return 0;

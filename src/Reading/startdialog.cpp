@@ -1,5 +1,5 @@
-#include <iostream>
 #include "startdialog.h"
+#include <iostream>
 
 void StartDialog::printFieldSizeRequest()
 {

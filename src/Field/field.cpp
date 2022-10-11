@@ -1,72 +1,76 @@
 #include "field.h"
+#include "cell.h"
+#include "./../Entity/Player/player.h"
+#include "./../Entity/enemy.h"
+#include "./../Event/eventfacade.h"
 
-Field::Field(int width, int height) : width(width), height(height), event_facade(nullptr)
+Field::Field(int width, int height) : _width(width), _height(height), _event_facade(nullptr)
 {
-	cell_arr = new Cell **[height];
+	_cell_arr = new Cell **[height];
 
 	for (int i = 0; i < height; i++)
 	{
-		cell_arr[i] = new Cell *[width];
+		_cell_arr[i] = new Cell *[width];
 		for (int j = 0; j < width; j++)
 		{
-			cell_arr[i][j] = new Cell;
+			_cell_arr[i][j] = new Cell;
 		}
 	}
 
-	player_container.entity = nullptr;
+	_player_container.entity = nullptr;
 }
 
-Field::Field(const Field &obj) : width(obj.width), height(obj.height), player_container(obj.player_container)
+Field::Field(const Field &obj) : _width(obj._width), _height(obj._height), _player_container(obj._player_container)
 {
-	cell_arr = new Cell **[height];
-	for (int i = 0; i < height; i++)
+	_cell_arr = new Cell **[_height];
+	for (int i = 0; i < _height; i++)
 	{
-		cell_arr[i] = new Cell *[width];
-		for (int j = 0; j < width; j++)
+		_cell_arr[i] = new Cell *[_width];
+		for (int j = 0; j < _width; j++)
 		{
-			cell_arr[i][j] = new Cell(*obj.cell_arr[i][j]);
+			_cell_arr[i][j] = new Cell(*obj._cell_arr[i][j]);
 		}
 	}
 
-	event_facade = new EventFacade(*obj.event_facade);
+	_event_facade = new EventFacade(*obj._event_facade);
 
-	for (auto elem : obj.enemys_container)
-		enemys_container.push_back(elem);
+	for (auto elem : obj._enemys_container)
+		_enemys_container.push_back(elem);
 }
 
 Field &Field::operator=(const Field &obj)
 {
 	if (this != &obj)
 	{
-		for (int i = 0; i < height; i++)
+		for (int i = 0; i < _height; i++)
 		{
-			for (int j = 0; j < width; j++)
+			for (int j = 0; j < _width; j++)
 			{
-				delete cell_arr[i][j];
+				delete _cell_arr[i][j];
 			}
-			delete[] cell_arr[i];
+			delete[] _cell_arr[i];
 		}
-		delete[] cell_arr;
+		delete[] _cell_arr;
 
-		enemys_container.clear();
+		_enemys_container.clear();
 
-		width = obj.width;
-		height = obj.height;
-		player_container = obj.player_container;
-		event_facade = new EventFacade(*obj.event_facade);
+		_width = obj._width;
+		_height = obj._height;
+		_player_container = obj._player_container;
+		_event_facade = new EventFacade(*obj._event_facade);
 
-		cell_arr = new Cell **[height];
-		for (int i = 0; i < height; i++)
+		_cell_arr = new Cell **[_height];
+		for (int i = 0; i < _height; i++)
 		{
-			cell_arr[i] = new Cell *[width];
-			for (int j = 0; j < width; j++)
+			_cell_arr[i] = new Cell *[_width];
+			for (int j = 0; j < _width; j++)
 			{
-				cell_arr[i][j] = new Cell(*obj.cell_arr[i][j]);
+				_cell_arr[i][j] = new Cell(*obj._cell_arr[i][j]);
 			}
 		}
 
-		for (auto elem : obj.enemys_container)
-			enemys_container.push_back(elem);
+		for (auto elem : obj._enemys_container)
+			_enemys_container.push_back(elem);
 	}
 
 	return *this;
@@ -74,28 +78,28 @@ Field &Field::operator=(const Field &obj)
 
 Field::Field(Field &&obj)
 {
-	std::swap(width, obj.width);
-	std::swap(height, obj.height);
-	event_facade = nullptr;
-	std::swap(event_facade, obj.event_facade);
-	cell_arr = nullptr;
-	std::swap(cell_arr, obj.cell_arr);
-	std::swap(player_container, obj.player_container);
-	enemys_container.swap(obj.enemys_container);
+	std::swap(_width, obj._width);
+	std::swap(_height, obj._height);
+	_event_facade = nullptr;
+	std::swap(_event_facade, obj._event_facade);
+	_cell_arr = nullptr;
+	std::swap(_cell_arr, obj._cell_arr);
+	std::swap(_player_container, obj._player_container);
+	_enemys_container.swap(obj._enemys_container);
 }
 
 Field &Field::operator=(Field &&obj)
 {
 	if (this != &obj)
 	{
-		std::swap(width, obj.width);
-		std::swap(height, obj.height);
-		event_facade = nullptr;
-		std::swap(event_facade, obj.event_facade);
-		cell_arr = nullptr;
-		std::swap(cell_arr, obj.cell_arr);
-		std::swap(player_container, obj.player_container);
-		enemys_container.swap(obj.enemys_container);
+		std::swap(_width, obj._width);
+		std::swap(_height, obj._height);
+		_event_facade = nullptr;
+		std::swap(_event_facade, obj._event_facade);
+		_cell_arr = nullptr;
+		std::swap(_cell_arr, obj._cell_arr);
+		std::swap(_player_container, obj._player_container);
+		_enemys_container.swap(obj._enemys_container);
 	}
 
 	return *this;
@@ -103,29 +107,29 @@ Field &Field::operator=(Field &&obj)
 
 Field::~Field()
 {
-	if (cell_arr)
+	if (_cell_arr)
 	{
-		for (int i = 0; i < height; i++)
+		for (int i = 0; i < _height; i++)
 		{
-			for (int j = 0; j < width; j++)
+			for (int j = 0; j < _width; j++)
 			{
-				delete cell_arr[i][j];
+				delete _cell_arr[i][j];
 			}
-			delete[] cell_arr[i];
+			delete[] _cell_arr[i];
 		}
-		delete[] cell_arr;
+		delete[] _cell_arr;
 	}
 
-	for (auto elem : enemys_container)
+	for (auto elem : _enemys_container)
 		delete elem.entity;
 
-	if (event_facade)
-		delete event_facade;
+	if (_event_facade)
+		delete _event_facade;
 }
 
 void Field::setEventFacade(EventFacade *event_facade)
 {
-	this->event_facade = event_facade;
+	_event_facade = event_facade;
 }
 
 Position Field::getRandomFreePosition()
@@ -134,11 +138,11 @@ Position Field::getRandomFreePosition()
 
 	std::vector<Position> free_positions;
 
-	for (int i = 0; i < width; i++)
+	for (int i = 0; i < _width; i++)
 	{
-		for (int j = 0; j < height; j++)
+		for (int j = 0; j < _height; j++)
 		{
-			if (!(cell_arr[j][i]->isOccupied() || cell_arr[j][i]->getEvent()))
+			if (!(_cell_arr[j][i]->isOccupied() || _cell_arr[j][i]->getEvent()))
 			{
 				free_positions.push_back(Position(i, j));
 			}
@@ -152,49 +156,49 @@ Position Field::getRandomFreePosition()
 
 int Field::getWidth() const
 {
-	return width;
+	return _width;
 }
 
 int Field::getHeight() const
 {
-	return height;
+	return _height;
 }
 
 EntityContainer *Field::getPlayerContainer()
 {
-	return &player_container;
+	return &_player_container;
 }
 
 EnemyVector *Field::getEnemysContainer()
 {
-	return &enemys_container;
+	return &_enemys_container;
 }
 
 void Field::addEntity(Player *entity, Position position)
 {
-	if (position.x >= width || position.x < 0 || position.y >= height || position.y < 0 || cell_arr[position.y][position.x]->isOccupied())
+	if (position.x >= _width || position.x < 0 || position.y >= _height || position.y < 0 || _cell_arr[position.y][position.x]->isOccupied())
 		return;
 
-	player_container.entity = entity;
-	player_container.position = position;
-	cell_arr[position.y][position.x]->playerStepped();
+	_player_container.entity = entity;
+	_player_container.position = position;
+	_cell_arr[position.y][position.x]->playerStepped();
 }
 
 void Field::addEntity(Enemy *entity, Position position)
 {
-	if (position.x >= width || position.x < 0 || position.y >= height || position.y < 0 || cell_arr[position.y][position.x]->isOccupied())
+	if (position.x >= _width || position.x < 0 || position.y >= _height || position.y < 0 || _cell_arr[position.y][position.x]->isOccupied())
 		return;
 
-	enemys_container.push_back({entity, position});
-	cell_arr[position.y][position.x]->enemyStepped();
+	_enemys_container.push_back({entity, position});
+	_cell_arr[position.y][position.x]->enemyStepped();
 }
 
 Cell *Field::getCell(Position position)
 {
-	return cell_arr[position.y][position.x];
+	return _cell_arr[position.y][position.x];
 }
 
 EventFacade &Field::getEventFacade()
 {
-	return *event_facade;
+	return *_event_facade;
 }

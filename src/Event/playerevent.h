@@ -2,16 +2,16 @@
 #define PLAYEREVENT_H
 
 #include "event.h"
-#include "./../Entity/Player/player.h"
+class Player;
 
 class PlayerEvent : public Event
 {
-protected:
-	Player *player;
-
 public:
 	PlayerEvent(Player *player = nullptr);
 	void setPlayer(Player *player);
+
+protected:
+	Player *_player;
 };
 
 #endif

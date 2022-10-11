@@ -1,11 +1,11 @@
 #include "fieldevent.h"
 #include "./../Field/field.h"
 
-FieldEvent::FieldEvent(Field *field) : field(field)
+FieldEvent::FieldEvent(Field *field) : _field(field)
 {
 }
 
 void FieldEvent::setField(Field *field)
 {
-	this->field = field;
+	_field = field;
 }

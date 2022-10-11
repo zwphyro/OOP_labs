@@ -5,7 +5,6 @@
 
 class TeleportPlayer : public FieldEvent
 {
-
 public:
     TeleportPlayer(Field *field = nullptr);
     TeleportPlayer(const TeleportPlayer &obj);

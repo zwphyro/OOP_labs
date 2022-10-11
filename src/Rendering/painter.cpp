@@ -1,4 +1,14 @@
+#include <ncurses.h>
 #include "painter.h"
+#include "./../Field/cell.h"
+#include "./../Field/field.h"
+#include "./../Entity/entitycontainer.h"
+#include "./../Entity/enemy.h"
+#include "./../Entity/Player/player.h"
+#include "./../Event/addenergy.h"
+#include "./../Event/addprogress.h"
+#include "./../Event/spawnenemy.h"
+#include "./../Event/teleportplayer.h"
 
 #define CELL_WIDTH 20
 #define CELL_HEIGHT 10
@@ -10,8 +20,8 @@ Painter::Painter()
 	raw();
 	halfdelay(1);
 	keypad(stdscr, true);
-	start = std::chrono::steady_clock::now();
-	frame_no = 1;
+	_start = std::chrono::steady_clock::now();
+	_frame_no = 1;
 }
 
 Painter::~Painter()
@@ -453,7 +463,7 @@ void Painter::drawYouLose()
 		mvwaddch(stdscr, (row / 2) + 10, i, '=' | COLOR_PAIR(6));
 	}
 	mvwprintw(stdscr, (row / 2) - 5, (col / 2) - 4, "You lose");
-	mvwprintw(stdscr, (row / 2) - 3, (col / 2) - 10, "Gameplay time = %ds", std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - start));
+	mvwprintw(stdscr, (row / 2) - 3, (col / 2) - 10, "Gameplay time = %ds", std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _start));
 }
 
 void Painter::drawYouWin()
@@ -484,7 +494,7 @@ void Painter::drawYouWin()
 		mvwaddch(stdscr, (row / 2) + 10, i, '=' | COLOR_PAIR(6));
 	}
 	mvwprintw(stdscr, (row / 2) - 5, (col / 2) - 3, "You win");
-	mvwprintw(stdscr, (row / 2) - 3, (col / 2) - 10, "Gameplay time = %ds", std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - start));
+	mvwprintw(stdscr, (row / 2) - 3, (col / 2) - 10, "Gameplay time = %ds", std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _start));
 }
 
 void Painter::drawInterface(int energy, int progress)
@@ -568,6 +578,6 @@ void Painter::drawField(Field *field)
 		drawInterface(dynamic_cast<const Player *>(player_container.entity)->getEnergyRelation(), dynamic_cast<const Player *>(player_container.entity)->getProgressRelation());
 	}
 
-	mvwprintw(stdscr, row - 1, 0, "Average FPS: %d", ((std::chrono::seconds(1) * frame_no++) / (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - start) + std::chrono::seconds(1))));
+	mvwprintw(stdscr, row - 1, 0, "Average FPS: %d", ((std::chrono::seconds(1) * _frame_no++) / (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _start) + std::chrono::seconds(1))));
 	refresh();
 }

@@ -1,19 +1,16 @@
 #ifndef EVENTFACADE_H
 #define EVENTFACADE_H
 
-#include "addprogress.h"
-#include "addenergy.h"
-#include "spawnenemy.h"
-#include "teleportplayer.h"
+class Event;
+class Field;
+class Player;
+class AddProgress;
+class AddEnergy;
+class SpawnEnemy;
+class TeleportPlayer;
 
 class EventFacade
 {
-
-	AddEnergy *add_energy_event;
-	AddProgress *add_progress_event;
-	SpawnEnemy *spawn_enemy_event;
-	TeleportPlayer *teleport_player_event;
-
 public:
 	EventFacade(Field *field = nullptr, Player *player = nullptr);
 	EventFacade(const EventFacade &obj);
@@ -27,6 +24,12 @@ public:
 	Event *getEvent(AddProgress *event);
 	Event *getEvent(SpawnEnemy *event);
 	Event *getEvent(TeleportPlayer *event);
+
+private:
+	AddEnergy *_add_energy_event;
+	AddProgress *_add_progress_event;
+	SpawnEnemy *_spawn_enemy_event;
+	TeleportPlayer *_teleport_player_event;
 };
 
 #endif

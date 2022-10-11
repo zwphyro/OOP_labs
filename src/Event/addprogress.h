@@ -5,7 +5,6 @@
 
 class AddProgress : public PlayerEvent
 {
-
 public:
 	AddProgress(Player *player = nullptr);
 	AddProgress(const AddProgress &obj);
