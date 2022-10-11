@@ -176,26 +176,26 @@ EnemyVector *Field::getEnemysContainer()
 
 void Field::addEntity(Player *entity, Position position)
 {
-	if (position.x >= _width || position.x < 0 || position.y >= _height || position.y < 0 || _cell_arr[position.y][position.x]->isOccupied())
+	if (position.getX() >= _width || position.getX() < 0 || position.getY() >= _height || position.getY() < 0 || _cell_arr[position.getY()][position.getX()]->isOccupied())
 		return;
 
 	_player_container.entity = entity;
 	_player_container.position = position;
-	_cell_arr[position.y][position.x]->playerStepped();
+	_cell_arr[position.getY()][position.getX()]->playerStepped();
 }
 
 void Field::addEntity(Enemy *entity, Position position)
 {
-	if (position.x >= _width || position.x < 0 || position.y >= _height || position.y < 0 || _cell_arr[position.y][position.x]->isOccupied())
+	if (position.getX() >= _width || position.getX() < 0 || position.getY() >= _height || position.getY() < 0 || _cell_arr[position.getY()][position.getX()]->isOccupied())
 		return;
 
 	_enemys_container.push_back({entity, position});
-	_cell_arr[position.y][position.x]->enemyStepped();
+	_cell_arr[position.getY()][position.getX()]->enemyStepped();
 }
 
 Cell *Field::getCell(Position position)
 {
-	return _cell_arr[position.y][position.x];
+	return _cell_arr[position.getY()][position.getX()];
 }
 
 EventFacade &Field::getEventFacade()

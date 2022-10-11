@@ -54,35 +54,6 @@ void Interactor::updatePlayer(int command)
 	}
 }
 
-Position Interactor::calculateSidePosition(Position position, int direction)
-{
-	int old_x = position.x;
-	int old_y = position.y;
-	int new_x, new_y;
-
-	switch (direction)
-	{
-	case Direction::UP:
-		new_x = old_x;
-		new_y = (old_y - 1 + _field->getHeight()) % _field->getHeight();
-		break;
-	case Direction::DOWN:
-		new_x = old_x;
-		new_y = (old_y + 1) % _field->getHeight();
-		break;
-	case Direction::RIGHT:
-		new_x = (old_x + 1) % _field->getWidth();
-		new_y = old_y;
-		break;
-	case Direction::LEFT:
-		new_x = (old_x - 1 + _field->getWidth()) % _field->getWidth();
-		new_y = old_y;
-		break;
-	}
-
-	return {new_x, new_y};
-}
-
 void Interactor::movePlayer(int direction)
 {
 	if (_player == nullptr || _field == nullptr)
@@ -92,7 +63,7 @@ void Interactor::movePlayer(int direction)
 		return;
 
 	EntityContainer *player_container = _field->getPlayerContainer();
-	Position new_position = calculateSidePosition(player_container->position, direction);
+	Position new_position = player_container->position.calculateSidePosition(direction, _field->getWidth(), _field->getHeight());
 
 	Cell *new_player_cell = _field->getCell(new_position);
 	Cell *old_player_cell = _field->getCell(player_container->position);
@@ -112,7 +83,7 @@ void Interactor::shoot()
 	_player->changeEnergy(-100);
 
 	EntityContainer *player_container = _field->getPlayerContainer();
-	Position damaged_position = calculateSidePosition(player_container->position, _player->getDirection());
+	Position damaged_position = player_container->position.calculateSidePosition(_player->getDirection(), _field->getWidth(), _field->getHeight());
 
 	Cell *damaged_cell = _field->getCell(damaged_position);
 	if (!damaged_cell->isOccupied())

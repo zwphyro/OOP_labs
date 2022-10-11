@@ -20,7 +20,6 @@ private:
 	Field *_field;
 	Player *_player;
 
-	Position calculateSidePosition(Position position, int direction);
 	void movePlayer(int direction);
 	void shoot();
 };

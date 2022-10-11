@@ -33,8 +33,8 @@ Painter::~Painter()
 
 void Painter::drawEmptyCell(Position pos)
 {
-	for (int i = (CELL_HEIGHT + 1) * pos.y; i < (CELL_HEIGHT + 1) * (pos.y + 1) - 1; i++)
-		for (int j = (CELL_WIDTH + 2) * pos.x; j < (CELL_WIDTH + 2) * (pos.x + 1) - 2; j++)
+	for (int i = (CELL_HEIGHT + 1) * pos.getY(); i < (CELL_HEIGHT + 1) * (pos.getY() + 1) - 1; i++)
+		for (int j = (CELL_WIDTH + 2) * pos.getX(); j < (CELL_WIDTH + 2) * (pos.getX() + 1) - 2; j++)
 			mvwaddch(stdscr, i, j, '*' | A_DIM);
 }
 
@@ -168,8 +168,8 @@ void Painter::drawTeleportPlayer(Position pos)
 
 void Painter::drawPixel(Position cell_pos, Position pixel_pos, int color_scheme, int h_movement_delay, int v_movement_delay, int rotation)
 {
-	mvwaddch(stdscr, (CELL_HEIGHT + 1) * cell_pos.y + pixel_pos.x + h_movement_delay, (CELL_WIDTH + 2) * cell_pos.x + (CELL_WIDTH - 1) * rotation + (1 - rotation * 2) * (pixel_pos.y * 2) + v_movement_delay * 2, ' ' | COLOR_PAIR(color_scheme));
-	mvwaddch(stdscr, (CELL_HEIGHT + 1) * cell_pos.y + pixel_pos.x + h_movement_delay, (CELL_WIDTH + 2) * cell_pos.x + (CELL_WIDTH - 1) * rotation + (1 - rotation * 2) * (pixel_pos.y * 2 + 1) + v_movement_delay * 2, ' ' | COLOR_PAIR(color_scheme));
+	mvwaddch(stdscr, (CELL_HEIGHT + 1) * cell_pos.getY() + pixel_pos.getX() + h_movement_delay, (CELL_WIDTH + 2) * cell_pos.getX() + (CELL_WIDTH - 1) * rotation + (1 - rotation * 2) * (pixel_pos.getY() * 2) + v_movement_delay * 2, ' ' | COLOR_PAIR(color_scheme));
+	mvwaddch(stdscr, (CELL_HEIGHT + 1) * cell_pos.getY() + pixel_pos.getX() + h_movement_delay, (CELL_WIDTH + 2) * cell_pos.getX() + (CELL_WIDTH - 1) * rotation + (1 - rotation * 2) * (pixel_pos.getY() * 2 + 1) + v_movement_delay * 2, ' ' | COLOR_PAIR(color_scheme));
 }
 
 void Painter::drawPlayer(Position pos, int direction, int movement_delay)
