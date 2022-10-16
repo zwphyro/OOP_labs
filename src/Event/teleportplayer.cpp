@@ -1,5 +1,7 @@
 #include "teleportplayer.h"
+#include "./../Field/cell.h"
 #include "./../Field/field.h"
+#include "./../Entity/enemy.h"
 
 TeleportPlayer::TeleportPlayer(Field *field) : FieldEvent(field)
 {
@@ -7,22 +9,22 @@ TeleportPlayer::TeleportPlayer(Field *field) : FieldEvent(field)
 
 TeleportPlayer::TeleportPlayer(const TeleportPlayer &obj)
 {
-	field = obj.field;
+	_field = obj._field;
 }
 
 TeleportPlayer &TeleportPlayer::operator=(const TeleportPlayer &obj)
 {
 	if (this != &obj)
-		field = obj.field;
+		_field = obj._field;
 	return *this;
 }
 
 bool TeleportPlayer::action()
 {
-	Position old_player_position = field->getPlayerContainer()->position;
-	Position new_player_position = field->getRandomFreePosition();
-	field->getPlayerContainer()->position = new_player_position;
-	field->getCell(old_player_position)->entityGone();
-	field->getCell(new_player_position)->playerStepped();
+	Position old_player_position = _field->getPlayerContainer()->position;
+	Position new_player_position = _field->getRandomFreePosition();
+	_field->getPlayerContainer()->position = new_player_position;
+	_field->getCell(old_player_position)->entityGone();
+	_field->getCell(new_player_position)->playerStepped();
 	return true;
 }

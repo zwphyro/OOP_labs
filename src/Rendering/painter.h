@@ -1,22 +1,22 @@
 #ifndef PAINTER_H
 #define PAINTER_H
 
-#include <ncurses.h>
 #include <chrono>
 #include "./../Field/position.h"
-#include "./../Field/field.h"
-#include "./../Entity/Player/player.h"
-#include "./../Entity/enemy.h"
-#include "./../Entity/entitycontainer.h"
-#include "./../Event/addenergy.h"
-#include "./../Event/addprogress.h"
-#include "./../Event/spawnenemy.h"
-#include "./../Event/teleportplayer.h"
+
+class Field;
 
 class Painter
 {
-	std::chrono::time_point<std::chrono::steady_clock> start;
-	int frame_no;
+public:
+	Painter();
+	~Painter();
+
+	void drawField(Field *field);
+
+private:
+	std::chrono::time_point<std::chrono::steady_clock> _start;
+	int _frame_no;
 
 	void drawEmptyCell(Position pos);
 	void drawAddProgress(Position pos);
@@ -32,12 +32,6 @@ class Painter
 	void drawYouLose();
 
 	void drawInterface(int energy, int progress);
-
-public:
-	Painter();
-	~Painter();
-
-	void drawField(Field *field);
 };
 
 #endif

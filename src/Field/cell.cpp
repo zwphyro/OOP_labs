@@ -1,12 +1,13 @@
 #include "cell.h"
+#include "./../Event/event.h"
 
 Cell::Cell(Event *event)
 {
-	current_event = event;
-	occupied = false;
+	_current_event = event;
+	_occupied = false;
 }
 
-Cell::Cell(const Cell &obj) : current_event(obj.current_event), occupied(obj.occupied)
+Cell::Cell(const Cell &obj) : _current_event(obj._current_event), _occupied(obj._occupied)
 {
 }
 
@@ -14,8 +15,8 @@ Cell &Cell::operator=(const Cell &obj)
 {
 	if (this != &obj)
 	{
-		current_event = obj.current_event;
-		occupied = obj.occupied;
+		_current_event = obj._current_event;
+		_occupied = obj._occupied;
 	}
 
 	return *this;
@@ -27,34 +28,34 @@ Cell::~Cell()
 
 void Cell::setEvent(Event *event)
 {
-	current_event = event;
+	_current_event = event;
 }
 
 const Event *Cell::getEvent()
 {
-	return current_event;
+	return _current_event;
 }
 
 bool Cell::isOccupied()
 {
-	return occupied;
+	return _occupied;
 }
 
 void Cell::playerStepped()
 {
-	occupied = true;
-	Event *tmp = current_event;
-	if (current_event && current_event->action())
-		if (tmp == current_event)
-			current_event = nullptr;
+	_occupied = true;
+	Event *tmp = _current_event;
+	if (_current_event && _current_event->action())
+		if (tmp == _current_event)
+			_current_event = nullptr;
 }
 
 void Cell::enemyStepped()
 {
-	occupied = true;
+	_occupied = true;
 }
 
 void Cell::entityGone()
 {
-	occupied = false;
+	_occupied = false;
 }

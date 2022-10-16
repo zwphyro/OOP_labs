@@ -1,10 +1,11 @@
 #include "playerevent.h"
+#include "./../Entity/Player/player.h"
 
-PlayerEvent::PlayerEvent(Player *player) : player(player)
+PlayerEvent::PlayerEvent(Player *player) : _player(player)
 {
 }
 
 void PlayerEvent::setPlayer(Player *player)
 {
-	this->player = player;
+	_player = player;
 }

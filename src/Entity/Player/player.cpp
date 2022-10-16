@@ -1,97 +1,79 @@
 #include "player.h"
+#include "interactor.h"
+#include "./../direction.h"
 
 Player::Player()
 {
-	enum
-	{
-		UP,
-		DOWN,
-		RIGHT,
-		LEFT
-	};
-	direction = DOWN;
 
-	time_delay = std::chrono::milliseconds(300);
-	previous_movement_time = std::chrono::steady_clock::now() - time_delay;
+	_direction = Direction::DOWN;
 
-	energy = 0;
-	max_energy = 1000;
-	progress = 500;
-	max_progress = 1000;
+	_time_delay = std::chrono::milliseconds(300);
+	_previous_movement_time = std::chrono::steady_clock::now() - _time_delay;
+
+	_energy = 0;
+	_max_energy = 1000;
+	_progress = 500;
+	_max_progress = 1000;
 }
 
 Player::~Player()
 {
 }
 
-bool Player::moveStart(int move_direction)
-{
-	if (std::chrono::steady_clock::now() - previous_movement_time < time_delay)
-		return false;
-
-	direction = move_direction;
-	return true;
-}
-
 bool Player::shootStart()
 {
-	return energy >= 100;
-}
-
-void Player::moveCommited()
-{
-	previous_movement_time = std::chrono::steady_clock::now();
+	return _energy >= 100;
 }
 
 int Player::getEnergyRelation() const
 {
-	return (energy * 100) / max_energy;
+	return (_energy * 100) / _max_energy;
 }
 
 int Player::getProgressRelation() const
 {
-	return (progress * 100) / max_progress;
+	return (_progress * 100) / _max_progress;
 }
 
 void Player::changeEnergy(int delta_energy)
 {
-	if (energy + delta_energy > max_energy)
+	if (_energy + delta_energy > _max_energy)
 	{
-		energy = max_energy;
+		_energy = _max_energy;
 		return;
 	}
-	else if (energy + delta_energy < 0)
+	else if (_energy + delta_energy < 0)
 	{
-		energy = 0;
+		_energy = 0;
 		return;
 	}
 
-	energy += delta_energy;
+	_energy += delta_energy;
 }
 
 void Player::changeProgress(int delta_progress)
 {
-	if (progress + delta_progress > max_progress)
+	if (_progress + delta_progress > _max_progress)
 	{
-		progress = max_progress;
+		_progress = _max_progress;
 		return;
 	}
-	else if (progress + delta_progress < 0)
+	else if (_progress + delta_progress < 0)
 	{
-		progress = 0;
+		_progress = 0;
 		return;
 	}
 
-	progress += delta_progress;
+	_progress += delta_progress;
 }
 
 void Player::changeSpeed(int delta_speed)
 {
-	if (time_delay - std::chrono::milliseconds(delta_speed) < std::chrono::milliseconds(150))
+	if (_time_delay - std::chrono::milliseconds(delta_speed) < std::chrono::milliseconds(150))
 	{
-		time_delay = std::chrono::milliseconds(120);
+		_time_delay = std::chrono::milliseconds(120);
 		return;
 	}
 
-	time_delay -= std::chrono::milliseconds(delta_speed);
+	_time_delay -= std::chrono::milliseconds(delta_speed);
 }

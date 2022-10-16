@@ -1,6 +1,6 @@
 #include <iostream>
-#include "mainloop.h"
 #include <cstdlib>
+#include "mainloop.h"
 #define USE_VALGRIND
 
 int main(int argc, char **argv)

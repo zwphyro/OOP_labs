@@ -1,4 +1,5 @@
 #include "addprogress.h"
+#include "./../Entity/Player/player.h"
 
 AddProgress::AddProgress(Player *player) : PlayerEvent(player)
 {
@@ -6,18 +7,18 @@ AddProgress::AddProgress(Player *player) : PlayerEvent(player)
 
 AddProgress::AddProgress(const AddProgress &obj)
 {
-	player = obj.player;
+	_player = obj._player;
 }
 
 AddProgress &AddProgress::operator=(const AddProgress &obj)
 {
 	if (this != &obj)
-		player = obj.player;
+		_player = obj._player;
 	return *this;
 }
 
 bool AddProgress::action()
 {
-	player->changeProgress(100);
+	_player->changeProgress(100);
 	return true;
 }

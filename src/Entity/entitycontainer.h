@@ -6,7 +6,7 @@
 
 struct EntityContainer
 {
-	const Entity *entity;
+	Entity *entity;
 	Position position;
 };
 

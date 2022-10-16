@@ -6,12 +6,12 @@ class Field;
 
 class FieldEvent : public Event
 {
-protected:
-	Field *field;
-
 public:
 	FieldEvent(Field *field = nullptr);
 	void setField(Field *field);
+
+protected:
+	Field *_field;
 };
 
 #endif

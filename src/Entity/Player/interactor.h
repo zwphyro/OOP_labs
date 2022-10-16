@@ -3,28 +3,10 @@
 
 class Field;
 class Player;
-
-#include "./../entity.h"
-#include "./../../Field/position.h"
-#include "./../../Reading/mediator.h"
-
-enum Direction
-{
-	UP,
-	DOWN,
-	RIGHT,
-	LEFT
-};
+class Position;
 
 class Interactor
 {
-	Field *field;
-	Player *player;
-
-	Position calculateSidePosition(Position position, int direction);
-	void movePlayer(int direction);
-	void shoot();
-
 public:
 	Interactor(Field *field = nullptr, Player *player = nullptr);
 	~Interactor();
@@ -33,6 +15,13 @@ public:
 	void setField(Field *field);
 
 	void updatePlayer(int command);
+
+private:
+	Field *_field;
+	Player *_player;
+
+	void movePlayer(int direction);
+	void shoot();
 };
 
 #endif

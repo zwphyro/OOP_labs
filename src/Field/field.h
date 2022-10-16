@@ -3,30 +3,20 @@
 
 #include <cstdlib>
 #include <ctime>
-
 #include <vector>
-#include "./../Entity/Player/interactor.h"
-#include "./../Entity/Player/player.h"
-#include "./../Entity/enemy.h"
-#include "cell.h"
-#include "./../Event/event.h"
-#include "./../Event/eventfacade.h"
 #include "position.h"
 #include "./../Entity/entitycontainer.h"
+
+class Player;
+class Enemy;
+class Cell;
+class Event;
+class EventFacade;
 
 typedef std::vector<EntityContainer> EnemyVector;
 
 class Field
 {
-	EventFacade *event_facade;
-
-	Cell ***cell_arr;
-	int width;
-	int height;
-
-	EntityContainer player_container;
-	EnemyVector enemys_container;
-
 public:
 	Field(int width = 5, int height = 5);
 	Field(const Field &obj);
@@ -39,8 +29,8 @@ public:
 
 	Position getRandomFreePosition();
 
-	void addEntity(const Player *entity, Position position);
-	void addEntity(const Enemy *entity, Position position);
+	void addEntity(Player *entity, Position position);
+	void addEntity(Enemy *entity, Position position);
 
 	Cell *getCell(Position position);
 	EventFacade &getEventFacade();
@@ -50,6 +40,16 @@ public:
 
 	int getWidth() const;
 	int getHeight() const;
+
+private:
+	EventFacade *_event_facade;
+
+	Cell ***_cell_arr;
+	int _width;
+	int _height;
+
+	EntityContainer _player_container;
+	EnemyVector _enemys_container;
 };
 
 #endif

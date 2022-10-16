@@ -1,19 +1,25 @@
 #ifndef POSITION_H
 #define POSITION_H
 
-struct Position
+class Position
 {
-	int x;
-	int y;
+public:
+	Position(int x = 0, int y = 0);
 
-	Position(int x = 0, int y = 0) : x(x), y(y)
-	{
-	}
+	void setX(int x);
+	void setY(int y);
 
-	friend bool operator==(const Position &pos_1, const Position &pos_2)
-	{
-		return (pos_1.x == pos_2.x) && (pos_1.y == pos_2.y);
-	}
+	int getX();
+	int getY();
+
+	int calculateDistance(Position other_position);
+	Position calculateSidePosition(int direction, int max_x, int max_y);
+
+	friend bool operator==(const Position &pos_1, const Position &pos_2);
+
+private:
+	int _x;
+	int _y;
 };
 
 #endif

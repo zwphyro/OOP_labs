@@ -1,4 +1,14 @@
+#include <ncurses.h>
 #include "painter.h"
+#include "./../Field/cell.h"
+#include "./../Field/field.h"
+#include "./../Entity/entitycontainer.h"
+#include "./../Entity/enemy.h"
+#include "./../Entity/Player/player.h"
+#include "./../Event/addenergy.h"
+#include "./../Event/addprogress.h"
+#include "./../Event/spawnenemy.h"
+#include "./../Event/teleportplayer.h"
 
 #define CELL_WIDTH 20
 #define CELL_HEIGHT 10
@@ -10,8 +20,8 @@ Painter::Painter()
 	raw();
 	halfdelay(1);
 	keypad(stdscr, true);
-	start = std::chrono::steady_clock::now();
-	frame_no = 1;
+	_start = std::chrono::steady_clock::now();
+	_frame_no = 1;
 }
 
 Painter::~Painter()
@@ -23,8 +33,8 @@ Painter::~Painter()
 
 void Painter::drawEmptyCell(Position pos)
 {
-	for (int i = (CELL_HEIGHT + 1) * pos.y; i < (CELL_HEIGHT + 1) * (pos.y + 1) - 1; i++)
-		for (int j = (CELL_WIDTH + 2) * pos.x; j < (CELL_WIDTH + 2) * (pos.x + 1) - 2; j++)
+	for (int i = (CELL_HEIGHT + 1) * pos.getY(); i < (CELL_HEIGHT + 1) * (pos.getY() + 1) - 1; i++)
+		for (int j = (CELL_WIDTH + 2) * pos.getX(); j < (CELL_WIDTH + 2) * (pos.getX() + 1) - 2; j++)
 			mvwaddch(stdscr, i, j, '*' | A_DIM);
 }
 
@@ -158,8 +168,8 @@ void Painter::drawTeleportPlayer(Position pos)
 
 void Painter::drawPixel(Position cell_pos, Position pixel_pos, int color_scheme, int h_movement_delay, int v_movement_delay, int rotation)
 {
-	mvwaddch(stdscr, (CELL_HEIGHT + 1) * cell_pos.y + pixel_pos.x + h_movement_delay, (CELL_WIDTH + 2) * cell_pos.x + (CELL_WIDTH - 1) * rotation + (1 - rotation * 2) * (pixel_pos.y * 2) + v_movement_delay * 2, ' ' | COLOR_PAIR(color_scheme));
-	mvwaddch(stdscr, (CELL_HEIGHT + 1) * cell_pos.y + pixel_pos.x + h_movement_delay, (CELL_WIDTH + 2) * cell_pos.x + (CELL_WIDTH - 1) * rotation + (1 - rotation * 2) * (pixel_pos.y * 2 + 1) + v_movement_delay * 2, ' ' | COLOR_PAIR(color_scheme));
+	mvwaddch(stdscr, (CELL_HEIGHT + 1) * cell_pos.getY() + pixel_pos.getX() + h_movement_delay, (CELL_WIDTH + 2) * cell_pos.getX() + (CELL_WIDTH - 1) * rotation + (1 - rotation * 2) * (pixel_pos.getY() * 2) + v_movement_delay * 2, ' ' | COLOR_PAIR(color_scheme));
+	mvwaddch(stdscr, (CELL_HEIGHT + 1) * cell_pos.getY() + pixel_pos.getX() + h_movement_delay, (CELL_WIDTH + 2) * cell_pos.getX() + (CELL_WIDTH - 1) * rotation + (1 - rotation * 2) * (pixel_pos.getY() * 2 + 1) + v_movement_delay * 2, ' ' | COLOR_PAIR(color_scheme));
 }
 
 void Painter::drawPlayer(Position pos, int direction, int movement_delay)
@@ -298,10 +308,70 @@ void Painter::drawEnemy(Position pos, int direction, int movement_delay)
 		LEFT
 	};
 
+	if (direction == DOWN)
+		movement_delay = -movement_delay;
+
 	start_color();
 	init_pair(1, COLOR_BLACK, COLOR_WHITE);
 	init_pair(4, COLOR_BLACK, COLOR_RED);
-	init_pair(5, COLOR_BLACK, COLOR_BLACK);
+
+	if (direction == DOWN || direction == UP)
+	{
+		drawPixel(pos, {0, 3}, 1, movement_delay, 0);
+		drawPixel(pos, {0, 4}, 1, movement_delay, 0);
+		drawPixel(pos, {0, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {0, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {0, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {0, 8}, 1, movement_delay, 0);
+		drawPixel(pos, {1, 2}, 1, movement_delay, 0);
+		drawPixel(pos, {1, 3}, 1, movement_delay, 0);
+		drawPixel(pos, {1, 4}, 1, movement_delay, 0);
+		drawPixel(pos, {1, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {1, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {2, 2}, 1, movement_delay, 0);
+		drawPixel(pos, {2, 3}, 1, movement_delay, 0);
+		drawPixel(pos, {2, 4}, 1, movement_delay, 0);
+		drawPixel(pos, {2, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {2, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {2, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {3, 2}, 1, movement_delay, 0);
+		drawPixel(pos, {3, 3}, 4, movement_delay, 0);
+		drawPixel(pos, {3, 4}, 5, movement_delay, 0);
+		drawPixel(pos, {3, 5}, 4, movement_delay, 0);
+		drawPixel(pos, {3, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {3, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {4, 2}, 1, movement_delay, 0);
+		drawPixel(pos, {4, 3}, 5, movement_delay, 0);
+		drawPixel(pos, {4, 4}, 5, movement_delay, 0);
+		drawPixel(pos, {4, 5}, 5, movement_delay, 0);
+		drawPixel(pos, {4, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {4, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {5, 1}, 4, movement_delay, 0);
+		drawPixel(pos, {5, 3}, 1, movement_delay, 0);
+		drawPixel(pos, {5, 4}, 1, movement_delay, 0);
+		drawPixel(pos, {5, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {5, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {6, 0}, 4, movement_delay, 0);
+		drawPixel(pos, {6, 4}, 1, movement_delay, 0);
+		drawPixel(pos, {6, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {6, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {6, 8}, 1, movement_delay, 0);
+		drawPixel(pos, {6, 9}, 1, movement_delay, 0);
+		drawPixel(pos, {7, 0}, 4, movement_delay, 0);
+		drawPixel(pos, {7, 1}, 1, movement_delay, 0);
+		drawPixel(pos, {7, 4}, 1, movement_delay, 0);
+		drawPixel(pos, {7, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {7, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {7, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {7, 8}, 1, movement_delay, 0);
+		drawPixel(pos, {8, 2}, 1, movement_delay, 0);
+		drawPixel(pos, {8, 3}, 1, movement_delay, 0);
+		drawPixel(pos, {8, 5}, 1, movement_delay, 0);
+		drawPixel(pos, {8, 6}, 1, movement_delay, 0);
+		drawPixel(pos, {8, 7}, 1, movement_delay, 0);
+		drawPixel(pos, {9, 4}, 1, movement_delay, 0);
+		return;
+	}
 
 	int rotation = 0;
 	if (direction == RIGHT)
@@ -393,7 +463,7 @@ void Painter::drawYouLose()
 		mvwaddch(stdscr, (row / 2) + 10, i, '=' | COLOR_PAIR(6));
 	}
 	mvwprintw(stdscr, (row / 2) - 5, (col / 2) - 4, "You lose");
-	mvwprintw(stdscr, (row / 2) - 3, (col / 2) - 10, "Gameplay time = %ds", std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - start));
+	mvwprintw(stdscr, (row / 2) - 3, (col / 2) - 10, "Gameplay time = %ds", std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _start));
 }
 
 void Painter::drawYouWin()
@@ -424,7 +494,7 @@ void Painter::drawYouWin()
 		mvwaddch(stdscr, (row / 2) + 10, i, '=' | COLOR_PAIR(6));
 	}
 	mvwprintw(stdscr, (row / 2) - 5, (col / 2) - 3, "You win");
-	mvwprintw(stdscr, (row / 2) - 3, (col / 2) - 10, "Gameplay time = %ds", std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - start));
+	mvwprintw(stdscr, (row / 2) - 3, (col / 2) - 10, "Gameplay time = %ds", std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _start));
 }
 
 void Painter::drawInterface(int energy, int progress)
@@ -508,6 +578,6 @@ void Painter::drawField(Field *field)
 		drawInterface(dynamic_cast<const Player *>(player_container.entity)->getEnergyRelation(), dynamic_cast<const Player *>(player_container.entity)->getProgressRelation());
 	}
 
-	mvwprintw(stdscr, row - 1, 0, "Average FPS: %d", ((std::chrono::seconds(1) * frame_no++) / (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - start) + std::chrono::seconds(1))));
+	mvwprintw(stdscr, row - 1, 0, "Average FPS: %d", ((std::chrono::seconds(1) * _frame_no++) / (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _start) + std::chrono::seconds(1))));
 	refresh();
 }
