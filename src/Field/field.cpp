@@ -195,6 +195,8 @@ void Field::addEntity(Enemy *entity, Position position)
 
 Cell *Field::getCell(Position position)
 {
+	if (position.getX() < 0 || position.getX() >= _width || position.getX() < 0 || position.getX() >= _height)
+		return nullptr;
 	return _cell_arr[position.getY()][position.getX()];
 }
 

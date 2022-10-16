@@ -26,13 +26,16 @@ MainLoop::MainLoop()
 	_interactor = new Interactor(_field, player);
 	EventFacade *event_facade = new EventFacade(_field, player);
 	_field->addEntity(player, Position(0, 0));
-	_field->addEntity(new Enemy, Position(3, 2));
-	_field->addEntity(new Enemy, Position(2, 3));
-	_field->addEntity(new Enemy, Position(3, 4));
-	_field->addEntity(new Enemy, Position(4, 3));
+	// _field->addEntity(new Enemy, Position(3, 2));
+	// _field->addEntity(new Enemy, Position(2, 3));
+	// _field->addEntity(new Enemy, Position(3, 4));
+	// _field->addEntity(new Enemy, Position(4, 3));
 
 	_field->setEventFacade(event_facade);
-	_field->getCell(Position(1, 0))->setEvent(event_facade->getEvent(new TeleportPlayer));
+	if (_field->getCell(Position(1, 0)))
+		_field->getCell(Position(1, 0))->setEvent(event_facade->getEvent(new TeleportPlayer));
+	if (_field->getCell(Position(2, 2)))
+		_field->getCell(Position(2, 2))->setEvent(event_facade->getEvent(new TeleportPlayer));
 	_field->getCell(_field->getRandomFreePosition())->setEvent(event_facade->getEvent(new SpawnEnemy));
 
 	_controller = new EnemyController(_field);
