@@ -1,4 +1,8 @@
+#include <wchar.h>
+#include <curses.h>
 #include <ncurses.h>
+#include <wctype.h>
+#include <locale.h>
 #include "painter.h"
 #include "./../Field/cell.h"
 #include "./../Field/field.h"
@@ -15,6 +19,7 @@
 
 Painter::Painter()
 {
+	setlocale(LC_ALL, "");
 	initscr();
 	noecho();
 	raw();
@@ -453,15 +458,21 @@ void Painter::drawYouLose()
 
 	for (int i = (row / 2) - 10; i <= (row / 2) + 10; i++)
 	{
-		mvwaddch(stdscr, i, (col / 2) - 30, '/' | COLOR_PAIR(6));
-		mvwaddch(stdscr, i, (col / 2) + 30, '\\' | COLOR_PAIR(6));
+		mvwaddch(stdscr, i, (col / 2) - 30, ACS_VLINE | COLOR_PAIR(6));
+		mvwaddch(stdscr, i, (col / 2) + 30, ACS_VLINE | COLOR_PAIR(6));
 	}
 
 	for (int i = (col / 2) - 30; i <= (col / 2) + 30; i++)
 	{
-		mvwaddch(stdscr, (row / 2) - 10, i, '=' | COLOR_PAIR(6));
-		mvwaddch(stdscr, (row / 2) + 10, i, '=' | COLOR_PAIR(6));
+		mvwaddch(stdscr, (row / 2) - 10, i, ACS_HLINE | COLOR_PAIR(6));
+		mvwaddch(stdscr, (row / 2) + 10, i, ACS_HLINE | COLOR_PAIR(6));
 	}
+
+	mvwaddch(stdscr, (row / 2) - 10, (col / 2) - 30, ACS_ULCORNER | COLOR_PAIR(6));
+	mvwaddch(stdscr, (row / 2) + 10, (col / 2) - 30, ACS_LLCORNER | COLOR_PAIR(6));
+	mvwaddch(stdscr, (row / 2) + 10, (col / 2) + 30, ACS_LRCORNER | COLOR_PAIR(6));
+	mvwaddch(stdscr, (row / 2) - 10, (col / 2) + 30, ACS_URCORNER | COLOR_PAIR(6));
+
 	mvwprintw(stdscr, (row / 2) - 5, (col / 2) - 4, "You lose");
 	mvwprintw(stdscr, (row / 2) - 3, (col / 2) - 10, "Gameplay time = %ds", std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _start));
 }
@@ -484,15 +495,21 @@ void Painter::drawYouWin()
 
 	for (int i = (row / 2) - 10; i <= (row / 2) + 10; i++)
 	{
-		mvwaddch(stdscr, i, (col / 2) - 30, '/' | COLOR_PAIR(6));
-		mvwaddch(stdscr, i, (col / 2) + 30, '\\' | COLOR_PAIR(6));
+		mvwaddch(stdscr, i, (col / 2) - 30, ACS_VLINE | COLOR_PAIR(6));
+		mvwaddch(stdscr, i, (col / 2) + 30, ACS_VLINE | COLOR_PAIR(6));
 	}
 
 	for (int i = (col / 2) - 30; i <= (col / 2) + 30; i++)
 	{
-		mvwaddch(stdscr, (row / 2) - 10, i, '=' | COLOR_PAIR(6));
-		mvwaddch(stdscr, (row / 2) + 10, i, '=' | COLOR_PAIR(6));
+		mvwaddch(stdscr, (row / 2) - 10, i, ACS_HLINE | COLOR_PAIR(6));
+		mvwaddch(stdscr, (row / 2) + 10, i, ACS_HLINE | COLOR_PAIR(6));
 	}
+
+	mvwaddch(stdscr, (row / 2) - 10, (col / 2) - 30, ACS_ULCORNER | COLOR_PAIR(6));
+	mvwaddch(stdscr, (row / 2) + 10, (col / 2) - 30, ACS_LLCORNER | COLOR_PAIR(6));
+	mvwaddch(stdscr, (row / 2) + 10, (col / 2) + 30, ACS_LRCORNER | COLOR_PAIR(6));
+	mvwaddch(stdscr, (row / 2) - 10, (col / 2) + 30, ACS_URCORNER | COLOR_PAIR(6));
+
 	mvwprintw(stdscr, (row / 2) - 5, (col / 2) - 3, "You win");
 	mvwprintw(stdscr, (row / 2) - 3, (col / 2) - 10, "Gameplay time = %ds", std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _start));
 }
@@ -516,7 +533,7 @@ void Painter::drawInterface(int energy, int progress)
 		for (int j = 1; j < 5; j++)
 			mvwaddch(stdscr, row - j, i, ' ' | COLOR_PAIR(6));
 	for (int i = 0; i < col; i++)
-		mvwaddch(stdscr, row - 4, i, '=' | COLOR_PAIR(6));
+		mvwaddch(stdscr, row - 4, i, ACS_S9 | COLOR_PAIR(6));
 
 	int max_px_av = col - 12;
 

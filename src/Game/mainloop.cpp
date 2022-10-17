@@ -14,6 +14,8 @@
 #include "./../Field/position.h"
 #include "./../Rendering/painter.h"
 
+#include "./../Logging/filelogger.h"
+
 MainLoop::MainLoop()
 {
 	_mediator = new Mediator;

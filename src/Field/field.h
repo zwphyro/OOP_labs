@@ -6,6 +6,7 @@
 #include <vector>
 #include "position.h"
 #include "./../Entity/entitycontainer.h"
+#include "./../Logging/observable.h"
 
 class Player;
 class Enemy;
@@ -15,7 +16,7 @@ class EventFacade;
 
 typedef std::vector<EntityContainer> EnemyVector;
 
-class Field
+class Field : public Observable
 {
 public:
 	Field(int width = 5, int height = 5);
