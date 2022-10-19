@@ -1,10 +1,10 @@
 #include "filelogger.h"
+#include "logmessage.h"
+#include "logpermissions.h"
 
-#define LOG_FILE_NAME "logs.txt"
-
-FileLogger::FileLogger()
+FileLogger::FileLogger(std::string log_file_name)
 {
-    _output_file.open(LOG_FILE_NAME);
+    _output_file.open(log_file_name);
 }
 
 FileLogger::~FileLogger()
@@ -12,7 +12,10 @@ FileLogger::~FileLogger()
     _output_file.close();
 }
 
-void FileLogger::notify(std::string message)
+void FileLogger::notify(LogMessage message)
 {
-    _output_file << message << '\n';
+    if (!_permissions)
+        return;
+    if (_permissions->getPermission(message.getLogLevel()))
+        _output_file << message;
 }

@@ -2,6 +2,7 @@
 #define OBSERVABLE_H
 
 class Observer;
+class LogMessage;
 #include <set>
 #include <string>
 
@@ -11,12 +12,12 @@ class Observable
 {
 public:
     Observable();
-    ~Observable();
+    virtual ~Observable() = 0;
     void addObserver(Observer *observer);
     void removeObserver(Observer *observer);
 
 protected:
-    void notify(std::string message) const;
+    void notify(LogMessage message) const;
 
 private:
     ObserverSet *_observers;

@@ -1,5 +1,7 @@
 #include "addprogress.h"
 #include "./../Entity/Player/player.h"
+#include "./../Logging/logmessage.h"
+#include "./../Logging/loglevel.h"
 
 AddProgress::AddProgress(Player *player) : PlayerEvent(player)
 {
@@ -20,5 +22,6 @@ AddProgress &AddProgress::operator=(const AddProgress &obj)
 bool AddProgress::action()
 {
 	_player->changeProgress(100);
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "event AddProgress triggered"));
 	return true;
 }

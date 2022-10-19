@@ -1,5 +1,6 @@
 #include "observable.h"
 #include "observer.h"
+#include "logmessage.h"
 
 Observable::Observable()
 {
@@ -28,7 +29,7 @@ void Observable::removeObserver(Observer *observer)
     }
 }
 
-void Observable::notify(std::string message) const
+void Observable::notify(LogMessage message) const
 {
     for (auto elem = _observers->begin(); elem != _observers->end(); elem++)
     {

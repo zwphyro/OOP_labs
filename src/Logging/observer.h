@@ -1,13 +1,19 @@
 #ifndef OBSERVER_H
 #define OBSERVER_H
 
-#include <string>
+class LogMessage;
+class LogPermissions;
 
 class Observer
 {
 public:
-    virtual void notify(std::string message) = 0;
+    Observer(LogPermissions *permissions = nullptr);
     virtual ~Observer() = 0;
+    void setLogPermissions(LogPermissions *permissions);
+    virtual void notify(LogMessage message) = 0;
+
+protected:
+    LogPermissions *_permissions;
 };
 
 #endif

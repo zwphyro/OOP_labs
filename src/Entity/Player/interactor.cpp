@@ -99,7 +99,10 @@ void Interactor::shoot()
 			enemys_container->erase(enemys_container->begin() + i);
 
 			damaged_cell->setEvent(_field->getEventFacade().getEvent(new AddProgress));
-			Cell *random_cell = _field->getCell(_field->getRandomFreePosition());
+			Position random_position = _field->getRandomFreePosition();
+			if (Position(-1, -1) == random_position)
+				return;
+			Cell *random_cell = _field->getCell(random_position);
 			random_cell->setEvent(_field->getEventFacade().getEvent(new SpawnEnemy));
 
 			break;

@@ -1,5 +1,5 @@
-all: main.o startdialog.o mainloop.o reader.o mediator.o painter.o eventfacade.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o enemycontroller.o position.o filelogger.o observable.o observer.o
-	g++ -g -std=c++17 main.o mainloop.o reader.o mediator.o painter.o field.o cell.o player.o enemy.o interactor.o startdialog.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfacade.o enemycontroller.o position.o filelogger.o observable.o observer.o -lncurses
+all: main.o startdialog.o mainloop.o reader.o mediator.o painter.o eventfacade.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o
+	g++ -g -std=c++17 main.o mainloop.o reader.o mediator.o painter.o field.o cell.o player.o enemy.o interactor.o startdialog.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfacade.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o -lncurses
 
 main.o: ./Game/main.cpp ./Game/mainloop.h
 	g++ -c -g -std=c++17 ./Game/main.cpp
@@ -72,6 +72,12 @@ observable.o: ./Logging/observable.cpp ./Logging/observable.h
 
 observer.o: ./Logging/observer.cpp ./Logging/observer.h
 	g++ -c -g -std=c++17 ./Logging/observer.cpp
+
+logmessage.o: ./Logging/logmessage.cpp ./Logging/logmessage.h
+	g++ -c -g -std=c++17 ./Logging/logmessage.cpp
+
+logpermissions.o: ./Logging/logpermissions.cpp ./Logging/logpermissions.h
+	g++ -c -g -std=c++17 ./Logging/logpermissions.cpp
 
 clean:
 	rm *.o; rm a.out

@@ -16,6 +16,7 @@ public:
 	Position calculateSidePosition(int direction, int max_x, int max_y);
 
 	friend bool operator==(const Position &pos_1, const Position &pos_2);
+	friend bool operator!=(const Position &pos_1, const Position &pos_2);
 
 private:
 	int _x;

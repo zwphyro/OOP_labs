@@ -3,6 +3,8 @@
 #include "./../Entity/Player/player.h"
 #include "./../Entity/enemy.h"
 #include "./../Event/eventfacade.h"
+#include "./../Logging/logmessage.h"
+#include "./../Logging/loglevel.h"
 
 Field::Field(int width, int height) : _width(width), _height(height), _event_facade(nullptr)
 {
@@ -129,6 +131,7 @@ Field::~Field()
 
 void Field::setEventFacade(EventFacade *event_facade)
 {
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "field facade set"));
 	_event_facade = event_facade;
 }
 
@@ -149,58 +152,79 @@ Position Field::getRandomFreePosition()
 		}
 	}
 	if (free_positions.size() == 0)
-		return {0, 0};
+	{
+		notify(LogMessage(LogLevels::EXCEPTIONS, "field random position rejected"));
+		return {-1, -1};
+	}
 
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "field random position sent"));
 	return free_positions.at(std::rand() % free_positions.size());
 }
 
 int Field::getWidth() const
 {
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "field width sent"));
 	return _width;
 }
 
 int Field::getHeight() const
 {
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "field height sent"));
 	return _height;
 }
 
 EntityContainer *Field::getPlayerContainer()
 {
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "field player container sent"));
 	return &_player_container;
 }
 
 EnemyVector *Field::getEnemysContainer()
 {
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "field enemy container sent"));
 	return &_enemys_container;
 }
 
 void Field::addEntity(Player *entity, Position position)
 {
 	if (position.getX() >= _width || position.getX() < 0 || position.getY() >= _height || position.getY() < 0 || _cell_arr[position.getY()][position.getX()]->isOccupied())
+	{
+		notify(LogMessage(LogLevels::EXCEPTIONS, "field player adding rejected"));
 		return;
+	}
 
 	_player_container.entity = entity;
 	_player_container.position = position;
 	_cell_arr[position.getY()][position.getX()]->playerStepped();
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "field player added"));
 }
 
 void Field::addEntity(Enemy *entity, Position position)
 {
 	if (position.getX() >= _width || position.getX() < 0 || position.getY() >= _height || position.getY() < 0 || _cell_arr[position.getY()][position.getX()]->isOccupied())
+	{
+		notify(LogMessage(LogLevels::EXCEPTIONS, "field enemy adding rejected"));
 		return;
+	}
 
 	_enemys_container.push_back({entity, position});
 	_cell_arr[position.getY()][position.getX()]->enemyStepped();
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "field enemy added"));
 }
 
 Cell *Field::getCell(Position position)
 {
-	if (position.getX() < 0 || position.getX() >= _width || position.getX() < 0 || position.getX() >= _height)
+	if (position.getX() < 0 || position.getX() >= _width || position.getX() < 0 || position.getY() >= _height)
+	{
+		notify(LogMessage(LogLevels::EXCEPTIONS, "field cell access rejected"));
 		return nullptr;
+	}
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "field cell sent"));
 	return _cell_arr[position.getY()][position.getX()];
 }
 
 EventFacade &Field::getEventFacade()
 {
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "field facade sent"));
 	return *_event_facade;
 }

@@ -2,6 +2,8 @@
 #include "./../Field/cell.h"
 #include "./../Field/field.h"
 #include "./../Entity/enemy.h"
+#include "./../Logging/logmessage.h"
+#include "./../Logging/loglevel.h"
 
 TeleportPlayer::TeleportPlayer(Field *field) : FieldEvent(field)
 {
@@ -23,8 +25,12 @@ bool TeleportPlayer::action()
 {
 	Position old_player_position = _field->getPlayerContainer()->position;
 	Position new_player_position = _field->getRandomFreePosition();
+	if (Position(-1, -1) == new_player_position)
+		return false;
+
 	_field->getPlayerContainer()->position = new_player_position;
 	_field->getCell(old_player_position)->entityGone();
 	_field->getCell(new_player_position)->playerStepped();
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "event TeleportPlayer triggered"));
 	return true;
 }
