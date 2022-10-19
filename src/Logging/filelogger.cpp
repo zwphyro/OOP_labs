@@ -9,6 +9,7 @@ FileLogger::FileLogger(std::string log_file_name)
 
 FileLogger::~FileLogger()
 {
+    _output_file << std::flush;
     _output_file.close();
 }
 

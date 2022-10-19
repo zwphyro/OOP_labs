@@ -21,7 +21,7 @@ std::ostream &operator<<(std::ostream &out, const LogMessage &obj)
         {LogLevels::EXCEPTIONS, "EXCEPTIONS"}};
 
     out << log_tags[obj._log_level];
-    out << ": " << obj._log_info << std::endl;
+    out << ": " << obj._log_info << '\n';
 
     return out;
 }

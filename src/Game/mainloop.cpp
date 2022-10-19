@@ -22,8 +22,9 @@
 
 MainLoop::MainLoop()
 {
-	LogPermissions *permissions = new LogPermissions;
-	FileLogger *logger = new FileLogger();
+	LogPermissions *permissions = _permissions = new LogPermissions;
+	permissions->setPermission(LogLevels::EXCEPTIONS, true);
+	FileLogger *logger = _logger = new FileLogger();
 	logger->setLogPermissions(permissions);
 	_mediator = new Mediator;
 	Player *player = new Player;
@@ -68,6 +69,9 @@ MainLoop::~MainLoop()
 	delete _field;
 	delete _interactor;
 	delete _controller;
+
+	delete _logger;
+	delete _permissions;
 }
 
 int MainLoop::exec()

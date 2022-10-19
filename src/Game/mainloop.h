@@ -7,6 +7,9 @@ class Field;
 class Interactor;
 class EnemyController;
 
+class FileLogger;
+class LogPermissions;
+
 class MainLoop
 {
 public:
@@ -21,6 +24,9 @@ private:
 	Field *_field;
 	Interactor *_interactor;
 	EnemyController *_controller;
+
+	FileLogger *_logger;
+	LogPermissions *_permissions;
 };
 
 #endif
