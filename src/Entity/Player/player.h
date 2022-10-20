@@ -9,6 +9,12 @@ public:
 	Player();
 	~Player();
 
+	int getDirection() const;
+	int movementDelay() const;
+
+	bool moveStart(int direction);
+	void moveCommited();
+
 	bool shootStart();
 
 	int getEnergyRelation() const;

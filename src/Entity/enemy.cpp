@@ -1,6 +1,7 @@
 #include "enemy.h"
 #include "./direction.h"
-#include "./Player/interactor.h"
+#include "./../Logging/logmessage.h"
+#include "./../Logging/loglevel.h"
 
 Enemy::Enemy()
 {
@@ -13,4 +14,28 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
+}
+
+int Enemy::getDirection() const
+{
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "enemy direction requested"));
+	return Entity::getDirection();
+}
+
+int Enemy::movementDelay() const
+{
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "enemy movement delay requested"));
+	return Entity::movementDelay();
+}
+
+bool Enemy::moveStart(int direction)
+{
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "enemy move requested"));
+	return Entity::moveStart(direction);
+}
+
+void Enemy::moveCommited()
+{
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "enemy move commited"));
+	return Entity::moveCommited();
 }

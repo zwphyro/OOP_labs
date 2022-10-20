@@ -7,13 +7,15 @@ class Field;
 class Interactor;
 class EnemyController;
 
-class FileLogger;
+class Observer;
 class LogPermissions;
 
-class MainLoop
+#include "./../Logging/observable.h"
+
+class MainLoop : public Observable
 {
 public:
-	MainLoop();
+	MainLoop(ObserverSet *observers = nullptr);
 	~MainLoop();
 
 	int exec();
@@ -24,9 +26,6 @@ private:
 	Field *_field;
 	Interactor *_interactor;
 	EnemyController *_controller;
-
-	FileLogger *_logger;
-	LogPermissions *_permissions;
 };
 
 #endif

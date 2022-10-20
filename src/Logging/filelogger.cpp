@@ -17,6 +17,6 @@ void FileLogger::notify(LogMessage message)
 {
     if (!_permissions)
         return;
-    if (_permissions->getPermission(message.getLogLevel()))
+    if (_state && _permissions->getPermission(message.getLogLevel()))
         _output_file << message;
 }

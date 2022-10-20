@@ -4,35 +4,30 @@
 
 Observable::Observable()
 {
-    _observers = new ObserverSet;
+    _observers = nullptr;
 }
 
 Observable::~Observable()
 {
-    delete _observers;
 }
 
-void Observable::addObserver(Observer *observer)
+void Observable::makeObservable(ObserverSet *observers)
 {
-    _observers->insert(observer);
+    _observers = observers;
 }
 
-void Observable::removeObserver(Observer *observer)
+void Observable::makeObservable(Observable &obj)
 {
-    for (auto elem = _observers->begin(); elem != _observers->end(); elem++)
-    {
-        if (*elem == observer)
-        {
-            _observers->erase(elem);
-            return;
-        }
-    }
+    _observers = obj._observers;
 }
 
 void Observable::notify(LogMessage message) const
 {
-    for (auto elem = _observers->begin(); elem != _observers->end(); elem++)
+    if (!_observers)
+        return;
+
+    for (auto elem : *(_observers))
     {
-        (*elem)->notify(message);
+        elem->notify(message);
     }
 }

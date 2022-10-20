@@ -21,6 +21,30 @@ Player::~Player()
 {
 }
 
+int Player::getDirection() const
+{
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "player direction requested"));
+	return Entity::getDirection();
+}
+
+int Player::movementDelay() const
+{
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "player movement delay requested"));
+	return Entity::movementDelay();
+}
+
+bool Player::moveStart(int direction)
+{
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "player move requested"));
+	return Entity::moveStart(direction);
+}
+
+void Player::moveCommited()
+{
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "player move commited"));
+	return Entity::moveCommited();
+}
+
 bool Player::shootStart()
 {
 	notify(LogMessage(LogLevels::GAME_ENTITIES, _energy >= 100 ? "player shoot triggered" : "player shoot rejected"));

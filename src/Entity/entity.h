@@ -10,13 +10,13 @@ typedef std::chrono::milliseconds Milliseconds;
 class Entity : public Observable
 {
 public:
-	int getDirection() const;
-	int movementDelay() const;
+	virtual int getDirection() const;
+	virtual int movementDelay() const;
 
-	bool moveStart(int direction);
-	void moveCommited();
+	virtual bool moveStart(int direction);
+	virtual void moveCommited();
 
-	virtual ~Entity() {}
+	virtual ~Entity() = 0;
 
 protected:
 	int _direction;

@@ -13,8 +13,8 @@ class Observable
 public:
     Observable();
     virtual ~Observable() = 0;
-    void addObserver(Observer *observer);
-    void removeObserver(Observer *observer);
+    void makeObservable(ObserverSet *observers);
+    void makeObservable(Observable &obj);
 
 protected:
     void notify(LogMessage message) const;

@@ -16,37 +16,46 @@
 #include "./../Field/position.h"
 #include "./../Rendering/painter.h"
 
-#include "./../Logging/filelogger.h"
-#include "./../Logging/logpermissions.h"
+#include "./../Logging/logmessage.h"
 #include "./../Logging/loglevel.h"
 
-MainLoop::MainLoop()
+MainLoop::MainLoop(ObserverSet *observers)
 {
-	LogPermissions *permissions = _permissions = new LogPermissions;
-	permissions->setPermission(LogLevels::EXCEPTIONS, true);
-	FileLogger *logger = _logger = new FileLogger();
-	logger->setLogPermissions(permissions);
+	makeObservable(observers);
+
 	_mediator = new Mediator;
 	Player *player = new Player;
-	player->addObserver(logger);
+	player->makeObservable(*this);
+
 	StartDialog dialog;
 	std::pair<int, int> field_sizes = dialog.getFieldSize();
 
 	_field = new Field(field_sizes.first, field_sizes.second);
-	_field->addObserver(logger);
+	_field->makeObservable(*this);
+
 	_interactor = new Interactor(_field, player);
-	EventFacade *event_facade = new EventFacade(_field, player);
-	event_facade->getEvent(new AddEnergy)->addObserver(logger);
-	event_facade->getEvent(new AddProgress)->addObserver(logger);
-	event_facade->getEvent(new SpawnEnemy)->addObserver(logger);
-	event_facade->getEvent(new TeleportPlayer)->addObserver(logger);
 
 	_field->addEntity(player, Position(0, 0));
 
-	_field->addEntity(new Enemy, Position(3, 2));
-	_field->addEntity(new Enemy, Position(2, 3));
-	_field->addEntity(new Enemy, Position(3, 4));
-	_field->addEntity(new Enemy, Position(4, 3));
+	Enemy *enemy = new Enemy;
+	enemy->makeObservable(*this);
+	_field->addEntity(enemy, Position(3, 2));
+	enemy = new Enemy;
+	enemy->makeObservable(*this);
+	_field->addEntity(enemy, Position(2, 3));
+	enemy = new Enemy;
+	enemy->makeObservable(*this);
+	_field->addEntity(enemy, Position(3, 4));
+	enemy = new Enemy;
+	enemy->makeObservable(*this);
+	_field->addEntity(enemy, Position(4, 3));
+
+	EventFacade *event_facade = new EventFacade(_field, player);
+
+	event_facade->getEvent(new AddEnergy)->makeObservable(*this);
+	event_facade->getEvent(new AddProgress)->makeObservable(*this);
+	event_facade->getEvent(new SpawnEnemy)->makeObservable(*this);
+	event_facade->getEvent(new TeleportPlayer)->makeObservable(*this);
 
 	_field->setEventFacade(event_facade);
 	if (_field->getCell(Position(1, 0)))
@@ -70,12 +79,12 @@ MainLoop::~MainLoop()
 	delete _interactor;
 	delete _controller;
 
-	delete _logger;
-	delete _permissions;
+	notify(LogMessage(LogLevels::GAME_STATES, "game ended"));
 }
 
 int MainLoop::exec()
 {
+	notify(LogMessage(LogLevels::GAME_STATES, "game started"));
 	int command;
 
 	while (true)

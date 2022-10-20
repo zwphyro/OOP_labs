@@ -28,7 +28,11 @@ bool SpawnEnemy::action()
 	Position random_position = _field->getRandomFreePosition();
 	if (Position(-1, -1) == random_position)
 		return false;
-	_field->addEntity(new Enemy, random_position);
+
+	Enemy *new_enemy = new Enemy;
+	new_enemy->makeObservable(*this);
+
+	_field->addEntity(new_enemy, random_position);
 	_field->getCell(_field->getPlayerContainer()->position)->setEvent(_field->getEventFacade().getEvent(new AddEnergy));
 	_field->getCell(_field->getPlayerContainer()->position)->playerStepped();
 	notify(LogMessage(LogLevels::GAME_ENTITIES, "event SpawnEnemy triggered"));

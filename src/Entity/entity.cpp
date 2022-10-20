@@ -1,6 +1,10 @@
 #include <cmath>
 #include "entity.h"
 
+Entity::~Entity()
+{
+}
+
 int Entity::getDirection() const
 {
 	return _direction;
