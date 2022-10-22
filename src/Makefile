@@ -1,5 +1,5 @@
-all: main.o startdialog.o mainloop.o reader.o mediator.o painter.o eventfacade.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o
-	g++ -g -std=c++17 main.o mainloop.o reader.o mediator.o painter.o field.o cell.o player.o enemy.o interactor.o startdialog.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfacade.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o -lncurses
+all: main.o startdialog.o mainloop.o reader.o mediator.o painter.o eventfacade.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o
+	g++ -g -std=c++17 main.o mainloop.o reader.o mediator.o painter.o field.o cell.o player.o enemy.o interactor.o startdialog.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfacade.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o -lncurses
 
 main.o: ./Game/main.cpp ./Game/mainloop.h
 	g++ -c -g -std=c++17 ./Game/main.cpp
@@ -84,6 +84,27 @@ consolelogger.o: ./Logging/consolelogger.cpp ./Logging/consolelogger.h
 
 gamecontroller.o: ./Game/gamecontroller.cpp ./Game/gamecontroller.h
 	g++ -c -g -std=c++17 ./Game/gamecontroller.cpp
+
+entitycontainer.o: ./Entity/entitycontainer.cpp ./Entity/entitycontainer.h 
+	g++ -c -g -std=c++17 ./Entity/entitycontainer.cpp
+
+menubuilder.o: ./Game/Menu/menubuilder.cpp ./Game/Menu/menubuilder.h ./Game/Menu/menucontroller.h ./Game/Menu/menumodel.h ./Game/Menu/menuview.h ./Game/Menu/menuparameters.h
+	g++ -c -g -std=c++17 ./Game/Menu/menubuilder.cpp
+
+menucontroller.o: ./Game/Menu/menucontroller.cpp ./Game/Menu/menucontroller.h ./Game/Menu/menumodel.h
+	g++ -c -g -std=c++17 ./Game/Menu/menucontroller.cpp -lncurses
+
+menumodel.o: ./Game/Menu/menumodel.cpp ./Game/Menu/menumodel.h ./Game/Menu/model.h ./Game/Menu/menuparameters.cpp
+	g++ -c -g -std=c++17 ./Game/Menu/menumodel.cpp
+
+menuparameters.o: ./Game/Menu/menuparameters.cpp ./Game/Menu/menuparameters.h
+	g++ -c -g -std=c++17 ./Game/Menu/menuparameters.cpp
+
+menuview.o: ./Game/Menu/menuview.cpp ./Game/Menu/menuview.h ./Game/Menu/menuparameters.h
+	g++ -c -g -std=c++17 ./Game/Menu/menuview.cpp -lncurses
+
+model.o: ./Game/Menu/model.cpp ./Game/Menu/model.h ./Game/Menu/view.h
+	g++ -c -g -std=c++17 ./Game/Menu/model.cpp
 
 clean:
 	rm *.o; rm a.out

@@ -27,7 +27,7 @@ bool AddEnergy::action()
 		return false;
 	}
 
-	_player->changeEnergy(70);
+	_player->changeEnergy(2000);
 	notify(LogMessage(LogLevels::GAME_ENTITIES, "event AddEnergy triggered"));
 	return true;
 }

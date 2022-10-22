@@ -34,10 +34,13 @@ public:
 	void addEntity(Enemy *entity, Position position);
 
 	Cell *getCell(Position position);
+	Cell getCell(Position position) const;
 	EventFacade &getEventFacade();
 
 	EntityContainer *getPlayerContainer();
+	const EntityContainer *getPlayerContainer() const;
 	EnemyVector *getEnemysContainer();
+	const EnemyVector getEnemysContainer() const;
 
 	int getWidth() const;
 	int getHeight() const;

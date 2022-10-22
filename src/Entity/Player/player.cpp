@@ -12,9 +12,9 @@ Player::Player()
 	_previous_movement_time = std::chrono::steady_clock::now() - _time_delay;
 
 	_energy = 0;
-	_max_energy = 1000;
-	_progress = 500;
-	_max_progress = 1000;
+	_max_energy = 30000;
+	_progress = 15000;
+	_max_progress = 30000;
 }
 
 Player::~Player()
@@ -47,8 +47,8 @@ void Player::moveCommited()
 
 bool Player::shootStart()
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, _energy >= 100 ? "player shoot triggered" : "player shoot rejected"));
-	return _energy >= 100;
+	notify(LogMessage(LogLevels::GAME_ENTITIES, _energy >= 3000 ? "player shoot triggered" : "player shoot rejected"));
+	return _energy >= 3000;
 }
 
 int Player::getEnergyRelation() const

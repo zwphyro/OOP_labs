@@ -12,7 +12,7 @@ public:
 	Painter();
 	~Painter();
 
-	void drawField(Field *field);
+	void drawField(const Field *field);
 
 private:
 	std::chrono::time_point<std::chrono::steady_clock> _start;

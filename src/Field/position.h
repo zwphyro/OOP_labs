@@ -4,7 +4,7 @@
 class Position
 {
 public:
-	Position(int x = 0, int y = 0);
+	Position(int x = -1, int y = -1);
 
 	void setX(int x);
 	void setY(int y);

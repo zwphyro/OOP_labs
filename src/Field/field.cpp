@@ -19,7 +19,7 @@ Field::Field(int width, int height) : _width(width), _height(height), _event_fac
 		}
 	}
 
-	_player_container.entity = nullptr;
+	_player_container.setEntity(nullptr);
 }
 
 Field::Field(const Field &obj) : _width(obj._width), _height(obj._height), _player_container(obj._player_container)
@@ -123,7 +123,7 @@ Field::~Field()
 	}
 
 	for (auto elem : _enemys_container)
-		delete elem.entity;
+		delete elem.getEntity();
 
 	if (_event_facade)
 		delete _event_facade;
@@ -179,10 +179,20 @@ EntityContainer *Field::getPlayerContainer()
 	return &_player_container;
 }
 
+const EntityContainer *Field::getPlayerContainer() const
+{
+	return &_player_container;
+}
+
 EnemyVector *Field::getEnemysContainer()
 {
 	notify(LogMessage(LogLevels::GAME_ENTITIES, "field enemy container sent"));
 	return &_enemys_container;
+}
+
+const EnemyVector Field::getEnemysContainer() const
+{
+	return _enemys_container;
 }
 
 void Field::addEntity(Player *entity, Position position)
@@ -193,8 +203,8 @@ void Field::addEntity(Player *entity, Position position)
 		return;
 	}
 
-	_player_container.entity = entity;
-	_player_container.position = position;
+	_player_container.setEntity(entity);
+	_player_container.setPosition(position);
 	_cell_arr[position.getY()][position.getX()]->playerStepped();
 	notify(LogMessage(LogLevels::GAME_ENTITIES, "field player added"));
 }
@@ -221,6 +231,17 @@ Cell *Field::getCell(Position position)
 	}
 	notify(LogMessage(LogLevels::GAME_ENTITIES, "field cell sent"));
 	return _cell_arr[position.getY()][position.getX()];
+}
+
+Cell Field::getCell(Position position) const
+{
+	if (position.getX() < 0 || position.getX() >= _width || position.getX() < 0 || position.getY() >= _height)
+	{
+		notify(LogMessage(LogLevels::EXCEPTIONS, "field cell access rejected"));
+		return nullptr;
+	}
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "field cell sent"));
+	return Cell(*_cell_arr[position.getY()][position.getX()]);
 }
 
 EventFacade &Field::getEventFacade()

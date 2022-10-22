@@ -34,8 +34,8 @@ void Interactor::updatePlayer(int command)
 	if (_player->getProgressRelation() == 100 || _player->getProgressRelation() == 0)
 		return;
 
-	_player->changeEnergy();
-	_player->changeProgress();
+	_player->changeEnergy(+10);
+	_player->changeProgress(-10);
 	_player->changeSpeed();
 
 	switch (command)
@@ -63,14 +63,14 @@ void Interactor::movePlayer(int direction)
 		return;
 
 	EntityContainer *player_container = _field->getPlayerContainer();
-	Position new_position = player_container->position.calculateSidePosition(direction, _field->getWidth(), _field->getHeight());
+	Position new_position = player_container->getPosition().calculateSidePosition(direction, _field->getWidth(), _field->getHeight());
 
 	Cell *new_player_cell = _field->getCell(new_position);
-	Cell *old_player_cell = _field->getCell(player_container->position);
+	Cell *old_player_cell = _field->getCell(player_container->getPosition());
 	if (new_player_cell->isOccupied())
 		return;
 
-	player_container->position = new_position;
+	player_container->setPosition(new_position);
 	old_player_cell->entityGone();
 	new_player_cell->playerStepped();
 	_player->moveCommited();
@@ -80,10 +80,10 @@ void Interactor::shoot()
 {
 	if (!_player->shootStart())
 		return;
-	_player->changeEnergy(-100);
+	_player->changeEnergy(-3000);
 
 	EntityContainer *player_container = _field->getPlayerContainer();
-	Position damaged_position = player_container->position.calculateSidePosition(_player->getDirection(), _field->getWidth(), _field->getHeight());
+	Position damaged_position = player_container->getPosition().calculateSidePosition(_player->getDirection(), _field->getWidth(), _field->getHeight());
 
 	Cell *damaged_cell = _field->getCell(damaged_position);
 	if (!damaged_cell->isOccupied())
@@ -92,10 +92,10 @@ void Interactor::shoot()
 	EnemyVector *enemys_container = _field->getEnemysContainer();
 	for (int i = 0; i < enemys_container->size(); i++)
 	{
-		if (damaged_position == enemys_container->at(i).position)
+		if (damaged_position == enemys_container->at(i).getPosition())
 		{
 			damaged_cell->entityGone();
-			delete enemys_container->at(i).entity;
+			delete enemys_container->at(i).getEntity();
 			enemys_container->erase(enemys_container->begin() + i);
 
 			damaged_cell->setEvent(_field->getEventFacade().getEvent(new AddProgress));

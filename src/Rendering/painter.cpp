@@ -13,6 +13,7 @@
 #include "./../Event/addprogress.h"
 #include "./../Event/spawnenemy.h"
 #include "./../Event/teleportplayer.h"
+#include "./../Entity/direction.h"
 
 #define CELL_WIDTH 20
 #define CELL_HEIGHT 10
@@ -23,10 +24,22 @@ Painter::Painter()
 	initscr();
 	noecho();
 	raw();
-	halfdelay(1);
 	keypad(stdscr, true);
+	leaveok(stdscr, true);
+	curs_set(0);
+	timeout(15);
 	_start = std::chrono::steady_clock::now();
 	_frame_no = 1;
+
+	start_color();
+	init_pair(1, COLOR_BLACK, COLOR_WHITE);
+	init_pair(2, COLOR_BLACK, COLOR_GREEN);
+	init_pair(3, COLOR_BLACK, COLOR_BLUE);
+	init_pair(4, COLOR_BLACK, COLOR_RED);
+	init_pair(6, COLOR_WHITE, COLOR_BLACK);
+	init_pair(7, COLOR_MAGENTA, COLOR_BLACK);
+	init_pair(8, COLOR_BLUE, COLOR_BLACK);
+	init_pair(9, COLOR_BLACK, COLOR_MAGENTA);
 }
 
 Painter::~Painter()
@@ -45,9 +58,6 @@ void Painter::drawEmptyCell(Position pos)
 
 void Painter::drawAddProgress(Position pos)
 {
-	start_color();
-	init_pair(9, COLOR_BLACK, COLOR_MAGENTA);
-
 	drawPixel(pos, {1, 1}, 9, 0, 0);
 	drawPixel(pos, {1, 4}, 9, 0, 0);
 	drawPixel(pos, {2, 7}, 9, 0, 0);
@@ -69,9 +79,6 @@ void Painter::drawAddProgress(Position pos)
 
 void Painter::drawAddEnergy(Position pos)
 {
-	start_color();
-	init_pair(3, COLOR_BLACK, COLOR_BLUE);
-
 	drawPixel(pos, {1, 1}, 3, 0, 0);
 	drawPixel(pos, {1, 4}, 3, 0, 0);
 	drawPixel(pos, {2, 7}, 3, 0, 0);
@@ -93,10 +100,6 @@ void Painter::drawAddEnergy(Position pos)
 
 void Painter::drawSpawnEnemy(Position pos)
 {
-	start_color();
-	init_pair(1, COLOR_BLACK, COLOR_WHITE);
-	init_pair(3, COLOR_BLACK, COLOR_BLUE);
-
 	drawPixel(pos, {0, 4}, 3, 0, 0);
 	drawPixel(pos, {1, 4}, 3, 0, 0);
 	drawPixel(pos, {1, 6}, 3, 0, 0);
@@ -137,10 +140,6 @@ void Painter::drawSpawnEnemy(Position pos)
 
 void Painter::drawTeleportPlayer(Position pos)
 {
-	start_color();
-	init_pair(3, COLOR_BLACK, COLOR_BLUE);
-	init_pair(4, COLOR_BLACK, COLOR_RED);
-
 	drawPixel(pos, {1, 3}, 3, 0, 0);
 	drawPixel(pos, {1, 4}, 3, 0, 0);
 	drawPixel(pos, {1, 5}, 3, 0, 0);
@@ -179,23 +178,10 @@ void Painter::drawPixel(Position cell_pos, Position pixel_pos, int color_scheme,
 
 void Painter::drawPlayer(Position pos, int direction, int movement_delay)
 {
-	enum
-	{
-		UP,
-		DOWN,
-		RIGHT,
-		LEFT
-	};
-
-	if (direction == DOWN)
+	if (direction == Direction::DOWN)
 		movement_delay = -movement_delay;
 
-	start_color();
-	init_pair(1, COLOR_BLACK, COLOR_WHITE);
-	init_pair(2, COLOR_BLACK, COLOR_GREEN);
-	init_pair(3, COLOR_BLACK, COLOR_BLUE);
-
-	if (direction == DOWN || direction == UP)
+	if (direction == Direction::DOWN || direction == Direction::UP)
 	{
 		drawPixel(pos, {0, 2}, 1, movement_delay, 0);
 		drawPixel(pos, {0, 3}, 1, movement_delay, 0);
@@ -247,7 +233,7 @@ void Painter::drawPlayer(Position pos, int direction, int movement_delay)
 	}
 
 	int rotation = 0;
-	if (direction == RIGHT)
+	if (direction == Direction::RIGHT)
 	{
 		movement_delay = -movement_delay;
 		rotation = 1;
@@ -305,22 +291,10 @@ void Painter::drawPlayer(Position pos, int direction, int movement_delay)
 
 void Painter::drawEnemy(Position pos, int direction, int movement_delay)
 {
-	enum
-	{
-		UP,
-		DOWN,
-		RIGHT,
-		LEFT
-	};
-
-	if (direction == DOWN)
+	if (direction == Direction::DOWN)
 		movement_delay = -movement_delay;
 
-	start_color();
-	init_pair(1, COLOR_BLACK, COLOR_WHITE);
-	init_pair(4, COLOR_BLACK, COLOR_RED);
-
-	if (direction == DOWN || direction == UP)
+	if (direction == Direction::DOWN || direction == Direction::UP)
 	{
 		drawPixel(pos, {0, 3}, 1, movement_delay, 0);
 		drawPixel(pos, {0, 4}, 1, movement_delay, 0);
@@ -379,7 +353,7 @@ void Painter::drawEnemy(Position pos, int direction, int movement_delay)
 	}
 
 	int rotation = 0;
-	if (direction == RIGHT)
+	if (direction == Direction::RIGHT)
 	{
 		movement_delay = -movement_delay;
 		rotation = 1;
@@ -445,9 +419,6 @@ void Painter::drawYouLose()
 	int row, col;
 	getmaxyx(stdscr, row, col);
 
-	start_color();
-	init_pair(6, COLOR_WHITE, COLOR_BLACK);
-
 	for (int i = (col / 2) - 30; i <= (col / 2) + 30; i++)
 	{
 		for (int j = (row / 2) - 10; j <= (row / 2) + 10; j++)
@@ -481,9 +452,6 @@ void Painter::drawYouWin()
 {
 	int row, col;
 	getmaxyx(stdscr, row, col);
-
-	start_color();
-	init_pair(6, COLOR_WHITE, COLOR_BLACK);
 
 	for (int i = (col / 2) - 30; i <= (col / 2) + 30; i++)
 	{
@@ -524,11 +492,6 @@ void Painter::drawInterface(int energy, int progress)
 	int row, col;
 	getmaxyx(stdscr, row, col);
 
-	start_color();
-	init_pair(6, COLOR_WHITE, COLOR_BLACK);
-	init_pair(7, COLOR_MAGENTA, COLOR_BLACK);
-	init_pair(8, COLOR_BLUE, COLOR_BLACK);
-
 	for (int i = 0; i < col; i++)
 		for (int j = 1; j < 5; j++)
 			mvwaddch(stdscr, row - j, i, ' ' | COLOR_PAIR(6));
@@ -549,7 +512,7 @@ void Painter::drawInterface(int energy, int progress)
 	}
 }
 
-void Painter::drawField(Field *field)
+void Painter::drawField(const Field *field)
 {
 	clear();
 
@@ -563,7 +526,7 @@ void Painter::drawField(Field *field)
 		for (int j = 0; j < field->getHeight(); j++)
 		{
 			drawEmptyCell({i, j});
-			event = field->getCell({i, j})->getEvent();
+			event = field->getCell({i, j}).getEvent();
 			if (dynamic_cast<const AddProgress *>(event))
 			{
 				drawAddProgress({i, j});
@@ -583,16 +546,16 @@ void Painter::drawField(Field *field)
 		}
 	}
 
-	for (auto elem : *(field->getEnemysContainer()))
+	for (auto elem : field->getEnemysContainer())
 	{
-		drawEnemy(elem.position, elem.entity->getDirection(), elem.entity->movementDelay());
+		drawEnemy(elem.getPosition(), elem.getEntity()->getDirection(), elem.getEntity()->movementDelay());
 	}
 
 	EntityContainer player_container = *(field->getPlayerContainer());
-	if (player_container.entity != nullptr)
+	if (player_container.getEntity() != nullptr)
 	{
-		drawPlayer(player_container.position, player_container.entity->getDirection(), player_container.entity->movementDelay());
-		drawInterface(dynamic_cast<const Player *>(player_container.entity)->getEnergyRelation(), dynamic_cast<const Player *>(player_container.entity)->getProgressRelation());
+		drawPlayer(player_container.getPosition(), player_container.getEntity()->getDirection(), player_container.getEntity()->movementDelay());
+		drawInterface(dynamic_cast<const Player *>(player_container.getEntity())->getEnergyRelation(), dynamic_cast<const Player *>(player_container.getEntity())->getProgressRelation());
 	}
 
 	mvwprintw(stdscr, row - 1, 0, "Average FPS: %d", ((std::chrono::seconds(1) * _frame_no++) / (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _start) + std::chrono::seconds(1))));
