@@ -1,5 +1,4 @@
 #include "mainloop.h"
-#include "./../Reading/startdialog.h"
 #include "./../Reading/mediator.h"
 #include "./../Reading/commands.h"
 #include "./../Entity/enemy.h"
@@ -27,10 +26,7 @@ MainLoop::MainLoop(ObserverSet *observers)
 	Player *player = new Player;
 	player->makeObservable(*this);
 
-	StartDialog dialog;
-	std::pair<int, int> field_sizes = dialog.getFieldSize();
-
-	_field = new Field(field_sizes.first, field_sizes.second);
+	_field = new Field();
 	_field->makeObservable(*this);
 
 	_interactor = new Interactor(_field, player);

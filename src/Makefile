@@ -1,13 +1,10 @@
-all: main.o startdialog.o mainloop.o reader.o mediator.o painter.o eventfacade.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o
-	g++ -g -std=c++17 main.o mainloop.o reader.o mediator.o painter.o field.o cell.o player.o enemy.o interactor.o startdialog.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfacade.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o -lncurses
+all: main.o mainloop.o reader.o mediator.o painter.o eventfacade.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o screeninitializer.o optionsview.o optionsbuilder.o optionscontroller.o optionsmodel.o optionsparameters.o
+	g++ -g -std=c++17 main.o mainloop.o reader.o mediator.o painter.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfacade.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o screeninitializer.o optionsview.o optionsbuilder.o optionscontroller.o optionsmodel.o optionsparameters.o -lncurses
 
 main.o: ./Game/main.cpp ./Game/mainloop.h
 	g++ -c -g -std=c++17 ./Game/main.cpp
 
-startdialog.o: ./Reading/startdialog.cpp ./Reading/startdialog.h 
-	g++ -c -g -std=c++17 ./Reading/startdialog.cpp
-
-mainloop.o: ./Game/mainloop.cpp ./Game/mainloop.h ./Event/eventfacade.h ./Field/cell.h ./Reading/startdialog.h ./Field/position.h ./Reading/mediator.h ./Rendering/painter.h ./Field/field.h ./Entity/Player/interactor.h ./Entity/Player/player.h ./Entity/enemy.h ./Entity/Enemy/enemycontroller.h ./Event/spawnenemy.h ./Event/teleportplayer.h ./Reading/commands.h
+mainloop.o: ./Game/mainloop.cpp ./Game/mainloop.h ./Event/eventfacade.h ./Field/cell.h ./Field/position.h ./Reading/mediator.h ./Rendering/painter.h ./Field/field.h ./Entity/Player/interactor.h ./Entity/Player/player.h ./Entity/enemy.h ./Entity/Enemy/enemycontroller.h ./Event/spawnenemy.h ./Event/teleportplayer.h ./Reading/commands.h
 	g++ -c -g -std=c++17 ./Game/mainloop.cpp
 
 eventfacade.o: ./Event/eventfacade.cpp ./Event/eventfacade.h ./Event/addprogress.h ./Event/addenergy.h ./Event/spawnenemy.h ./Event/teleportplayer.h
@@ -88,23 +85,41 @@ gamecontroller.o: ./Game/gamecontroller.cpp ./Game/gamecontroller.h
 entitycontainer.o: ./Entity/entitycontainer.cpp ./Entity/entitycontainer.h 
 	g++ -c -g -std=c++17 ./Entity/entitycontainer.cpp
 
-menubuilder.o: ./Game/Menu/menubuilder.cpp ./Game/Menu/menubuilder.h ./Game/Menu/menucontroller.h ./Game/Menu/menumodel.h ./Game/Menu/menuview.h ./Game/Menu/menuparameters.h
-	g++ -c -g -std=c++17 ./Game/Menu/menubuilder.cpp
+menubuilder.o: ./Interface/Menu/menubuilder.cpp ./Interface/Menu/menubuilder.h ./Interface/Menu/menucontroller.h ./Interface/Menu/menumodel.h ./Rendering/Views/menuview.h ./Interface/Menu/menuparameters.h
+	g++ -c -g -std=c++17 ./Interface/Menu/menubuilder.cpp
 
-menucontroller.o: ./Game/Menu/menucontroller.cpp ./Game/Menu/menucontroller.h ./Game/Menu/menumodel.h
-	g++ -c -g -std=c++17 ./Game/Menu/menucontroller.cpp -lncurses
+menucontroller.o: ./Interface/Menu/menucontroller.cpp ./Interface/Menu/menucontroller.h ./Interface/Menu/menumodel.h
+	g++ -c -g -std=c++17 ./Interface/Menu/menucontroller.cpp -lncurses
 
-menumodel.o: ./Game/Menu/menumodel.cpp ./Game/Menu/menumodel.h ./Game/Menu/model.h ./Game/Menu/menuparameters.cpp
-	g++ -c -g -std=c++17 ./Game/Menu/menumodel.cpp
+menumodel.o: ./Interface/Menu/menumodel.cpp ./Interface/Menu/menumodel.h ./Model/model.h ./Interface/Menu/menuparameters.cpp
+	g++ -c -g -std=c++17 ./Interface/Menu/menumodel.cpp
 
-menuparameters.o: ./Game/Menu/menuparameters.cpp ./Game/Menu/menuparameters.h
-	g++ -c -g -std=c++17 ./Game/Menu/menuparameters.cpp
+menuparameters.o: ./Interface/Menu/menuparameters.cpp ./Interface/Menu/menuparameters.h
+	g++ -c -g -std=c++17 ./Interface/Menu/menuparameters.cpp
 
-menuview.o: ./Game/Menu/menuview.cpp ./Game/Menu/menuview.h ./Game/Menu/menuparameters.h
-	g++ -c -g -std=c++17 ./Game/Menu/menuview.cpp -lncurses
+menuview.o: ./Rendering/Views/menuview.cpp ./Rendering/Views/menuview.h ./Interface/Menu/menuparameters.h
+	g++ -c -g -std=c++17 ./Rendering/Views/menuview.cpp -lncurses
 
-model.o: ./Game/Menu/model.cpp ./Game/Menu/model.h ./Game/Menu/view.h
-	g++ -c -g -std=c++17 ./Game/Menu/model.cpp
+model.o: ./Model/model.cpp ./Model/model.h ./Rendering/view.h
+	g++ -c -g -std=c++17 ./Model/model.cpp
+
+screeninitializer.o: ./Rendering/screeninitializer.cpp ./Rendering/screeninitializer.h
+	g++ -c -g -std=c++17 ./Rendering/screeninitializer.cpp
+
+optionsview.o: ./Rendering/Views/optionsview.cpp ./Rendering/Views/optionsview.h ./Rendering/view.h ./Interface/Options/optionsparameters.h
+	g++ -c -g -std=c++17 ./Rendering/Views/optionsview.cpp -lncurses
+
+optionsbuilder.o: ./Interface/Options/optionsbuilder.cpp ./Interface/Options/optionsbuilder.h ./Interface/Options/optionscontroller.h ./Interface/Options/optionsmodel.h ./Interface/Options/optionsparameters.h ./Rendering/Views/optionsview.h
+	g++ -c -g -std=c++17 ./Interface/Options/optionsbuilder.cpp
+
+optionscontroller.o: ./Interface/Options/optionscontroller.cpp ./Interface/Options/optionscontroller.h ./Interface/Options/optionsmodel.h ./Reading/reader.h
+	g++ -c -g -std=c++17 ./Interface/Options/optionscontroller.cpp -lncurses
+
+optionsmodel.o: ./Interface/Options/optionsmodel.cpp ./Interface/Options/optionsmodel.h ./Model/model.h ./Interface/Options/optionsparameters.h
+	g++ -c -g -std=c++17 ./Interface/Options/optionsmodel.cpp
+
+optionsparameters.o: ./Interface/Options/optionsparameters.cpp ./Interface/Options/optionsparameters.h
+	g++ -c -g -std=c++17 ./Interface/Options/optionsparameters.cpp
 
 clean:
 	rm *.o; rm a.out

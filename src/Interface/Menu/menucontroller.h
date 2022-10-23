@@ -12,7 +12,6 @@ public:
 
 private:
     MenuModel *_model;
-    int getCommand();
 };
 
 #endif

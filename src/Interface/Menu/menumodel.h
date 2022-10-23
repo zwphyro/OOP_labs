@@ -1,20 +1,27 @@
 #ifndef MENUMODEL_H
 #define MENUMODEL_H
 
-#include "model.h"
+#include "./../../Model/model.h"
 class MenuParameters;
+class OptionsBuilder;
 
 class MenuModel : public Model
 {
 public:
     MenuModel(MenuParameters *parameters = nullptr);
-    void setMenuparameters(MenuParameters *parameters);
+    void setMenuParameters(MenuParameters *parameters);
     void selectNextOption();
     void selectPreviousOption();
-    void processOption();
+    int processOption();
+    enum ReturnValue
+    {
+        CONTINUE,
+        QUIT
+    };
 
 private:
     MenuParameters *_parameters;
+    OptionsBuilder *_options_builder;
 };
 
 #endif

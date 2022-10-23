@@ -10,7 +10,7 @@ Mediator::Mediator()
 	_move_left_key_code = 261;
 	_move_right_key_code = 260;
 	_shoot_key_code = ' ';
-	_quit_key_code = 'q';
+	_quit_key_code = 27;
 }
 
 Mediator::~Mediator()

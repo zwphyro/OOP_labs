@@ -1,5 +1,5 @@
 #include "model.h"
-#include "view.h"
+#include "./../Rendering/view.h"
 
 Model::Model(View *view) : _view(view)
 {

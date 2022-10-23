@@ -1,5 +1,6 @@
 #include "menucontroller.h"
 #include "menumodel.h"
+#include "./../../Reading/reader.h"
 #include <ncurses.h>
 
 MenuController::MenuController(MenuModel *model) : _model(model)
@@ -13,10 +14,12 @@ void MenuController::setModel(MenuModel *model)
 
 void MenuController::exec()
 {
+    Reader reader;
     int key;
+    int return_value = MenuModel::ReturnValue::CONTINUE;
     while (true)
     {
-        key = getCommand();
+        key = reader.getPressedKey();
 
         if (key == 27)
             break;
@@ -32,15 +35,13 @@ void MenuController::exec()
             _model->selectPreviousOption();
             break;
         case 10:
-            _model->processOption();
+            return_value = _model->processOption();
             break;
         default:
             break;
         }
-    }
-}
 
-int MenuController::getCommand()
-{
-    return getch();
+        if (return_value == MenuModel::ReturnValue::QUIT)
+            break;
+    }
 }

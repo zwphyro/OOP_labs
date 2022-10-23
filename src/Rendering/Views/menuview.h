@@ -1,7 +1,7 @@
 #ifndef MENUVIEW_H
 #define MENUVIEW_H
 
-#include "view.h"
+#include "./../view.h"
 class MenuParameters;
 
 class MenuView : public View

@@ -1,8 +1,8 @@
 #include "menubuilder.h"
 #include "menucontroller.h"
 #include "menumodel.h"
-#include "menuview.h"
 #include "menuparameters.h"
+#include "./../../Rendering/Views/menuview.h"
 
 MenuBuilder::MenuBuilder()
 {
