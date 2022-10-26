@@ -31,12 +31,12 @@ void Cell::setEvent(Event *event)
 	_current_event = event;
 }
 
-const Event *Cell::getEvent()
+const Event *Cell::getEvent() const
 {
 	return _current_event;
 }
 
-bool Cell::isOccupied()
+bool Cell::isOccupied() const
 {
 	return _occupied;
 }

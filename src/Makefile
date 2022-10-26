@@ -1,11 +1,8 @@
-all: main.o mainloop.o reader.o mediator.o painter.o eventfacade.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o screeninitializer.o optionsview.o optionsbuilder.o optionscontroller.o optionsmodel.o optionsparameters.o
-	g++ -g -std=c++17 main.o mainloop.o reader.o mediator.o painter.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfacade.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o screeninitializer.o optionsview.o optionsbuilder.o optionscontroller.o optionsmodel.o optionsparameters.o -lncurses
+all: main.o reader.o mediator.o painter.o eventfacade.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o screeninitializer.o optionsview.o optionsbuilder.o optionscontroller.o optionsmodel.o optionsparameters.o logsystem.o
+	g++ -g -std=c++17 main.o reader.o mediator.o painter.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfacade.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o screeninitializer.o optionsview.o optionsbuilder.o optionscontroller.o optionsmodel.o optionsparameters.o logsystem.o -lncurses
 
-main.o: ./Game/main.cpp ./Game/mainloop.h
+main.o: ./Game/main.cpp
 	g++ -c -g -std=c++17 ./Game/main.cpp
-
-mainloop.o: ./Game/mainloop.cpp ./Game/mainloop.h ./Event/eventfacade.h ./Field/cell.h ./Field/position.h ./Reading/mediator.h ./Rendering/painter.h ./Field/field.h ./Entity/Player/interactor.h ./Entity/Player/player.h ./Entity/enemy.h ./Entity/Enemy/enemycontroller.h ./Event/spawnenemy.h ./Event/teleportplayer.h ./Reading/commands.h
-	g++ -c -g -std=c++17 ./Game/mainloop.cpp
 
 eventfacade.o: ./Event/eventfacade.cpp ./Event/eventfacade.h ./Event/addprogress.h ./Event/addenergy.h ./Event/spawnenemy.h ./Event/teleportplayer.h
 	g++ -c -g -std=c++17 ./Event/eventfacade.cpp
@@ -120,6 +117,9 @@ optionsmodel.o: ./Interface/Options/optionsmodel.cpp ./Interface/Options/options
 
 optionsparameters.o: ./Interface/Options/optionsparameters.cpp ./Interface/Options/optionsparameters.h
 	g++ -c -g -std=c++17 ./Interface/Options/optionsparameters.cpp
+
+logsystem.o: ./Logging/logsystem.cpp ./Logging/logsystem.h
+	g++ -c -g -std=c++17 ./Logging/logsystem.cpp
 
 clean:
 	rm *.o; rm a.out

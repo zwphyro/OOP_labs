@@ -3,24 +3,25 @@
 
 class Observer;
 class LogMessage;
-#include <set>
-#include <string>
+#include <vector>
 
-typedef std::set<Observer *> ObserverSet;
+typedef std::vector<Observer *> ObserverVector;
 
 class Observable
 {
 public:
     Observable();
     virtual ~Observable() = 0;
-    void makeObservable(ObserverSet *observers);
+    void addObserver(Observer *observer);
+    void removeObserver(Observer *observer);
+    void makeObservable(ObserverVector *observers);
     void makeObservable(Observable &obj);
 
 protected:
     void notify(LogMessage message) const;
 
 private:
-    ObserverSet *_observers;
+    ObserverVector *_observers;
 };
 
 #endif

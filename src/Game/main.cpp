@@ -7,11 +7,8 @@
 
 int main(int argc, char **argv)
 {
-	// GameController game;
-	// return game.exec();
 	ScreenInitializer initialize;
 	MenuBuilder builder;
-	MenuController *controller = builder.build();
-	controller->exec();
+	builder.getController()->exec();
 	return 0;
 }

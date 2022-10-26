@@ -21,7 +21,7 @@ MenuBuilder::~MenuBuilder()
     delete _parameters;
 }
 
-MenuController *MenuBuilder::build()
+MenuController *MenuBuilder::getController()
 {
     return _controller;
 }

@@ -21,7 +21,12 @@ OptionsBuilder::~OptionsBuilder()
     delete _parameters;
 }
 
-OptionsController *OptionsBuilder::build()
+OptionsController *OptionsBuilder::getController()
 {
     return _controller;
+}
+
+OptionsParameters *OptionsBuilder::getParameters()
+{
+    return _parameters;
 }

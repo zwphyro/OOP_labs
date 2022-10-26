@@ -13,29 +13,27 @@ class Enemy;
 class Cell;
 class Event;
 class EventFacade;
+class OptionsParameters;
 
 typedef std::vector<EntityContainer> EnemyVector;
 
 class Field : public Observable
 {
 public:
-	Field(int width = 5, int height = 5);
-	Field(const Field &obj);
-	Field &operator=(const Field &obj);
+	Field(const OptionsParameters *options);
 	Field(Field &&obj);
 	Field &operator=(Field &&obj);
+	Field(const Field &obj);
+	Field &operator=(const Field &obj);
 	~Field();
-
-	void setEventFacade(EventFacade *event_facade);
 
 	Position getRandomFreePosition();
 
-	void addEntity(Player *entity, Position position);
 	void addEntity(Enemy *entity, Position position);
 
 	Cell *getCell(Position position);
 	Cell getCell(Position position) const;
-	EventFacade &getEventFacade();
+	EventFacade *getEventFacade();
 
 	EntityContainer *getPlayerContainer();
 	const EntityContainer *getPlayerContainer() const;

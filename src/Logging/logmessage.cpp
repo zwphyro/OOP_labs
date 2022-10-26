@@ -20,7 +20,14 @@ std::ostream &operator<<(std::ostream &out, const LogMessage &obj)
         {LogLevels::GAME_STATES, "GAME STATES"},
         {LogLevels::EXCEPTIONS, "EXCEPTIONS"}};
 
-    out << log_tags[obj._log_level];
+    std::string prefix;
+
+    if (obj._log_level > LOG_LEVELS_COUNT || obj._log_level < 0)
+        prefix = LogLevels::UNDEFINED;
+    else
+        prefix = log_tags[obj._log_level];
+
+    out << prefix;
     out << ": " << obj._log_info << '\n';
 
     return out;

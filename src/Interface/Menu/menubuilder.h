@@ -11,7 +11,7 @@ class MenuBuilder
 public:
     MenuBuilder();
     ~MenuBuilder();
-    MenuController *build();
+    MenuController *getController();
 
 private:
     MenuController *_controller;

@@ -9,24 +9,18 @@
 #include "./../../Event/eventfacade.h"
 #include "./../../Reading/commands.h"
 
-Interactor::Interactor(Field *field, Player *player) : _field(field), _player(player)
+Interactor::Interactor(Field *field) : _field(field)
 {
 }
 
 Interactor::~Interactor()
 {
-	if (_player)
-		delete _player;
-}
-
-void Interactor::setPlayer(Player *player)
-{
-	_player = player;
 }
 
 void Interactor::setField(Field *field)
 {
 	_field = field;
+	_player = dynamic_cast<Player *>(field->getPlayerContainer()->getEntity());
 }
 
 void Interactor::updatePlayer(int command)
@@ -59,7 +53,7 @@ void Interactor::movePlayer(int direction)
 	if (_player == nullptr || _field == nullptr)
 		return;
 
-	if (!_player->moveStart(direction))
+	if (!_player->moveRequest(direction))
 		return;
 
 	EntityContainer *player_container = _field->getPlayerContainer();
@@ -73,12 +67,12 @@ void Interactor::movePlayer(int direction)
 	player_container->setPosition(new_position);
 	old_player_cell->entityGone();
 	new_player_cell->playerStepped();
-	_player->moveCommited();
+	_player->moveCommit();
 }
 
 void Interactor::shoot()
 {
-	if (!_player->shootStart())
+	if (!_player->shootRequest())
 		return;
 	_player->changeEnergy(-3000);
 
@@ -98,12 +92,12 @@ void Interactor::shoot()
 			delete enemys_container->at(i).getEntity();
 			enemys_container->erase(enemys_container->begin() + i);
 
-			damaged_cell->setEvent(_field->getEventFacade().getEvent(new AddProgress));
+			damaged_cell->setEvent(_field->getEventFacade()->getEvent(new AddProgress));
 			Position random_position = _field->getRandomFreePosition();
 			if (Position(-1, -1) == random_position)
 				return;
 			Cell *random_cell = _field->getCell(random_position);
-			random_cell->setEvent(_field->getEventFacade().getEvent(new SpawnEnemy));
+			random_cell->setEvent(_field->getEventFacade()->getEvent(new SpawnEnemy));
 
 			break;
 		}

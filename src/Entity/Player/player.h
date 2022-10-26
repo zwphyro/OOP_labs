@@ -12,10 +12,10 @@ public:
 	int getDirection() const;
 	int movementDelay() const;
 
-	bool moveStart(int direction);
-	void moveCommited();
+	bool moveRequest(int direction);
+	void moveCommit();
 
-	bool shootStart();
+	bool shootRequest();
 
 	int getEnergyRelation() const;
 	int getProgressRelation() const;

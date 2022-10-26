@@ -12,8 +12,8 @@ public:
 	virtual int getDirection() const;
 	virtual int movementDelay() const;
 
-	virtual bool moveStart(int direction);
-	virtual void moveCommited();
+	virtual bool moveRequest(int direction);
+	virtual void moveCommit();
 };
 
 #endif

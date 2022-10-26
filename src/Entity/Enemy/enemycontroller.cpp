@@ -10,7 +10,8 @@
 
 EnemyController::EnemyController(Field *field) : _field(field)
 {
-    _enemys = field->getEnemysContainer();
+    if (field != nullptr)
+        _enemys = field->getEnemysContainer();
 }
 
 void EnemyController::setField(Field *field)
@@ -83,7 +84,7 @@ void EnemyController::updateEnemys()
 
 void EnemyController::moveEnemy(EntityContainer *container, int direction)
 {
-    if (!container->getEntity()->moveStart(direction))
+    if (!container->getEntity()->moveRequest(direction))
         return;
 
     Cell *old_cell = _field->getCell(container->getPosition());
@@ -94,5 +95,5 @@ void EnemyController::moveEnemy(EntityContainer *container, int direction)
     container->setPosition(new_pos);
     old_cell->entityGone();
     new_cell->enemyStepped();
-    container->getEntity()->moveCommited();
+    container->getEntity()->moveCommit();
 }

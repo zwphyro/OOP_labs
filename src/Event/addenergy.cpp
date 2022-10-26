@@ -23,11 +23,11 @@ bool AddEnergy::action()
 {
 	if (_player->getEnergyRelation() == 100)
 	{
-		notify(LogMessage(LogLevels::GAME_ENTITIES, "event AddEnergy rejected"));
+		notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: AddEnergy event; Event: action was rejected;"));
 		return false;
 	}
 
 	_player->changeEnergy(2000);
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "event AddEnergy triggered"));
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: AddEnergy event; Event: action was accepted;"));
 	return true;
 }

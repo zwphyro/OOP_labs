@@ -47,22 +47,28 @@ int OptionsModel::processOption(int state)
     else if (_parameters->getCurrentOption() == OptionsParameters::CONSOLE)
     {
         _parameters->getConsoleLogState() = !_parameters->getConsoleLogState();
+        _parameters->getEntitiesLogLevelState() = _parameters->getEntitiesLogLevelState() && (_parameters->getFileLogState() || _parameters->getConsoleLogState());
+        _parameters->getGameStatesLogLevelState() = _parameters->getGameStatesLogLevelState() && (_parameters->getFileLogState() || _parameters->getConsoleLogState());
+        _parameters->getExceptionsLogLevelState() = _parameters->getExceptionsLogLevelState() && (_parameters->getFileLogState() || _parameters->getConsoleLogState());
     }
     else if (_parameters->getCurrentOption() == OptionsParameters::FILE)
     {
         _parameters->getFileLogState() = !_parameters->getFileLogState();
+        _parameters->getEntitiesLogLevelState() = _parameters->getEntitiesLogLevelState() && (_parameters->getFileLogState() || _parameters->getConsoleLogState());
+        _parameters->getGameStatesLogLevelState() = _parameters->getGameStatesLogLevelState() && (_parameters->getFileLogState() || _parameters->getConsoleLogState());
+        _parameters->getExceptionsLogLevelState() = _parameters->getExceptionsLogLevelState() && (_parameters->getFileLogState() || _parameters->getConsoleLogState());
     }
     else if (_parameters->getCurrentOption() == OptionsParameters::ENTITIES)
     {
-        _parameters->getEntitiesLogLevelState() = !_parameters->getEntitiesLogLevelState();
+        _parameters->getEntitiesLogLevelState() = !_parameters->getEntitiesLogLevelState() && (_parameters->getFileLogState() || _parameters->getConsoleLogState());
     }
     else if (_parameters->getCurrentOption() == OptionsParameters::GAME_STATES)
     {
-        _parameters->getGameStatesLogLevelState() = !_parameters->getGameStatesLogLevelState();
+        _parameters->getGameStatesLogLevelState() = !_parameters->getGameStatesLogLevelState() && (_parameters->getFileLogState() || _parameters->getConsoleLogState());
     }
     else if (_parameters->getCurrentOption() == OptionsParameters::EXCEPTIONS)
     {
-        _parameters->getExceptionsLogLevelState() = !_parameters->getExceptionsLogLevelState();
+        _parameters->getExceptionsLogLevelState() = !_parameters->getExceptionsLogLevelState() && (_parameters->getFileLogState() || _parameters->getConsoleLogState());
     }
 
     update();

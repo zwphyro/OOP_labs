@@ -18,24 +18,22 @@ Enemy::~Enemy()
 
 int Enemy::getDirection() const
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "enemy direction requested"));
 	return Entity::getDirection();
 }
 
 int Enemy::movementDelay() const
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "enemy movement delay requested"));
 	return Entity::movementDelay();
 }
 
-bool Enemy::moveStart(int direction)
+bool Enemy::moveRequest(int direction)
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "enemy move requested"));
-	return Entity::moveStart(direction);
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: enemy; Event: recieved request to move;"));
+	return Entity::moveRequest(direction);
 }
 
-void Enemy::moveCommited()
+void Enemy::moveCommit()
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "enemy move commited"));
-	return Entity::moveCommited();
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: enemy; Event: movement committed;"));
+	return Entity::moveCommit();
 }

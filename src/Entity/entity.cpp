@@ -20,7 +20,7 @@ int Entity::movementDelay() const
 	return movement_delay;
 }
 
-bool Entity::moveStart(int move_direction)
+bool Entity::moveRequest(int move_direction)
 {
 	if (std::chrono::steady_clock::now() - _previous_movement_time < _time_delay)
 		return false;
@@ -29,7 +29,7 @@ bool Entity::moveStart(int move_direction)
 	return true;
 }
 
-void Entity::moveCommited()
+void Entity::moveCommit()
 {
 	_previous_movement_time = std::chrono::steady_clock::now();
 }

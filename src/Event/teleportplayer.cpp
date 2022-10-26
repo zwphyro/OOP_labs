@@ -31,6 +31,6 @@ bool TeleportPlayer::action()
 	_field->getPlayerContainer()->setPosition(new_player_position);
 	_field->getCell(old_player_position)->entityGone();
 	_field->getCell(new_player_position)->playerStepped();
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "event TeleportPlayer triggered"));
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: TeleportPlayer event; Event: action was accepted;"));
 	return true;
 }

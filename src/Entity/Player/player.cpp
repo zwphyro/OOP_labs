@@ -23,49 +23,45 @@ Player::~Player()
 
 int Player::getDirection() const
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "player direction requested"));
 	return Entity::getDirection();
 }
 
 int Player::movementDelay() const
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "player movement delay requested"));
 	return Entity::movementDelay();
 }
 
-bool Player::moveStart(int direction)
+bool Player::moveRequest(int direction)
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "player move requested"));
-	return Entity::moveStart(direction);
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: player; Event: recieved request to move;"));
+	return Entity::moveRequest(direction);
 }
 
-void Player::moveCommited()
+void Player::moveCommit()
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "player move commited"));
-	return Entity::moveCommited();
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: player; Event: movement committed;"));
+	return Entity::moveCommit();
 }
 
-bool Player::shootStart()
+bool Player::shootRequest()
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, _energy >= 3000 ? "player shoot triggered" : "player shoot rejected"));
+	notify(LogMessage(LogLevels::GAME_ENTITIES, _energy >= 3000 ? "Object: player; Event: shoot request was accepted;" : "Object: player; Event: shoot request was rejected;"));
 	return _energy >= 3000;
 }
 
 int Player::getEnergyRelation() const
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "player energy relation requested"));
 	return (_energy * 100) / _max_energy;
 }
 
 int Player::getProgressRelation() const
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "player progress relation requested"));
 	return (_progress * 100) / _max_progress;
 }
 
 void Player::changeEnergy(int delta_energy)
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "player energy change requested"));
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: player; Event: energy was changed;"));
 	if (_energy + delta_energy > _max_energy)
 	{
 		_energy = _max_energy;
@@ -82,7 +78,7 @@ void Player::changeEnergy(int delta_energy)
 
 void Player::changeProgress(int delta_progress)
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "player progress change requested"));
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: player; Event: progress was changed;"));
 	if (_progress + delta_progress > _max_progress)
 	{
 		_progress = _max_progress;
@@ -99,7 +95,7 @@ void Player::changeProgress(int delta_progress)
 
 void Player::changeSpeed(int delta_speed)
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "player speed change requested"));
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: player; Event: speed was changed;"));
 	if (_time_delay - std::chrono::milliseconds(delta_speed) < std::chrono::milliseconds(150))
 	{
 		_time_delay = std::chrono::milliseconds(120);

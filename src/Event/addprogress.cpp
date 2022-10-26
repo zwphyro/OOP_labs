@@ -22,6 +22,6 @@ AddProgress &AddProgress::operator=(const AddProgress &obj)
 bool AddProgress::action()
 {
 	_player->changeProgress(3000);
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "event AddProgress triggered"));
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: AddProgress event; Event: action was accepted;"));
 	return true;
 }

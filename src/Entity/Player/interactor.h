@@ -8,10 +8,9 @@ class Position;
 class Interactor
 {
 public:
-	Interactor(Field *field = nullptr, Player *player = nullptr);
+	Interactor(Field *field = nullptr);
 	~Interactor();
 
-	void setPlayer(Player *player);
 	void setField(Field *field);
 
 	void updatePlayer(int command);

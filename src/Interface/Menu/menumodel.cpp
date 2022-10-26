@@ -1,12 +1,23 @@
 #include "menumodel.h"
 #include "menuparameters.h"
-#include "./../../Game/gamecontroller.h"
 #include "./../Options/optionsbuilder.h"
 #include "./../Options/optionscontroller.h"
+#include "./../../Game/gamecontroller.h"
+#include "./../../Logging/logsystem.h"
 
 MenuModel::MenuModel(MenuParameters *parameters) : _parameters(parameters)
 {
     _options_builder = new OptionsBuilder;
+    _game_controller = new GameController(_options_builder->getParameters());
+    _log_sustem = new LogSystem(_options_builder->getParameters());
+    _game_controller->makeObservable(_log_sustem->getObservers());
+}
+
+MenuModel::~MenuModel()
+{
+    delete _options_builder;
+    delete _game_controller;
+    delete _log_sustem;
 }
 
 void MenuModel::setMenuParameters(MenuParameters *parameters)
@@ -29,14 +40,15 @@ void MenuModel::selectPreviousOption()
 int MenuModel::processOption()
 {
     int return_value = ReturnValue::CONTINUE;
-    GameController game;
+
     switch (_parameters->getCurrentOption())
     {
     case MenuParameters::START:
-        game.exec();
+        _log_sustem->updateParameters();
+        _game_controller->exec();
         break;
     case MenuParameters::OPTIONS:
-        (_options_builder->build())->exec();
+        _options_builder->getController()->exec();
         break;
     case MenuParameters::QUIT:
         return_value = ReturnValue::QUIT;

@@ -30,11 +30,10 @@ bool SpawnEnemy::action()
 		return false;
 
 	Enemy *new_enemy = new Enemy;
-	new_enemy->makeObservable(*this);
 
 	_field->addEntity(new_enemy, random_position);
-	_field->getCell(_field->getPlayerContainer()->getPosition())->setEvent(_field->getEventFacade().getEvent(new AddEnergy));
+	_field->getCell(_field->getPlayerContainer()->getPosition())->setEvent(_field->getEventFacade()->getEvent(new AddEnergy));
 	_field->getCell(_field->getPlayerContainer()->getPosition())->playerStepped();
-	notify(LogMessage(LogLevels::GAME_ENTITIES, "event SpawnEnemy triggered"));
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: SpawnEnemy event; Event: action was accepted;"));
 	return true;
 }

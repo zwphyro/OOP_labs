@@ -11,7 +11,8 @@ class OptionsBuilder
 public:
     OptionsBuilder();
     ~OptionsBuilder();
-    OptionsController *build();
+    OptionsController *getController();
+    OptionsParameters *getParameters();
 
 private:
     OptionsController *_controller;
