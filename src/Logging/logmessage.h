@@ -2,16 +2,19 @@
 #define LOGMESSAGE_H
 
 #include <string>
+#include "loglevel.h"
+#include <map>
 
 class LogMessage
 {
 public:
-    LogMessage(int log_level, std::string log_info);
-    int getLogLevel();
+    LogMessage(LogLevels log_level, std::string log_info);
+    LogLevels getLogLevel();
     friend std::ostream &operator<<(std::ostream &out, const LogMessage &obj);
 
 private:
-    int _log_level;
+    static std::map<const int, std::string> _log_tags;
+    LogLevels _log_level;
     std::string _log_info;
 };
 

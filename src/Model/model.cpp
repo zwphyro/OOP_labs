@@ -14,3 +14,9 @@ void Model::update()
 {
     _view->update();
 }
+
+View *Model::getView()
+{
+    return _view;
+}
+

@@ -2,6 +2,7 @@
 #define LOGPERMISSIONS_H
 
 #include <map>
+#include "loglevel.h"
 
 typedef std::map<const int, bool> PermissionsMap;
 
@@ -9,8 +10,8 @@ class LogPermissions
 {
 public:
     LogPermissions();
-    bool getPermission(int log_level);
-    void setPermission(int log_level, bool state);
+    bool getPermission(LogLevels log_level);
+    void setPermission(LogLevels log_level, bool state);
 
 private:
     PermissionsMap _permissions;
