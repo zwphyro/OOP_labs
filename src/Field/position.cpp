@@ -55,3 +55,8 @@ bool operator==(const Position &pos_1, const Position &pos_2)
 {
     return (pos_1._x == pos_2._x) && (pos_1._y == pos_2._y);
 }
+
+bool operator!=(const Position &pos_1, const Position &pos_2)
+{
+    return !(pos_1 == pos_2);
+}

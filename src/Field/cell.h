@@ -12,9 +12,9 @@ public:
 	~Cell();
 
 	void setEvent(Event *event);
-	const Event *getEvent();
+	const Event *getEvent() const;
 
-	bool isOccupied();
+	bool isOccupied() const;
 
 	void playerStepped();
 	void enemyStepped();

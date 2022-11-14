@@ -2,20 +2,21 @@
 #define ENTITY_H
 
 #include <chrono>
+#include "./../Logging/observable.h"
 
 typedef std::chrono::time_point<std::chrono::steady_clock> TimePoint;
 typedef std::chrono::milliseconds Milliseconds;
 
-class Entity
+class Entity : public Observable
 {
 public:
-	int getDirection() const;
-	int movementDelay() const;
+	virtual int getDirection() const;
+	virtual int movementDelay() const;
 
-	bool moveStart(int direction);
-	void moveCommited();
+	virtual bool moveRequest(int direction);
+	virtual void moveCommit();
 
-	virtual ~Entity() {}
+	virtual ~Entity() = 0;
 
 protected:
 	int _direction;

@@ -1,5 +1,7 @@
 #include "addprogress.h"
 #include "./../Entity/Player/player.h"
+#include "./../Logging/logmessage.h"
+#include "./../Logging/loglevel.h"
 
 AddProgress::AddProgress(Player *player) : PlayerEvent(player)
 {
@@ -19,6 +21,7 @@ AddProgress &AddProgress::operator=(const AddProgress &obj)
 
 bool AddProgress::action()
 {
-	_player->changeProgress(100);
+	_player->changeProgress(3000);
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: AddProgress event; Event: action was accepted;"));
 	return true;
 }

@@ -1,10 +1,14 @@
 #include <iostream>
 #include <cstdlib>
-#include "mainloop.h"
+#include "./../Interface/Menu/menubuilder.h"
+#include "./../Interface/Menu/menucontroller.h"
+#include "./../Rendering/screeninitializer.h"
 #define USE_VALGRIND
 
 int main(int argc, char **argv)
 {
-	MainLoop game;
-	return game.exec();
+	ScreenInitializer initialize;
+	MenuBuilder builder;
+	builder.getController()->exec();
+	return 0;
 }

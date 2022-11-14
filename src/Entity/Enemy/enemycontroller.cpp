@@ -10,7 +10,8 @@
 
 EnemyController::EnemyController(Field *field) : _field(field)
 {
-    _enemys = field->getEnemysContainer();
+    if (field != nullptr)
+        _enemys = field->getEnemysContainer();
 }
 
 void EnemyController::setField(Field *field)
@@ -76,23 +77,23 @@ void EnemyController::updateEnemys()
 {
     for (int i = 0; i < _enemys->size(); i++)
     {
-        int direction = calculateDirection(calculateOptimalPlayerPosition(_field->getPlayerContainer()->position, _enemys->at(i).position, _field->getWidth(), _field->getHeight()), _enemys->at(i).position);
+        int direction = calculateDirection(calculateOptimalPlayerPosition(_field->getPlayerContainer()->getPosition(), _enemys->at(i).getPosition(), _field->getWidth(), _field->getHeight()), _enemys->at(i).getPosition());
         moveEnemy(&_enemys->at(i), direction);
     }
 }
 
 void EnemyController::moveEnemy(EntityContainer *container, int direction)
 {
-    if (!container->entity->moveStart(direction))
+    if (!container->getEntity()->moveRequest(direction))
         return;
 
-    Cell *old_cell = _field->getCell(container->position);
-    Position new_pos = container->position.calculateSidePosition(direction, _field->getWidth(), _field->getHeight());
+    Cell *old_cell = _field->getCell(container->getPosition());
+    Position new_pos = container->getPosition().calculateSidePosition(direction, _field->getWidth(), _field->getHeight());
     Cell *new_cell = _field->getCell(new_pos);
     if (new_cell->isOccupied())
         return;
-    container->position = new_pos;
+    container->setPosition(new_pos);
     old_cell->entityGone();
     new_cell->enemyStepped();
-    container->entity->moveCommited();
+    container->getEntity()->moveCommit();
 }

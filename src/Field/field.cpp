@@ -2,62 +2,98 @@
 #include "cell.h"
 #include "./../Entity/Player/player.h"
 #include "./../Entity/enemy.h"
+#include "./../Event/addenergy.h"
+#include "./../Event/addprogress.h"
+#include "./../Event/spawnenemy.h"
+#include "./../Event/teleportplayer.h"
 #include "./../Event/eventfacade.h"
+#include "./../Logging/logmessage.h"
+#include "./../Logging/loglevel.h"
+#include "./../Interface/Options/optionsparameters.h"
 
-Field::Field(int width, int height) : _width(width), _height(height), _event_facade(nullptr)
+Field::Field(const OptionsParameters *options)
 {
-	_cell_arr = new Cell **[height];
+	_width = options->getFieldWidth();
+	_height = options->getFieldHeight();
 
-	for (int i = 0; i < height; i++)
+	Player *player = new Player;
+	_player_container.setEntity(player);
+	_player_container.setPosition(Position(0, 0));
+
+	_event_facade = new EventFacade(this, player);
+
+	_cell_arr = new Cell **[_height];
+
+	for (int i = 0; i < _height; i++)
 	{
-		_cell_arr[i] = new Cell *[width];
-		for (int j = 0; j < width; j++)
+		_cell_arr[i] = new Cell *[_width];
+		for (int j = 0; j < _width; j++)
 		{
 			_cell_arr[i][j] = new Cell;
 		}
 	}
-
-	_player_container.entity = nullptr;
+	_cell_arr[0][0]->playerStepped();
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: field; Event: field was created;"));
 }
 
-Field::Field(const Field &obj) : _width(obj._width), _height(obj._height), _player_container(obj._player_container)
+Field::Field(const Field &obj)
 {
+	_width = obj._width;
+	_height = obj._height;
+
+	Player *player = new Player;
+	_player_container.setEntity(player);
+	_player_container.setPosition(obj._player_container.getPosition());
+
+	_event_facade = new EventFacade(this, player);
+
 	_cell_arr = new Cell **[_height];
 	for (int i = 0; i < _height; i++)
 	{
 		_cell_arr[i] = new Cell *[_width];
 		for (int j = 0; j < _width; j++)
 		{
-			_cell_arr[i][j] = new Cell(*obj._cell_arr[i][j]);
+			_cell_arr[i][j] = new Cell;
+			if (obj._cell_arr[i][j]->getEvent() == nullptr)
+				continue;
+			else if (dynamic_cast<const AddProgress *>(obj._cell_arr[i][j]->getEvent()))
+			{
+				_cell_arr[i][j]->setEvent(_event_facade->getEvent(new AddProgress));
+			}
+			else if (dynamic_cast<const AddEnergy *>(obj._cell_arr[i][j]->getEvent()))
+			{
+				_cell_arr[i][j]->setEvent(_event_facade->getEvent(new AddEnergy));
+			}
+			else if (dynamic_cast<const SpawnEnemy *>(obj._cell_arr[i][j]->getEvent()))
+			{
+				_cell_arr[i][j]->setEvent(_event_facade->getEvent(new SpawnEnemy));
+			}
+			else if (dynamic_cast<const TeleportPlayer *>(obj._cell_arr[i][j]->getEvent()))
+			{
+				_cell_arr[i][j]->setEvent(_event_facade->getEvent(new TeleportPlayer));
+			}
 		}
 	}
 
-	_event_facade = new EventFacade(*obj._event_facade);
-
 	for (auto elem : obj._enemys_container)
+	{
 		_enemys_container.push_back(elem);
+	}
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: field; Event: field was created;"));
 }
 
 Field &Field::operator=(const Field &obj)
 {
 	if (this != &obj)
 	{
-		for (int i = 0; i < _height; i++)
-		{
-			for (int j = 0; j < _width; j++)
-			{
-				delete _cell_arr[i][j];
-			}
-			delete[] _cell_arr[i];
-		}
-		delete[] _cell_arr;
-
-		_enemys_container.clear();
-
 		_width = obj._width;
 		_height = obj._height;
-		_player_container = obj._player_container;
-		_event_facade = new EventFacade(*obj._event_facade);
+
+		Player *player = new Player;
+		_player_container.setEntity(player);
+		_player_container.setPosition(obj._player_container.getPosition());
+
+		_event_facade = new EventFacade(this, player);
 
 		_cell_arr = new Cell **[_height];
 		for (int i = 0; i < _height; i++)
@@ -65,12 +101,32 @@ Field &Field::operator=(const Field &obj)
 			_cell_arr[i] = new Cell *[_width];
 			for (int j = 0; j < _width; j++)
 			{
-				_cell_arr[i][j] = new Cell(*obj._cell_arr[i][j]);
+				_cell_arr[i][j] = new Cell;
+				if (obj._cell_arr[i][j]->getEvent() == nullptr)
+					continue;
+				else if (dynamic_cast<const AddProgress *>(obj._cell_arr[i][j]->getEvent()))
+				{
+					_cell_arr[i][j]->setEvent(_event_facade->getEvent(new AddProgress));
+				}
+				else if (dynamic_cast<const AddEnergy *>(obj._cell_arr[i][j]->getEvent()))
+				{
+					_cell_arr[i][j]->setEvent(_event_facade->getEvent(new AddEnergy));
+				}
+				else if (dynamic_cast<const SpawnEnemy *>(obj._cell_arr[i][j]->getEvent()))
+				{
+					_cell_arr[i][j]->setEvent(_event_facade->getEvent(new SpawnEnemy));
+				}
+				else if (dynamic_cast<const TeleportPlayer *>(obj._cell_arr[i][j]->getEvent()))
+				{
+					_cell_arr[i][j]->setEvent(_event_facade->getEvent(new TeleportPlayer));
+				}
 			}
 		}
 
 		for (auto elem : obj._enemys_container)
+		{
 			_enemys_container.push_back(elem);
+		}
 	}
 
 	return *this;
@@ -80,12 +136,41 @@ Field::Field(Field &&obj)
 {
 	std::swap(_width, obj._width);
 	std::swap(_height, obj._height);
-	_event_facade = nullptr;
-	std::swap(_event_facade, obj._event_facade);
-	_cell_arr = nullptr;
+
+	Player *player = new Player;
+	_player_container.setEntity(player);
+	_player_container.setPosition(obj._player_container.getPosition());
+
+	_event_facade = new EventFacade(this, player);
 	std::swap(_cell_arr, obj._cell_arr);
-	std::swap(_player_container, obj._player_container);
+
+	for (int i = 0; i < _height; i++)
+	{
+		for (int j = 0; j < _width; j++)
+		{
+			if (_cell_arr[i][j]->getEvent() == nullptr)
+				continue;
+			else if (dynamic_cast<const AddProgress *>(_cell_arr[i][j]->getEvent()))
+			{
+				_cell_arr[i][j]->setEvent(_event_facade->getEvent(new AddProgress));
+			}
+			else if (dynamic_cast<const AddEnergy *>(_cell_arr[i][j]->getEvent()))
+			{
+				_cell_arr[i][j]->setEvent(_event_facade->getEvent(new AddEnergy));
+			}
+			else if (dynamic_cast<const SpawnEnemy *>(_cell_arr[i][j]->getEvent()))
+			{
+				_cell_arr[i][j]->setEvent(_event_facade->getEvent(new SpawnEnemy));
+			}
+			else if (dynamic_cast<const TeleportPlayer *>(_cell_arr[i][j]->getEvent()))
+			{
+				_cell_arr[i][j]->setEvent(_event_facade->getEvent(new TeleportPlayer));
+			}
+		}
+	}
+
 	_enemys_container.swap(obj._enemys_container);
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: field; Event: field was created;"));
 }
 
 Field &Field::operator=(Field &&obj)
@@ -94,11 +179,39 @@ Field &Field::operator=(Field &&obj)
 	{
 		std::swap(_width, obj._width);
 		std::swap(_height, obj._height);
-		_event_facade = nullptr;
-		std::swap(_event_facade, obj._event_facade);
-		_cell_arr = nullptr;
+
+		Player *player = new Player;
+		_player_container.setEntity(player);
+		_player_container.setPosition(obj._player_container.getPosition());
+
+		_event_facade = new EventFacade(this, player);
 		std::swap(_cell_arr, obj._cell_arr);
-		std::swap(_player_container, obj._player_container);
+
+		for (int i = 0; i < _height; i++)
+		{
+			for (int j = 0; j < _width; j++)
+			{
+				if (_cell_arr[i][j]->getEvent() == nullptr)
+					continue;
+				else if (dynamic_cast<const AddProgress *>(_cell_arr[i][j]->getEvent()))
+				{
+					_cell_arr[i][j]->setEvent(_event_facade->getEvent(new AddProgress));
+				}
+				else if (dynamic_cast<const AddEnergy *>(_cell_arr[i][j]->getEvent()))
+				{
+					_cell_arr[i][j]->setEvent(_event_facade->getEvent(new AddEnergy));
+				}
+				else if (dynamic_cast<const SpawnEnemy *>(_cell_arr[i][j]->getEvent()))
+				{
+					_cell_arr[i][j]->setEvent(_event_facade->getEvent(new SpawnEnemy));
+				}
+				else if (dynamic_cast<const TeleportPlayer *>(_cell_arr[i][j]->getEvent()))
+				{
+					_cell_arr[i][j]->setEvent(_event_facade->getEvent(new TeleportPlayer));
+				}
+			}
+		}
+
 		_enemys_container.swap(obj._enemys_container);
 	}
 
@@ -121,15 +234,12 @@ Field::~Field()
 	}
 
 	for (auto elem : _enemys_container)
-		delete elem.entity;
+		delete elem.getEntity();
 
 	if (_event_facade)
 		delete _event_facade;
-}
 
-void Field::setEventFacade(EventFacade *event_facade)
-{
-	_event_facade = event_facade;
+	delete _player_container.getEntity();
 }
 
 Position Field::getRandomFreePosition()
@@ -149,7 +259,10 @@ Position Field::getRandomFreePosition()
 		}
 	}
 	if (free_positions.size() == 0)
-		return {0, 0};
+	{
+		notify(LogMessage(LogLevels::EXCEPTIONS, "Object: field; Event: failed to find random position;"));
+		return {-1, -1};
+	}
 
 	return free_positions.at(std::rand() % free_positions.size());
 }
@@ -166,41 +279,62 @@ int Field::getHeight() const
 
 EntityContainer *Field::getPlayerContainer()
 {
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: field; Event: player container was sent with with the possibility of modifying;"));
+	return &_player_container;
+}
+
+const EntityContainer *Field::getPlayerContainer() const
+{
 	return &_player_container;
 }
 
 EnemyVector *Field::getEnemysContainer()
 {
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: field; Event: enemy container was sent with with the possibility of modifying;"));
 	return &_enemys_container;
 }
 
-void Field::addEntity(Player *entity, Position position)
+const EnemyVector Field::getEnemysContainer() const
 {
-	if (position.getX() >= _width || position.getX() < 0 || position.getY() >= _height || position.getY() < 0 || _cell_arr[position.getY()][position.getX()]->isOccupied())
-		return;
-
-	_player_container.entity = entity;
-	_player_container.position = position;
-	_cell_arr[position.getY()][position.getX()]->playerStepped();
+	return _enemys_container;
 }
 
 void Field::addEntity(Enemy *entity, Position position)
 {
 	if (position.getX() >= _width || position.getX() < 0 || position.getY() >= _height || position.getY() < 0 || _cell_arr[position.getY()][position.getX()]->isOccupied())
+	{
+		notify(LogMessage(LogLevels::EXCEPTIONS, "Object: field; Event: attempt to add an enemy outside the field;"));
 		return;
+	}
 
+	entity->makeObservable(*this);
 	_enemys_container.push_back({entity, position});
 	_cell_arr[position.getY()][position.getX()]->enemyStepped();
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: field; Event: new enemy has been added to the field;"));
 }
 
 Cell *Field::getCell(Position position)
 {
-	if (position.getX() < 0 || position.getX() >= _width || position.getX() < 0 || position.getX() >= _height)
+	if (position.getX() < 0 || position.getX() >= _width || position.getX() < 0 || position.getY() >= _height)
+	{
+		notify(LogMessage(LogLevels::EXCEPTIONS, "Object: field; Event: attempt to access an cell outside the field;"));
 		return nullptr;
+	}
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: field; Event: cell was sent with with the possibility of modifying;"));
 	return _cell_arr[position.getY()][position.getX()];
 }
 
-EventFacade &Field::getEventFacade()
+Cell Field::getCell(Position position) const
 {
-	return *_event_facade;
+	if (position.getX() < 0 || position.getX() >= _width || position.getX() < 0 || position.getY() >= _height)
+	{
+		notify(LogMessage(LogLevels::EXCEPTIONS, "Object: field; Event: attempt to access an cell outside the field;"));
+		return nullptr;
+	}
+	return Cell(*_cell_arr[position.getY()][position.getX()]);
+}
+
+EventFacade *Field::getEventFacade()
+{
+	return _event_facade;
 }

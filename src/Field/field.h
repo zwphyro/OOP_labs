@@ -6,37 +6,39 @@
 #include <vector>
 #include "position.h"
 #include "./../Entity/entitycontainer.h"
+#include "./../Logging/observable.h"
 
 class Player;
 class Enemy;
 class Cell;
 class Event;
 class EventFacade;
+class OptionsParameters;
 
 typedef std::vector<EntityContainer> EnemyVector;
 
-class Field
+class Field : public Observable
 {
 public:
-	Field(int width = 5, int height = 5);
-	Field(const Field &obj);
-	Field &operator=(const Field &obj);
+	Field(const OptionsParameters *options);
 	Field(Field &&obj);
 	Field &operator=(Field &&obj);
+	Field(const Field &obj);
+	Field &operator=(const Field &obj);
 	~Field();
-
-	void setEventFacade(EventFacade *event_facade);
 
 	Position getRandomFreePosition();
 
-	void addEntity(Player *entity, Position position);
 	void addEntity(Enemy *entity, Position position);
 
 	Cell *getCell(Position position);
-	EventFacade &getEventFacade();
+	Cell getCell(Position position) const;
+	EventFacade *getEventFacade();
 
 	EntityContainer *getPlayerContainer();
+	const EntityContainer *getPlayerContainer() const;
 	EnemyVector *getEnemysContainer();
+	const EnemyVector getEnemysContainer() const;
 
 	int getWidth() const;
 	int getHeight() const;

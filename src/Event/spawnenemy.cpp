@@ -4,6 +4,8 @@
 #include "./../Field/cell.h"
 #include "./../Field/field.h"
 #include "./../Entity/enemy.h"
+#include "./../Logging/logmessage.h"
+#include "./../Logging/loglevel.h"
 
 SpawnEnemy::SpawnEnemy(Field *field) : FieldEvent(field)
 {
@@ -23,8 +25,15 @@ SpawnEnemy &SpawnEnemy::operator=(const SpawnEnemy &obj)
 
 bool SpawnEnemy::action()
 {
-	_field->addEntity(new Enemy, _field->getRandomFreePosition());
-	_field->getCell(_field->getPlayerContainer()->position)->setEvent(_field->getEventFacade().getEvent(new AddEnergy));
-	_field->getCell(_field->getPlayerContainer()->position)->playerStepped();
+	Position random_position = _field->getRandomFreePosition();
+	if (Position(-1, -1) == random_position)
+		return false;
+
+	Enemy *new_enemy = new Enemy;
+
+	_field->addEntity(new_enemy, random_position);
+	_field->getCell(_field->getPlayerContainer()->getPosition())->setEvent(_field->getEventFacade()->getEvent(new AddEnergy));
+	_field->getCell(_field->getPlayerContainer()->getPosition())->playerStepped();
+	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: SpawnEnemy event; Event: action was accepted;"));
 	return true;
 }

@@ -9,7 +9,13 @@ public:
 	Player();
 	~Player();
 
-	bool shootStart();
+	int getDirection() const;
+	int movementDelay() const;
+
+	bool moveRequest(int direction);
+	void moveCommit();
+
+	bool shootRequest();
 
 	int getEnergyRelation() const;
 	int getProgressRelation() const;
