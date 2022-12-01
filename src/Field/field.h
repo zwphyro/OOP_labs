@@ -16,20 +16,23 @@ class EventFacade;
 class OptionsParameters;
 
 typedef std::vector<EntityContainer> EnemyVector;
+typedef std::vector<Position> WallsPositions;
 
 class Field : public Observable
 {
 public:
 	Field(const OptionsParameters *options);
-	Field(Field &&obj);
-	Field &operator=(Field &&obj);
-	Field(const Field &obj);
-	Field &operator=(const Field &obj);
+	// Field(Field &&obj);
+	// Field &operator=(Field &&obj);
+	// Field(const Field &obj);
+	// Field &operator=(const Field &obj);
 	~Field();
 
 	Position getRandomFreePosition();
 
 	void addEntity(Enemy *entity, Position position);
+	void addEntity(Player *entity, Position position);
+	void addWall(Position position);
 
 	Cell *getCell(Position position);
 	Cell getCell(Position position) const;
@@ -39,6 +42,10 @@ public:
 	const EntityContainer *getPlayerContainer() const;
 	EnemyVector *getEnemysContainer();
 	const EnemyVector getEnemysContainer() const;
+	WallsPositions *getWallsPositions();
+	const WallsPositions getWallsPositions() const;
+
+	int getGameStatus() const;
 
 	int getWidth() const;
 	int getHeight() const;
@@ -52,6 +59,7 @@ private:
 
 	EntityContainer _player_container;
 	EnemyVector _enemys_container;
+	WallsPositions _walls_positions;
 };
 
 #endif

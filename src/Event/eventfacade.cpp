@@ -61,23 +61,23 @@ void EventFacade::setField(Field *field)
 Event *EventFacade::getEvent(AddEnergy *event)
 {
 	delete event;
-	return _add_energy_event;
+	return new AddEnergy(*_add_energy_event);
 }
 
 Event *EventFacade::getEvent(AddProgress *event)
 {
 	delete event;
-	return _add_progress_event;
+	return new AddProgress(*_add_progress_event);
 }
 
 Event *EventFacade::getEvent(SpawnEnemy *event)
 {
 	delete event;
-	return _spawn_enemy_event;
+	return new SpawnEnemy(*_spawn_enemy_event);
 }
 
 Event *EventFacade::getEvent(TeleportPlayer *event)
 {
 	delete event;
-	return _teleport_player_event;
+	return new TeleportPlayer(*_teleport_player_event);
 }

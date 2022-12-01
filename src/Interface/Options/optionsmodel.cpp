@@ -5,6 +5,7 @@
 #define MAX_SIZE 100
 
 std::map<const int, std::function<void(OptionsModel &, int)>> OptionsModel::_performed_functions{
+    {OptionsParameters::GENERATOR, &OptionsModel::changeGenerator},
     {OptionsParameters::WIDTH, &OptionsModel::changeWidth},
     {OptionsParameters::HEIGHT, &OptionsModel::changeHeight},
     {OptionsParameters::CONSOLE, &OptionsModel::changeConsoleLogState},
@@ -46,6 +47,14 @@ int OptionsModel::processOption(int state)
 
     update();
     return ReturnValue::CONTINUE;
+}
+
+void OptionsModel::changeGenerator(int state)
+{
+    if (_parameters->getFieldGenerator() == Generator::MAZE)
+        _parameters->getFieldGenerator() = Generator::EXPONSE;
+    else
+        _parameters->getFieldGenerator() = Generator::MAZE;
 }
 
 void OptionsModel::changeWidth(int state)

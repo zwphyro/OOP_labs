@@ -14,7 +14,7 @@ int Entity::movementDelay() const
 {
 	if (_time_delay == std::chrono::milliseconds(0))
 		return 0;
-	int movement_delay = 10 - (((std::chrono::steady_clock::now() - _previous_movement_time) * 10) / _time_delay);
+	int movement_delay = 11 - (((std::chrono::steady_clock::now() - _previous_movement_time) * 11) / _time_delay);
 	if (movement_delay <= 0)
 		return 0;
 	return movement_delay;

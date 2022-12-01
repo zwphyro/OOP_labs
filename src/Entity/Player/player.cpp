@@ -11,9 +11,12 @@ Player::Player()
 	_time_delay = std::chrono::milliseconds(300);
 	_previous_movement_time = std::chrono::steady_clock::now() - _time_delay;
 
-	_energy = 0;
+	_alive = true;
+
+	_energy = 15000;
 	_max_energy = 30000;
-	_progress = 15000;
+	_min_progress = 0;
+	_progress = 1000;
 	_max_progress = 30000;
 }
 
@@ -45,8 +48,13 @@ void Player::moveCommit()
 
 bool Player::shootRequest()
 {
-	notify(LogMessage(LogLevels::GAME_ENTITIES, _energy >= 3000 ? "Object: player; Event: shoot request was accepted;" : "Object: player; Event: shoot request was rejected;"));
-	return _energy >= 3000;
+	notify(LogMessage(LogLevels::GAME_ENTITIES, _energy >= 15000 ? "Object: player; Event: shoot request was accepted;" : "Object: player; Event: shoot request was rejected;"));
+	return _energy >= 15000;
+}
+
+bool Player::breakWallRequest()
+{
+	return _energy >= 15000;
 }
 
 int Player::getEnergyRelation() const
@@ -84,13 +92,18 @@ void Player::changeProgress(int delta_progress)
 		_progress = _max_progress;
 		return;
 	}
-	else if (_progress + delta_progress < 0)
+	else if (_progress + delta_progress < _min_progress)
 	{
-		_progress = 0;
+		_progress = _min_progress;
 		return;
 	}
 
 	_progress += delta_progress;
+}
+
+void Player::fixProgress()
+{
+	_min_progress = _progress;
 }
 
 void Player::changeSpeed(int delta_speed)
@@ -103,4 +116,14 @@ void Player::changeSpeed(int delta_speed)
 	}
 
 	_time_delay -= std::chrono::milliseconds(delta_speed);
+}
+
+bool Player::isAlive() const
+{
+	return _alive;
+}
+
+void Player::death()
+{
+	_alive = false;
 }

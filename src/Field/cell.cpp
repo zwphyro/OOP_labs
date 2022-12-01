@@ -47,7 +47,10 @@ void Cell::playerStepped()
 	Event *tmp = _current_event;
 	if (_current_event && _current_event->action())
 		if (tmp == _current_event)
+		{
+			delete _current_event;
 			_current_event = nullptr;
+		}
 }
 
 void Cell::enemyStepped()

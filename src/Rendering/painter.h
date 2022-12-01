@@ -18,6 +18,9 @@ private:
 	std::chrono::time_point<std::chrono::steady_clock> _start;
 	int _frame_no;
 
+	int _x_offset;
+	int _y_offset;
+
 	void drawEmptyCell(Position pos);
 	void drawAddProgress(Position pos);
 	void drawSpawnEnemy(Position pos);
@@ -27,6 +30,7 @@ private:
 	void drawPixel(Position cell_pos, Position pixel_pos, int color_scheme, int h_movement_delay, int v_movement_delay, int rotation = 0);
 	void drawPlayer(Position pos, int direction, int movement_delay);
 	void drawEnemy(Position pos, int direction, int movement_delay);
+	void drawWall(Position pos);
 
 	void drawYouWin();
 	void drawYouLose();

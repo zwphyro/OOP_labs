@@ -25,11 +25,8 @@ void Interactor::setField(Field *field)
 
 void Interactor::updatePlayer(int command)
 {
-	if (_player->getProgressRelation() == 100 || _player->getProgressRelation() == 0)
-		return;
-
-	_player->changeEnergy(+10);
-	_player->changeProgress(-10);
+	_player->changeEnergy(+500);
+	_player->changeProgress(-6);
 	_player->changeSpeed();
 
 	switch (command)
@@ -74,14 +71,32 @@ void Interactor::shoot()
 {
 	if (!_player->shootRequest())
 		return;
-	_player->changeEnergy(-3000);
+	_player->changeEnergy(-15000);
 
 	EntityContainer *player_container = _field->getPlayerContainer();
 	Position damaged_position = player_container->getPosition().calculateSidePosition(_player->getDirection(), _field->getWidth(), _field->getHeight());
 
 	Cell *damaged_cell = _field->getCell(damaged_position);
-	if (!damaged_cell->isOccupied())
-		return;
+	WallsPositions *walls_positions = _field->getWallsPositions();
+	for (int i = 0; i < walls_positions->size(); i++)
+	{
+		if (damaged_position == walls_positions->at(i))
+		{
+			if (!_player->breakWallRequest())
+				return;
+			_player->changeEnergy(-15000);
+			damaged_cell->entityGone();
+			walls_positions->erase(walls_positions->begin() + i);
+
+			return;
+		}
+	}
+
+	while (!damaged_cell->isOccupied())
+	{
+		damaged_position = damaged_position.calculateSidePosition(_player->getDirection(), _field->getWidth(), _field->getHeight());
+		damaged_cell = _field->getCell(damaged_position);
+	}
 
 	EnemyVector *enemys_container = _field->getEnemysContainer();
 	for (int i = 0; i < enemys_container->size(); i++)
@@ -99,7 +114,7 @@ void Interactor::shoot()
 			Cell *random_cell = _field->getCell(random_position);
 			random_cell->setEvent(_field->getEventFacade()->getEvent(new SpawnEnemy));
 
-			break;
+			return;
 		}
 	}
 }

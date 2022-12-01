@@ -7,6 +7,7 @@
 #include "./../../Field/field.h"
 #include "./../direction.h"
 #include "./../../Field/cell.h"
+#include "./../Player/player.h"
 
 EnemyController::EnemyController(Field *field) : _field(field)
 {
@@ -78,7 +79,10 @@ void EnemyController::updateEnemys()
     for (int i = 0; i < _enemys->size(); i++)
     {
         int direction = calculateDirection(calculateOptimalPlayerPosition(_field->getPlayerContainer()->getPosition(), _enemys->at(i).getPosition(), _field->getWidth(), _field->getHeight()), _enemys->at(i).getPosition());
-        moveEnemy(&_enemys->at(i), direction);
+        if (_enemys->at(i).getPosition().calculateSidePosition(_enemys->at(i).getEntity()->getDirection(), _field->getWidth(), _field->getHeight()) == _field->getPlayerContainer()->getPosition() && _enemys->at(i).getEntity()->moveRequest(_enemys->at(i).getEntity()->getDirection()))
+            dynamic_cast<Player *>(_field->getPlayerContainer()->getEntity())->death();
+        else
+            moveEnemy(&_enemys->at(i), direction);
     }
 }
 
