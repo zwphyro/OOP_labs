@@ -21,13 +21,7 @@ AddEnergy &AddEnergy::operator=(const AddEnergy &obj)
 
 bool AddEnergy::action()
 {
-	if (_player->getEnergyRelation() == 100)
-	{
-		notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: AddEnergy event; Event: action was rejected;"));
-		return false;
-	}
-
-	_player->changeEnergy(2000);
+	_player->fixProgress();
 	notify(LogMessage(LogLevels::GAME_ENTITIES, "Object: AddEnergy event; Event: action was accepted;"));
 	return true;
 }

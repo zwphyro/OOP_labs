@@ -32,7 +32,7 @@ void Painter::drawEmptyCell(Position pos)
 {
 	for (int i = (CELL_HEIGHT + 1) * pos.getY(); i < (CELL_HEIGHT + 1) * (pos.getY() + 1) - 1; i++)
 		for (int j = (CELL_WIDTH + 2) * pos.getX(); j < (CELL_WIDTH + 2) * (pos.getX() + 1) - 2; j++)
-			mvwaddch(stdscr, i, j, '*' | A_DIM);
+			mvwaddch(stdscr, i - _y_offset, j - _x_offset, '*' | A_DIM);
 }
 
 void Painter::drawAddProgress(Position pos)
@@ -151,8 +151,8 @@ void Painter::drawTeleportPlayer(Position pos)
 
 void Painter::drawPixel(Position cell_pos, Position pixel_pos, int color_scheme, int h_movement_delay, int v_movement_delay, int rotation)
 {
-	mvwaddch(stdscr, (CELL_HEIGHT + 1) * cell_pos.getY() + pixel_pos.getX() + h_movement_delay, (CELL_WIDTH + 2) * cell_pos.getX() + (CELL_WIDTH - 1) * rotation + (1 - rotation * 2) * (pixel_pos.getY() * 2) + v_movement_delay * 2, ' ' | COLOR_PAIR(color_scheme));
-	mvwaddch(stdscr, (CELL_HEIGHT + 1) * cell_pos.getY() + pixel_pos.getX() + h_movement_delay, (CELL_WIDTH + 2) * cell_pos.getX() + (CELL_WIDTH - 1) * rotation + (1 - rotation * 2) * (pixel_pos.getY() * 2 + 1) + v_movement_delay * 2, ' ' | COLOR_PAIR(color_scheme));
+	mvwaddch(stdscr, (CELL_HEIGHT + 1) * cell_pos.getY() + pixel_pos.getX() + h_movement_delay - _y_offset, (CELL_WIDTH + 2) * cell_pos.getX() + (CELL_WIDTH - 1) * rotation + (1 - rotation * 2) * (pixel_pos.getY() * 2) + v_movement_delay * 2 - _x_offset, ' ' | COLOR_PAIR(color_scheme));
+	mvwaddch(stdscr, (CELL_HEIGHT + 1) * cell_pos.getY() + pixel_pos.getX() + h_movement_delay - _y_offset, (CELL_WIDTH + 2) * cell_pos.getX() + (CELL_WIDTH - 1) * rotation + (1 - rotation * 2) * (pixel_pos.getY() * 2 + 1) + v_movement_delay * 2 - _x_offset, ' ' | COLOR_PAIR(color_scheme));
 }
 
 void Painter::drawPlayer(Position pos, int direction, int movement_delay)
@@ -393,6 +393,110 @@ void Painter::drawEnemy(Position pos, int direction, int movement_delay)
 	drawPixel(pos, {9, 4}, 1, 0, movement_delay, rotation);
 }
 
+void Painter::drawWall(Position pos)
+{
+	drawPixel(pos, {0, 0}, 1, 0, 0);
+	drawPixel(pos, {0, 1}, 1, 0, 0);
+	drawPixel(pos, {0, 2}, 1, 0, 0);
+	drawPixel(pos, {0, 3}, 1, 0, 0);
+	drawPixel(pos, {0, 4}, 1, 0, 0);
+	drawPixel(pos, {0, 5}, 1, 0, 0);
+	drawPixel(pos, {0, 6}, 1, 0, 0);
+	drawPixel(pos, {0, 7}, 1, 0, 0);
+	drawPixel(pos, {0, 8}, 1, 0, 0);
+	drawPixel(pos, {0, 9}, 1, 0, 0);
+	drawPixel(pos, {1, 0}, 1, 0, 0);
+	drawPixel(pos, {1, 1}, 5, 0, 0);
+	drawPixel(pos, {1, 2}, 5, 0, 0);
+	drawPixel(pos, {1, 3}, 5, 0, 0);
+	drawPixel(pos, {1, 4}, 5, 0, 0);
+	drawPixel(pos, {1, 5}, 5, 0, 0);
+	drawPixel(pos, {1, 6}, 5, 0, 0);
+	drawPixel(pos, {1, 7}, 5, 0, 0);
+	drawPixel(pos, {1, 8}, 5, 0, 0);
+	drawPixel(pos, {1, 9}, 1, 0, 0);
+	drawPixel(pos, {2, 0}, 1, 0, 0);
+	drawPixel(pos, {2, 1}, 5, 0, 0);
+	drawPixel(pos, {2, 2}, 1, 0, 0);
+	drawPixel(pos, {2, 3}, 1, 0, 0);
+	drawPixel(pos, {2, 4}, 1, 0, 0);
+	drawPixel(pos, {2, 5}, 5, 0, 0);
+	drawPixel(pos, {2, 6}, 5, 0, 0);
+	drawPixel(pos, {2, 7}, 1, 0, 0);
+	drawPixel(pos, {2, 8}, 5, 0, 0);
+	drawPixel(pos, {2, 9}, 1, 0, 0);
+	drawPixel(pos, {3, 0}, 1, 0, 0);
+	drawPixel(pos, {3, 1}, 5, 0, 0);
+	drawPixel(pos, {3, 2}, 5, 0, 0);
+	drawPixel(pos, {3, 3}, 5, 0, 0);
+	drawPixel(pos, {3, 4}, 5, 0, 0);
+	drawPixel(pos, {3, 5}, 5, 0, 0);
+	drawPixel(pos, {3, 6}, 1, 0, 0);
+	drawPixel(pos, {3, 7}, 1, 0, 0);
+	drawPixel(pos, {3, 8}, 5, 0, 0);
+	drawPixel(pos, {3, 9}, 1, 0, 0);
+	drawPixel(pos, {4, 0}, 1, 0, 0);
+	drawPixel(pos, {4, 1}, 5, 0, 0);
+	drawPixel(pos, {4, 2}, 5, 0, 0);
+	drawPixel(pos, {4, 3}, 5, 0, 0);
+	drawPixel(pos, {4, 4}, 5, 0, 0);
+	drawPixel(pos, {4, 5}, 5, 0, 0);
+	drawPixel(pos, {4, 6}, 5, 0, 0);
+	drawPixel(pos, {4, 7}, 5, 0, 0);
+	drawPixel(pos, {4, 8}, 5, 0, 0);
+	drawPixel(pos, {4, 9}, 1, 0, 0);
+	drawPixel(pos, {5, 0}, 1, 0, 0);
+	drawPixel(pos, {5, 1}, 5, 0, 0);
+	drawPixel(pos, {5, 2}, 5, 0, 0);
+	drawPixel(pos, {5, 3}, 1, 0, 0);
+	drawPixel(pos, {5, 4}, 1, 0, 0);
+	drawPixel(pos, {5, 5}, 5, 0, 0);
+	drawPixel(pos, {5, 6}, 5, 0, 0);
+	drawPixel(pos, {5, 7}, 1, 0, 0);
+	drawPixel(pos, {5, 8}, 5, 0, 0);
+	drawPixel(pos, {5, 9}, 1, 0, 0);
+	drawPixel(pos, {6, 0}, 1, 0, 0);
+	drawPixel(pos, {6, 1}, 5, 0, 0);
+	drawPixel(pos, {6, 2}, 5, 0, 0);
+	drawPixel(pos, {6, 3}, 5, 0, 0);
+	drawPixel(pos, {6, 4}, 5, 0, 0);
+	drawPixel(pos, {6, 5}, 5, 0, 0);
+	drawPixel(pos, {6, 6}, 5, 0, 0);
+	drawPixel(pos, {6, 7}, 5, 0, 0);
+	drawPixel(pos, {6, 8}, 5, 0, 0);
+	drawPixel(pos, {6, 9}, 1, 0, 0);
+	drawPixel(pos, {7, 0}, 1, 0, 0);
+	drawPixel(pos, {7, 1}, 5, 0, 0);
+	drawPixel(pos, {7, 2}, 1, 0, 0);
+	drawPixel(pos, {7, 3}, 5, 0, 0);
+	drawPixel(pos, {7, 4}, 5, 0, 0);
+	drawPixel(pos, {7, 5}, 1, 0, 0);
+	drawPixel(pos, {7, 6}, 1, 0, 0);
+	drawPixel(pos, {7, 7}, 1, 0, 0);
+	drawPixel(pos, {7, 8}, 5, 0, 0);
+	drawPixel(pos, {7, 9}, 1, 0, 0);
+	drawPixel(pos, {8, 0}, 1, 0, 0);
+	drawPixel(pos, {8, 1}, 5, 0, 0);
+	drawPixel(pos, {8, 2}, 5, 0, 0);
+	drawPixel(pos, {8, 3}, 5, 0, 0);
+	drawPixel(pos, {8, 4}, 5, 0, 0);
+	drawPixel(pos, {8, 5}, 5, 0, 0);
+	drawPixel(pos, {8, 6}, 5, 0, 0);
+	drawPixel(pos, {8, 7}, 5, 0, 0);
+	drawPixel(pos, {8, 8}, 5, 0, 0);
+	drawPixel(pos, {8, 9}, 1, 0, 0);
+	drawPixel(pos, {9, 0}, 1, 0, 0);
+	drawPixel(pos, {9, 1}, 1, 0, 0);
+	drawPixel(pos, {9, 2}, 1, 0, 0);
+	drawPixel(pos, {9, 3}, 1, 0, 0);
+	drawPixel(pos, {9, 4}, 1, 0, 0);
+	drawPixel(pos, {9, 5}, 1, 0, 0);
+	drawPixel(pos, {9, 6}, 1, 0, 0);
+	drawPixel(pos, {9, 7}, 1, 0, 0);
+	drawPixel(pos, {9, 8}, 1, 0, 0);
+	drawPixel(pos, {9, 9}, 1, 0, 0);
+}
+
 void Painter::drawYouLose()
 {
 	int row, col;
@@ -463,11 +567,6 @@ void Painter::drawYouWin()
 
 void Painter::drawInterface(int energy, int progress)
 {
-	if (progress == 100)
-		drawYouWin();
-	else if (progress == 0)
-		drawYouLose();
-
 	int row, col;
 	getmaxyx(stdscr, row, col);
 
@@ -497,6 +596,30 @@ void Painter::drawField(const Field *field)
 
 	int row, col;
 	getmaxyx(stdscr, row, col);
+
+	int x_delay, y_delay;
+	switch (field->getPlayerContainer()->getEntity()->getDirection())
+	{
+	case Direction::LEFT:
+		x_delay = 1;
+		y_delay = 0;
+		break;
+	case Direction::RIGHT:
+		x_delay = -1;
+		y_delay = 0;
+		break;
+	case Direction::UP:
+		x_delay = 0;
+		y_delay = 1;
+		break;
+	case Direction::DOWN:
+		x_delay = 0;
+		y_delay = -1;
+		break;
+	}
+
+	_x_offset = (field->getPlayerContainer()->getPosition().getX() + 1) * 22 - col / 2 + field->getPlayerContainer()->getEntity()->movementDelay() * x_delay * 2;
+	_y_offset = (field->getPlayerContainer()->getPosition().getY() + 1) * 11 - row / 2 + field->getPlayerContainer()->getEntity()->movementDelay() * y_delay;
 
 	const Event *event;
 
@@ -530,12 +653,22 @@ void Painter::drawField(const Field *field)
 		drawEnemy(elem.getPosition(), elem.getEntity()->getDirection(), elem.getEntity()->movementDelay());
 	}
 
+	for (auto elem : field->getWallsPositions())
+	{
+		drawWall(elem);
+	}
+
 	EntityContainer player_container = *(field->getPlayerContainer());
 	if (player_container.getEntity() != nullptr)
 	{
 		drawPlayer(player_container.getPosition(), player_container.getEntity()->getDirection(), player_container.getEntity()->movementDelay());
 		drawInterface(dynamic_cast<const Player *>(player_container.getEntity())->getEnergyRelation(), dynamic_cast<const Player *>(player_container.getEntity())->getProgressRelation());
 	}
+
+	if (field->getGameStatus() > 0)
+		drawYouWin();
+	if (field->getGameStatus() < 0)
+		drawYouLose();
 
 	mvwprintw(stdscr, row - 1, 0, "Average FPS: %d", ((std::chrono::seconds(1) * _frame_no++) / (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _start) + std::chrono::seconds(1))));
 	refresh();

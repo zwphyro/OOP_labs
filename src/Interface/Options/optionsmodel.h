@@ -24,6 +24,7 @@ private:
     OptionsParameters *_parameters;
     static std::map<const int, std::function<void(OptionsModel &, int)>> _performed_functions;
 
+    void changeGenerator(int state);
     void changeWidth(int state);
     void changeHeight(int state);
     void changeConsoleLogState(int);

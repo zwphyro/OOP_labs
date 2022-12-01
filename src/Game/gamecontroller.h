@@ -5,7 +5,7 @@ class OptionsParameters;
 class Interactor;
 class EnemyController;
 class Painter;
-class Mediator;
+class CommandReader;
 class Field;
 
 #include "./../Logging/observable.h"
@@ -24,7 +24,7 @@ private:
     Interactor *_player_controller;
     EnemyController *_enemy_controller;
     Painter *_painter;
-    Mediator *_mediator;
+    CommandReader *_command_reader;
 };
 
 #endif

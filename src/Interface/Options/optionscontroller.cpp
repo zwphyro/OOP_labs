@@ -1,6 +1,6 @@
 #include "optionscontroller.h"
 #include "optionsmodel.h"
-#include "./../../Reading/reader.h"
+#include "./../../Reading/consolereader.h"
 #include <ncurses.h>
 
 OptionsController::OptionsController(OptionsModel *model) : _model(model)
@@ -15,7 +15,7 @@ void OptionsController::setModel(OptionsModel *model)
 void OptionsController::exec()
 {
     _model->update();
-    Reader reader;
+    ConsoleReader reader;
     int key;
     int return_value = OptionsModel::ReturnValue::CONTINUE;
     while (true)

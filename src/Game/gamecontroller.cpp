@@ -4,18 +4,18 @@
 #include "./../Entity/Player/interactor.h"
 #include "./../Entity/Enemy/enemycontroller.h"
 #include "./../Rendering/painter.h"
-#include "./../Reading/mediator.h"
 #include "./../Reading/commands.h"
+#include "./../Reading/consoleadapter.h"
 #include "./../Logging/logmessage.h"
 #include "./../Logging/loglevel.h"
 
-#include "./../Entity/enemy.h"
-#include "./../Field/cell.h"
-#include "./../Event/eventfacade.h"
-#include "./../Event/addenergy.h"
-#include "./../Event/addprogress.h"
-#include "./../Event/teleportplayer.h"
-#include "./../Event/spawnenemy.h"
+#include "./../FieldGeneration/fieldgenerator.h"
+#include "./../FieldGeneration/playerpositionrule.h"
+#include "./../FieldGeneration/enemyplacerule.h"
+#include "./../FieldGeneration/mazerule.h"
+#include "./../FieldGeneration/exponserule.h"
+#include "./../FieldGeneration/teleportplacerule.h"
+#include "./../FieldGeneration/spawnenemyplacerule.h"
 
 GameController::GameController(const OptionsParameters *options) : _options(options)
 {
@@ -23,7 +23,7 @@ GameController::GameController(const OptionsParameters *options) : _options(opti
     _player_controller = new Interactor;
     _enemy_controller = new EnemyController;
     _painter = new Painter;
-    _mediator = new Mediator;
+    _command_reader = new ConsoleAdapter;
 }
 
 GameController::~GameController()
@@ -31,7 +31,7 @@ GameController::~GameController()
     delete _player_controller;
     delete _enemy_controller;
     delete _painter;
-    delete _mediator;
+    delete _command_reader;
 }
 
 void GameController::setOptions(const OptionsParameters *options)
@@ -43,23 +43,9 @@ int GameController::exec()
 {
     if (_options == nullptr)
         return 0;
-    Field *field = new Field(_options);
-    field->makeObservable(*this);
-    field->getPlayerContainer()->getEntity()->makeObservable(*this);
-    field->getEventFacade()->getEvent(new AddEnergy)->makeObservable(*this);
-    field->getEventFacade()->getEvent(new AddProgress)->makeObservable(*this);
-    field->getEventFacade()->getEvent(new SpawnEnemy)->makeObservable(*this);
-    field->getEventFacade()->getEvent(new TeleportPlayer)->makeObservable(*this);
 
-    field->addEntity(new Enemy, Position(3, 2));
-    field->addEntity(new Enemy, Position(2, 3));
-    field->addEntity(new Enemy, Position(3, 4));
-    field->addEntity(new Enemy, Position(4, 3));
-    field->getCell(Position(1, 0))->setEvent(field->getEventFacade()->getEvent(new TeleportPlayer));
-    field->getCell(Position(2, 2))->setEvent(field->getEventFacade()->getEvent(new TeleportPlayer));
-    Position random_position = field->getRandomFreePosition();
-    if (Position(-1, -1) != random_position)
-        field->getCell(random_position)->setEvent(field->getEventFacade()->getEvent(new SpawnEnemy));
+    FieldGeneratorStrategy *generator = _options->getFieldGenerator();
+    Field *field = generator->getField(_options);
 
     exec(field);
     delete field;
@@ -74,18 +60,18 @@ int GameController::exec(Field *field)
 
     int command;
 
-    while (true)
+    while (!field->getGameStatus() && command != Commands::QUIT)
     {
-        _painter->drawField(field);
-
-        command = _mediator->getCommand();
-
-        if (command == Commands::QUIT)
-            break;
+        command = _command_reader->getCommand();
 
         _player_controller->updatePlayer(command);
         _enemy_controller->updateEnemys();
+        _painter->drawField(field);
     }
+
+    while (command != Commands::QUIT)
+        command = _command_reader->getCommand();
+
     notify(LogMessage(LogLevels::GAME_STATES, "Object: GameController; Event: game ended;"));
     return 0;
 }

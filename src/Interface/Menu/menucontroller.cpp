@@ -1,6 +1,6 @@
 #include "menucontroller.h"
 #include "menumodel.h"
-#include "./../../Reading/reader.h"
+#include "./../../Reading/consolereader.h"
 #include <ncurses.h>
 
 MenuController::MenuController(MenuModel *model) : _model(model)
@@ -14,7 +14,7 @@ void MenuController::setModel(MenuModel *model)
 
 void MenuController::exec()
 {
-    Reader reader;
+    ConsoleReader reader;
     int key;
     int return_value = MenuModel::ReturnValue::CONTINUE;
     while (true)

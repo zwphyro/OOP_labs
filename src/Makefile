@@ -1,17 +1,11 @@
-all: main.o reader.o mediator.o painter.o eventfacade.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o screeninitializer.o optionsview.o optionsbuilder.o optionscontroller.o optionsmodel.o optionsparameters.o logsystem.o
-	g++ -g -std=c++17 main.o reader.o mediator.o painter.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfacade.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o screeninitializer.o optionsview.o optionsbuilder.o optionscontroller.o optionsmodel.o optionsparameters.o logsystem.o -lncurses
+all: main.o painter.o eventfacade.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o screeninitializer.o optionsview.o optionsbuilder.o optionscontroller.o optionsmodel.o optionsparameters.o logsystem.o consolereader.o consoleadapter.o correspondencemapgenerator.o
+	g++ -g -std=c++17 main.o painter.o field.o cell.o player.o enemy.o interactor.o entity.o fieldevent.o spawnenemy.o teleportplayer.o playerevent.o addprogress.o addenergy.o eventfacade.o enemycontroller.o position.o filelogger.o observable.o observer.o logmessage.o logpermissions.o consolelogger.o gamecontroller.o entitycontainer.o menubuilder.o menucontroller.o menumodel.o menuview.o model.o menuparameters.o screeninitializer.o optionsview.o optionsbuilder.o optionscontroller.o optionsmodel.o optionsparameters.o logsystem.o consolereader.o consoleadapter.o correspondencemapgenerator.o -lncurses
 
 main.o: ./Game/main.cpp
 	g++ -c -g -std=c++17 ./Game/main.cpp
 
 eventfacade.o: ./Event/eventfacade.cpp ./Event/eventfacade.h ./Event/addprogress.h ./Event/addenergy.h ./Event/spawnenemy.h ./Event/teleportplayer.h
 	g++ -c -g -std=c++17 ./Event/eventfacade.cpp
-
-reader.o: ./Reading/reader.cpp ./Reading/reader.h 
-	g++ -c -g -std=c++17 ./Reading/reader.cpp -lncurses
-
-mediator.o: ./Reading/mediator.cpp ./Reading/mediator.h ./Reading/reader.h ./Reading/commands.h
-	g++ -c -g -std=c++17 ./Reading/mediator.cpp
 
 interactor.o: ./Entity/Player/interactor.cpp ./Entity/Player/interactor.h ./Reading/commands.h ./Entity/Player/player.h ./Field/cell.h ./Field/field.h ./Field/position.h ./Event/addprogress.h ./Event/spawnenemy.h ./Event/eventfacade.h ./Reading/mediator.h ./Entity/direction.h
 	g++ -c -g -std=c++17 ./Entity/Player/interactor.cpp
@@ -109,7 +103,7 @@ optionsview.o: ./Rendering/Views/optionsview.cpp ./Rendering/Views/optionsview.h
 optionsbuilder.o: ./Interface/Options/optionsbuilder.cpp ./Interface/Options/optionsbuilder.h ./Interface/Options/optionscontroller.h ./Interface/Options/optionsmodel.h ./Interface/Options/optionsparameters.h ./Rendering/Views/optionsview.h
 	g++ -c -g -std=c++17 ./Interface/Options/optionsbuilder.cpp
 
-optionscontroller.o: ./Interface/Options/optionscontroller.cpp ./Interface/Options/optionscontroller.h ./Interface/Options/optionsmodel.h ./Reading/reader.h
+optionscontroller.o: ./Interface/Options/optionscontroller.cpp ./Interface/Options/optionscontroller.h ./Interface/Options/optionsmodel.h
 	g++ -c -g -std=c++17 ./Interface/Options/optionscontroller.cpp -lncurses
 
 optionsmodel.o: ./Interface/Options/optionsmodel.cpp ./Interface/Options/optionsmodel.h ./Model/model.h ./Interface/Options/optionsparameters.h
@@ -120,6 +114,15 @@ optionsparameters.o: ./Interface/Options/optionsparameters.cpp ./Interface/Optio
 
 logsystem.o: ./Logging/logsystem.cpp ./Logging/logsystem.h
 	g++ -c -g -std=c++17 ./Logging/logsystem.cpp
+
+consolereader.o: ./Reading/consolereader.cpp ./Reading/consolereader.h
+	g++ -c -g -std=c++17 ./Reading/consolereader.cpp
+
+consoleadapter.o: ./Reading/consoleadapter.cpp ./Reading/consoleadapter.h 
+	g++ -c -g -std=c++17 ./Reading/consoleadapter.cpp -lncurses
+
+correspondencemapgenerator.o: ./Reading/correspondencemapgenerator.cpp ./Reading/correspondencemapgenerator.h
+	g++ -c -g -std=c++17 ./Reading/correspondencemapgenerator.cpp -lncurses
 
 clean:
 	rm *.o; rm a.out
